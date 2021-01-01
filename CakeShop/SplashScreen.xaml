@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CakeShop"
         mc:Ignorable="d"
         Title="SplashScreen" 
-        Height="750" Width="550"
+        Height="650" Width="975"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         WindowStyle="None" 
@@ -67,26 +67,32 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.7,1" StartPoint="0.5,0">
-                <GradientStop Color="#B3FFAB" Offset="0.5"/>
-                <GradientStop Color="#12FFF7" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
+    <DockPanel LastChildFill="True">
+        <ProgressBar 
+            DockPanel.Dock="Bottom"
+            x:Name="splashProgressBar"
+            Height="5"
+            Minimum="0"
+            Maximum="10"
+            Value="0"
+            Foreground="#A89D8C"
+        />
+        <Grid>
+            <Grid.Background>
+                <ImageBrush ImageSource="Images/Background/cake-1850011_1920.jpg"/>
+            </Grid.Background>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.2*"></RowDefinition>
-            <RowDefinition Height="6*"></RowDefinition>
-            <RowDefinition Height="3*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="2.3*"></RowDefinition>
-        </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*"></RowDefinition>
+                <RowDefinition Height="6*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="1.2*"></RowDefinition>
+            </Grid.RowDefinitions>
 
-        <Grid 
-            Grid.Row="5"
+            <Grid 
+            Grid.Row="5" Panel.ZIndex="999"
         >
-            <Button 
+                <Button 
                 x:Name="continueButton" 
                 IsCancel="True"
                 Click="continueButton_Click"
@@ -97,20 +103,20 @@
                 Margin="20"
                 Style="{DynamicResource ButtonStyle1}"
             >
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <Image 
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image 
                         RenderOptions.BitmapScalingMode="HighQuality"
-                        Width="50"
-                        Height="50"
+                        Width="30"
+                        Height="30"
                         Source="Images/right-arrow.png"
                     />
-                    </StackPanel>
-                </Button.Content>
+                        </StackPanel>
+                    </Button.Content>
 
-            </Button>
+                </Button>
 
-            <CheckBox 
+                <CheckBox 
                 x:Name="isReopenCheckBox"
                 Content="Don't show this on next start."    
                 Grid.Row="5"
@@ -120,59 +126,61 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
             >
-                <CheckBox.LayoutTransform>
-                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                </CheckBox.LayoutTransform>
-            </CheckBox>
-        </Grid>
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+            </Grid>
 
-
-
-        <ProgressBar 
-            x:Name="splashProgressBar" 
-            Grid.Row="3"
-            Height="10"
-            Width="500"
-            Minimum="0"
-            Maximum="10"
-            Value="0"
-            Foreground="#FF362BE2"
-        />
-
-        <Grid Grid.Row="1" Grid.RowSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
-                <ColumnDefinition Width="99*"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*"></RowDefinition>
-                <RowDefinition Height="21*"></RowDefinition>
-                <RowDefinition Height="11*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Image x:Name="splashImg" Grid.Column="1" Grid.RowSpan="2" Grid.Row="1"/>
-            <Border x:Name="gadientInfo" Grid.Column="1" Grid.RowSpan="2" Grid.Row="1" Background="Black" MouseEnter="showhiddenInfo" MouseLeave="hidehiddenInfo">
-                <Border.OpacityMask>
-                    <LinearGradientBrush StartPoint="1,1" EndPoint="1,0">
-                        <GradientStop x:Name="keyHidden" Offset="0.0" Color="Transparent"></GradientStop>
-                        <GradientStop Offset="0.8" Color="Transparent"></GradientStop>
-                    </LinearGradientBrush>
-                </Border.OpacityMask>
-            </Border>
-            <ScrollViewer Grid.Row="2" Grid.Column="1"
+            <Grid Grid.Row="1" Grid.RowSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="99*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"></RowDefinition>
+                    <RowDefinition Height="21*"></RowDefinition>
+                    <RowDefinition Height="11*"></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <Canvas x:Name="placeImg" Grid.Column="1" Grid.RowSpan="2" Grid.Row="1">
+                    <Image x:Name="splashImg" MaxHeight="4" MaxWidth="4"/>
+                    <StackPanel x:Name="NameShop" Orientation="Horizontal" Opacity="0.8">
+                        <Image Source="/Images/cookies.png" MaxHeight="100" MaxWidth="100"/>                        
+                        <TextBlock  TextAlignment="Center" VerticalAlignment="Center"
+                               Margin="20px 0px 0px 0" Visibility="Visible"  TextWrapping="Wrap"
+                               FontSize="45" Foreground="#946149" Text="Cake Shop" FontWeight="Bold">
+                        </TextBlock>
+                    </StackPanel>
+                </Canvas>
+                <!-- Source="Images/splash_places/BenTre.jpg"-->
+                <Border x:Name="gadientInfo" Grid.Column="1" Grid.RowSpan="2" Grid.Row="1" Opacity="0.7"
+                        Background="#63473E" MouseEnter="showhiddenInfo" MouseLeave="hidehiddenInfo"
+                        Margin="-20 0 -20 -50">
+                    <Border.OpacityMask>
+                        <LinearGradientBrush StartPoint="1,1" EndPoint="1,0">
+                            <GradientStop Offset="0.0" Color="Transparent"></GradientStop>
+                            <GradientStop x:Name="keyHidden" Offset="0.1" Color="Transparent"></GradientStop>
+                            <GradientStop Offset="0.8" Color="Transparent"></GradientStop>
+                        </LinearGradientBrush>
+                    </Border.OpacityMask>
+                </Border>
+                <ScrollViewer Grid.Row="2" Grid.Column="1"
                           MouseEnter="showhiddenInfo" MouseLeave="hidehiddenInfo" VerticalScrollBarVisibility="Hidden">
-                <TextBlock x:Name="infoFood" 
+                    <TextBlock x:Name="infoFood" 
                    Margin="50px 10px 50px 0" Visibility="Hidden"  TextWrapping="Wrap"
-                   FontSize="25" Foreground="Beige">
-                    <TextBlock.Inlines>
-                        <Run x:Name="nameOfFood" FontWeight="Bold" FontStyle="Italic" FontSize="18"/>
-                        <LineBreak/>
-                        <Run x:Name="infoOfFood" FontSize="15"/>
-                    </TextBlock.Inlines>
-                </TextBlock>
-            </ScrollViewer>
-        </Grid>
+                   FontSize="30" Foreground="Beige">
+                        <TextBlock.Inlines>
+                            <Run x:Name="nameOfFood" FontWeight="Bold" FontStyle="Italic" FontSize="20"/>
+                            <LineBreak/>
+                            <Run x:Name="infoOfFood" FontSize="18" FontFamily="Times New Roman" />
+                        </TextBlock.Inlines>
+                    </TextBlock>
+                </ScrollViewer>
+            </Grid>
 
-    </Grid>
+        </Grid>
+    </DockPanel>
 </Window>
 

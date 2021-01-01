@@ -65,7 +65,7 @@ namespace CakeShop
             else
             {
                 _timer = new System.Timers.Timer();
-                _timer.Interval = 10;
+                _timer.Interval = ConstantVariable.DURING_SPLASH_SCREEN;
                 _timer.Elapsed += _timer_Elapsed;
                 _timer.Start();
             }
@@ -73,8 +73,11 @@ namespace CakeShop
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
             this.path = Directory.GetCurrentDirectory();
+
+            Canvas.SetLeft(NameShop, (placeImg.ActualWidth - ConstantVariable.convertDimension(NameShop.ActualWidth)) / 2);
+            Canvas.SetTop(NameShop, 0);
+
             setRandomImg();
         }
 
@@ -82,7 +85,7 @@ namespace CakeShop
         {
             currentTime += 0.01;
 
-            if (Math.Truncate(currentTime) == 10)
+            if (Math.Truncate(currentTime) == ConstantVariable.DURING_SPLASH_SCREEN)
             {
                 _timer.Stop();
                 Dispatcher.Invoke(() =>
@@ -143,6 +146,8 @@ namespace CakeShop
             BitmapImage bitImg = new BitmapImage(new Uri($"{this.path}/Images/splash_places/{this.namefood}.jpg", UriKind.Absolute));
             splashImg.Source = bitImg;
 
+            Canvas.SetLeft(splashImg, (placeImg.ActualWidth - ConstantVariable.convertDimension(splashImg.Width)) / 2);
+            Canvas.SetTop(splashImg, 0);
 
             StreamReader sreader = new StreamReader($"{this.path}/info/splash_places/{this.namefood}.txt");
 
@@ -155,7 +160,7 @@ namespace CakeShop
             {
                 keyHidden.Color = Colors.Black;
 
-                //keyHidden.Color = Color.FromRgb(253, 187, 45);
+                //keyHidden.Color = Color.FromRgb(168, 105, 80);
                 infoFood.Visibility = Visibility.Visible;
             }
             else

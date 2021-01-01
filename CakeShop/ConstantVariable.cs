@@ -16,9 +16,26 @@ namespace CakeShop
         public const int UPDATE_JOURNEY = 4;
         public const int ADD_JOURNEY = 5;
 
+        public const int DURING_SPLASH_SCREEN = 10;
+
         public const int CANCEL_ACTION = -1;
 
         public static char[] separatingPathChars = { '/', '\\' };
+
+
+        public const int MAX_DIMENSIONS_SPLASH = 450;
+        public static double convertDimension(double size)
+        {
+            if (size <= MAX_DIMENSIONS_SPLASH)
+            {
+                return size;
+            }
+            else
+            {
+                return MAX_DIMENSIONS_SPLASH;
+            }
+        }
+
 
         private static Semaphore _syncLock = new Semaphore(1, 1);
 

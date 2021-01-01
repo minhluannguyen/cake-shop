@@ -67,6 +67,7 @@
     </ApplicationDefinition>
     <Compile Include="ConstantVariable.cs" />
     <Compile Include="CustomAppConfiguration.cs" />
+    <Compile Include="CustomXMLExtension.cs" />
     <Compile Include="PreMainScreen.xaml.cs">
       <DependentUpon>PreMainScreen.xaml</DependentUpon>
     </Compile>
@@ -315,16 +316,36 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\calendar.png" />
-    <Resource Include="Images\camera.png" />
-    <Resource Include="Images\edit.png" />
-    <Resource Include="Images\no_image_available.jpeg" />
-    <Resource Include="Images\passport.png" />
-    <Resource Include="Images\remove.png" />
-    <Resource Include="Images\right-arrow.png" />
-    <Resource Include="Images\search-black.png" />
-    <Resource Include="Images\search-white.png" />
-    <Resource Include="Images\search.png" />
+    <Resource Include="Images\calendar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\camera.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\edit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\no_image_available.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\passport.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\remove.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\right-arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\search-black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\search-white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\search.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\splash_places\AnGiang.jpg">
@@ -516,6 +537,16 @@
     <None Include="Images\splash_places\YenBai.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Background\cake-1850011_1920.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cookies.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
