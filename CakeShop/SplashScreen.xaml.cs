@@ -75,8 +75,8 @@ namespace CakeShop
         {
             this.path = Directory.GetCurrentDirectory();
 
-            Canvas.SetLeft(NameShop, (placeImg.ActualWidth - ConstantVariable.convertDimension(NameShop.ActualWidth)) / 2);
-            Canvas.SetTop(NameShop, 0);
+            //Canvas.SetLeft(NameShop, (placeImg.ActualWidth - ConstantVariable.convertDimension(NameShop.ActualWidth)) / 2);
+            //Canvas.SetTop(NameShop, 0);
 
             setRandomImg();
         }
@@ -146,8 +146,8 @@ namespace CakeShop
             BitmapImage bitImg = new BitmapImage(new Uri($"{this.path}/Images/splash_places/{this.namefood}.jpg", UriKind.Absolute));
             splashImg.Source = bitImg;
 
-            Canvas.SetLeft(splashImg, (placeImg.ActualWidth - ConstantVariable.convertDimension(splashImg.Width)) / 2);
-            Canvas.SetTop(splashImg, 0);
+            //Canvas.SetLeft(splashImg, (placeImg.ActualWidth - ConstantVariable.convertDimension(splashImg.Width)) / 2);
+            //Canvas.SetTop(splashImg, 0);
 
             StreamReader sreader = new StreamReader($"{this.path}/info/splash_places/{this.namefood}.txt");
 
@@ -159,7 +159,7 @@ namespace CakeShop
             if (keyHidden.Color == Colors.Transparent || infoFood.Visibility == Visibility.Hidden)
             {
                 keyHidden.Color = Colors.Black;
-
+                showingImg.Visibility = Visibility.Visible;
                 //keyHidden.Color = Color.FromRgb(168, 105, 80);
                 infoFood.Visibility = Visibility.Visible;
             }
@@ -174,6 +174,7 @@ namespace CakeShop
             //if (keyHidden.Color == Color.FromRgb(253, 187, 45) || infoFood.Visibility == Visibility.Visible)
             {
                 keyHidden.Color = Colors.Transparent;
+                showingImg.Visibility = Visibility.Collapsed;
                 infoFood.Visibility = Visibility.Hidden;
             }
             else

@@ -143,17 +143,60 @@
                     <RowDefinition Height="21*"></RowDefinition>
                     <RowDefinition Height="11*"></RowDefinition>
                 </Grid.RowDefinitions>
-                
-                <Canvas x:Name="placeImg" Grid.Column="1" Grid.RowSpan="2" Grid.Row="1">
-                    <Image x:Name="splashImg" MaxHeight="4" MaxWidth="4"/>
-                    <StackPanel x:Name="NameShop" Orientation="Horizontal" Opacity="0.8">
-                        <Image Source="/Images/cookies.png" MaxHeight="100" MaxWidth="100"/>                        
+                <Grid Grid.Column="1" Grid.RowSpan="1" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2.5*"/>
+                        <RowDefinition Height="7*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel x:Name="NameShop" Orientation="Horizontal" Opacity="0.8" HorizontalAlignment="Center">
+                        <Image Source="/Images/cookies.png" MaxHeight="100" MaxWidth="100" Opacity="0.8"/>
                         <TextBlock  TextAlignment="Center" VerticalAlignment="Center"
                                Margin="20px 0px 0px 0" Visibility="Visible"  TextWrapping="Wrap"
                                FontSize="45" Foreground="#946149" Text="Cake Shop" FontWeight="Bold">
                         </TextBlock>
                     </StackPanel>
-                </Canvas>
+                    <Canvas x:Name="placeImg" Grid.Row="1">
+                        <Border x:Name="showingImg" 
+                                Opacity="0.8"
+                                Width="250"
+                                Height="Auto"
+                                Visibility="Hidden"
+                                Margin="10,10,8,0"
+                                VerticalAlignment="Top"
+                                BorderBrush="#FF3B5998"
+                                BorderThickness=".5"
+                                CornerRadius="18">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="5"
+                                                  Opacity=".5"
+                                                  ShadowDepth="3" />
+                            </Border.Effect>
+                            <Border Name="ReceiverColor"
+                                    BorderBrush="#FF96B2E4"
+                                    BorderThickness="0"
+                                    CornerRadius="15">
+                                <Grid>
+                                    <Border Name="Mask"
+                                            Background="White"
+                                            BorderBrush="#FF3B5998"
+                                            BorderThickness=".5"
+                                            CornerRadius="13">
+                                    </Border>
+                                    <StackPanel>
+                                        <Image x:Name="splashImg"
+                                               Stretch="Fill"
+                                               VerticalAlignment="Top"
+                                               Source="Images/splash_places/BenTre.jpg"/>
+                                        <StackPanel.OpacityMask>
+                                            <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                        </StackPanel.OpacityMask>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </Border>
+                    </Canvas>
+                </Grid>
+                
                 <!-- Source="Images/splash_places/BenTre.jpg"-->
                 <Border x:Name="gadientInfo" Grid.Column="1" Grid.RowSpan="2" Grid.Row="1" Opacity="0.7"
                         Background="#63473E" MouseEnter="showhiddenInfo" MouseLeave="hidehiddenInfo"

@@ -18,7 +18,7 @@ namespace CakeShop
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Fluent.RibbonWindow
     {
         public MainWindow()
         {
@@ -27,6 +27,12 @@ namespace CakeShop
         public MainWindow(bool a)
         {
             InitializeComponent();
+        }
+
+
+        private void FluentButtonQuit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

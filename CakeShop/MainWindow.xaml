@@ -1,12 +1,55 @@
-﻿<Window x:Class="CakeShop.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CakeShop"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
-</Window>
+﻿<Fluent:RibbonWindow x:Class="CakeShop.MainWindow"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+                     xmlns:local="clr-namespace:CakeShop"
+                     mc:Ignorable="d"
+                     Title="MainWindow"
+                     Height="720" 
+                     Width="1280"
+                     WindowStartupLocation="CenterScreen"
+                     ResizeMode="NoResize"
+                     WindowStyle="None">
+    <DockPanel LastChildFill="True">
+        <Grid DockPanel.Dock="Top" Height="100" Margin="10">
+            <Fluent:Ribbon>
+                <Fluent:Ribbon.Menu>
+                    <Fluent:Backstage Header="We Split"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      FontSize="37"
+                                      Foreground="#6A4E4A" 
+                                      FontWeight="Bold"
+                                      Margin="30" 
+                                      FontFamily="Roboto Black"
+                                      Background="White">
+                        <Fluent:BackstageTabControl>
+                            <Fluent:BackstageTabItem Header="Danh Sách Sản Phẩm" FontSize="13">
+                                <Fluent:BackstageTabItem.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="asas"/>
+                                    </DataTemplate>
+                                </Fluent:BackstageTabItem.ContentTemplate>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:SeparatorTabItem/>
+                            <Fluent:BackstageTabItem Header="Thêm Sản Phẩm Mới" FontSize="13">
+
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Thêm Đơn Hàng Mới" FontSize="13">
+
+                            </Fluent:BackstageTabItem>
+                            <Fluent:SeparatorTabItem/>
+                            <Fluent:BackstageTabItem Header="Thoát" FontSize="13" 
+                                           MouseLeftButtonDown="FluentButtonQuit_MouseLeftButtonDown"/>
+                        </Fluent:BackstageTabControl>
+                    </Fluent:Backstage>
+                </Fluent:Ribbon.Menu>
+            </Fluent:Ribbon>
+        </Grid>
+        <Grid>
+            
+        </Grid>
+    </DockPanel>
+</Fluent:RibbonWindow>
