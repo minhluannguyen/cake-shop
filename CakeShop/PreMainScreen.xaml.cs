@@ -10,21 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace CakeShop
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for PreMainScreen.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PreMainScreen : Window
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-        public MainWindow(bool a)
+        public PreMainScreen()
         {
             InitializeComponent();
         }
