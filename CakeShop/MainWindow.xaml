@@ -34,10 +34,17 @@
                                 </Fluent:BackstageTabItem.ContentTemplate>
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>
+                            <Fluent:BackstageTabItem Header="Thêm Loại Bánh" FontSize="13">
+
+                            </Fluent:BackstageTabItem>
                             <Fluent:BackstageTabItem Header="Nhập Kho" FontSize="13">
 
                             </Fluent:BackstageTabItem>
                             <Fluent:BackstageTabItem Header="Tạo Đơn Hàng" FontSize="13">
+
+                            </Fluent:BackstageTabItem>
+                            <Fluent:SeparatorTabItem/>
+                            <Fluent:BackstageTabItem Header="Cài Đặt" FontSize="13">
 
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>
