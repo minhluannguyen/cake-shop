@@ -26,7 +26,7 @@
                                       FontFamily="Roboto Black"
                                       Background="White">
                         <Fluent:BackstageTabControl>
-                            <Fluent:BackstageTabItem Header="Danh Sách Sản Phẩm" FontSize="13">
+                            <Fluent:BackstageTabItem Header="Thống Kê" FontSize="13">
                                 <Fluent:BackstageTabItem.ContentTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="asas"/>
@@ -34,10 +34,10 @@
                                 </Fluent:BackstageTabItem.ContentTemplate>
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>
-                            <Fluent:BackstageTabItem Header="Thêm Sản Phẩm Mới" FontSize="13">
+                            <Fluent:BackstageTabItem Header="Nhập Kho" FontSize="13">
 
                             </Fluent:BackstageTabItem>
-                            <Fluent:BackstageTabItem Header="Thêm Đơn Hàng Mới" FontSize="13">
+                            <Fluent:BackstageTabItem Header="Tạo Đơn Hàng" FontSize="13">
 
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>
