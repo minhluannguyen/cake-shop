@@ -342,7 +342,7 @@
                 </Grid>
                 <!--this will be list suggest word-->
                 <StackPanel Grid.Row="2" Margin="80 20" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Button Style="{DynamicResource suggestWordButton}" Content="All" Width="50"/>
+                    <Button Style="{DynamicResource suggestWordButton}" Content="Sort / Filter" Width="50"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="1">
