@@ -7,48 +7,229 @@
                      xmlns:local="clr-namespace:CakeShop"
                      mc:Ignorable="d"
                      Title="MainWindow"
-                     Height="720" 
-                     Width="1280"
+                     Height="900" 
+                     Width="1350"
                      WindowStartupLocation="CenterScreen"
                      ResizeMode="NoResize"
                      WindowStyle="None">
+    <Fluent:RibbonWindow.Resources>
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+        <Style TargetType="{x:Type GridViewColumnHeader}" >
+            <Setter Property="MinWidth" Value="200" />
+        </Style>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="hintTextColor" Color="#FF9E88"/>
+        <SolidColorBrush x:Key="showColor" Color="#FD5533"/>
+        <SolidColorBrush x:Key="transparentColor" Color="Transparent"/>
+        <SolidColorBrush x:Key="hoverbutton" Color="#008EFF"/>
+        <SolidColorBrush x:Key="clickbutton" Color="#006BBF"/>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="Transparent"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Background" TargetName="border" Value="#acb0ad"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#00ADD9"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style
+            x:Key="sgraykbtnstyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource hoverbutton}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource hoverbutton}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource clickbutton}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource clickbutton}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+    </Fluent:RibbonWindow.Resources>
+
     <DockPanel LastChildFill="True">
-        <Grid DockPanel.Dock="Top" Height="100" Margin="10">
-            <Fluent:Ribbon>
+        <DockPanel.Background>
+            <ImageBrush ImageSource="Images/Background/bg.jpg" Opacity="0.8"/>
+        </DockPanel.Background>
+        <Grid DockPanel.Dock="Top" Height="60" Margin="10">
+            <!--<Button x:Name="OpenBackstage" Click="OpenBackstage_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Images/cookies.png" />
+                    <TextBlock Text="We Split"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="37"
+                               Foreground="#6A4E4A" 
+                               FontWeight="Bold"
+                               Margin="30" 
+                               FontFamily="Roboto Black"
+                               Background="Transparent"
+                        />
+                </StackPanel>
+            </Button>-->
+            <Fluent:Ribbon Height="50" Margin="0,0,1142,0">
                 <Fluent:Ribbon.Menu>
-                    <Fluent:Backstage Header="We Split"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"
-                                      FontSize="37"
-                                      Foreground="#6A4E4A" 
-                                      FontWeight="Bold"
-                                      Margin="30" 
-                                      FontFamily="Roboto Black"
-                                      Background="White">
-                        <Fluent:BackstageTabControl>
-                            <Fluent:BackstageTabItem Header="Thống Kê" FontSize="13">
+                    <Fluent:Backstage x:Name="backstage" Background="#F6CCA2"
+                                     >
+                        <Fluent:Backstage.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Images/cookies.png" Height="40" IsEnabled="False"/>
+                                <TextBlock Text="Cake Store"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="20"
+                                           Foreground="#6A4E4A" 
+                                           FontWeight="Bold"
+                                           Margin="15 13 13 13" 
+                                           FontFamily="Roboto Black"
+                                           Background="Transparent"
+                                           IsEnabled="False"
+                                />
+                            </StackPanel>
+                        </Fluent:Backstage.Header>
+                        <Fluent:BackstageTabControl Background="#F6E5D8">
+                            <Fluent:BackstageTabItem Header="Thống Kê" FontSize="15" FontWeight="DemiBold">
+                                
+                            </Fluent:BackstageTabItem>
+                            <Fluent:SeparatorTabItem/>
+                            <Fluent:BackstageTabItem Header="Loại Bánh" FontSize="15" FontWeight="DemiBold">
                                 <Fluent:BackstageTabItem.ContentTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="asas"/>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="9*"/>
+                                                <RowDefinition Height="0.5*"/>
+                                                <RowDefinition Height="0.5*"/>
+                                            </Grid.RowDefinitions>
+                                            <ListView 
+                                                    Grid.Row="0"
+                                                    x:Name="typeCakeListViewRibbon"
+                                                    Foreground="Black"
+                                                    Margin="30">
+                                                <ListView.View>
+                                                    <GridView>
+                                                        <GridViewColumn Width="auto" DisplayMemberBinding="{Binding TENTV}">
+                                                            <GridViewColumn.Header>
+                                                                <GridViewColumnHeader Tag="Mã Bánh">Tên</GridViewColumnHeader>
+                                                            </GridViewColumn.Header>
+                                                        </GridViewColumn>
+                                                        <GridViewColumn Width="auto" DisplayMemberBinding="{Binding SDT}">
+                                                            <GridViewColumn.Header>
+                                                                <GridViewColumnHeader Tag="Tên Bánh">Số điện thoại</GridViewColumnHeader>
+                                                            </GridViewColumn.Header>
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock TextAlignment="Center"/>
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+                                                        <GridViewColumn Width="auto" DisplayMemberBinding="{Binding EMAIL}">
+                                                            <GridViewColumn.Header>
+                                                                <GridViewColumnHeader Tag="Số Chủng Loại">Email</GridViewColumnHeader>
+                                                            </GridViewColumn.Header>
+                                                        </GridViewColumn>
+                                                    </GridView>
+                                                </ListView.View>
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TypeCake_PreviewMouseLeftButtonDown" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+                                            </ListView>
+                                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                                <Button x:Name="addNewTypeCakeBtn"
+                                                Content="Thêm Loại Bánh"
+                                                Margin="10 -10 50 10"
+                                                Padding="5"
+                                                FontSize="13"
+                                                Foreground="White"
+                                                Background="#0078D7"
+                                                Style="{DynamicResource sgraykbtnstyle}"
+                                                Click="addNewTypeCake_Click"/>
+
+                                            </StackPanel>
+                                        </Grid>
                                     </DataTemplate>
                                 </Fluent:BackstageTabItem.ContentTemplate>
                             </Fluent:BackstageTabItem>
-                            <Fluent:SeparatorTabItem/>
-                            <Fluent:BackstageTabItem Header="Thêm Loại Bánh" FontSize="13">
-
-                            </Fluent:BackstageTabItem>
-                            <Fluent:BackstageTabItem Header="Nhập Kho" FontSize="13">
-
-                            </Fluent:BackstageTabItem>
-                            <Fluent:BackstageTabItem Header="Tạo Đơn Hàng" FontSize="13">
+                            <Fluent:BackstageTabItem Header="Bánh" FontSize="15" FontWeight="DemiBold">
 
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>
-                            <Fluent:BackstageTabItem Header="Cài Đặt" FontSize="13">
+                            <Fluent:BackstageTabItem Header="Nhập Kho" FontSize="15" FontWeight="DemiBold">
+
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Tạo Đơn Hàng" FontSize="15" FontWeight="DemiBold">
 
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>
-                            <Fluent:BackstageTabItem Header="Thoát" FontSize="13" 
+                            <Fluent:BackstageTabItem Header="Cài Đặt" FontSize="15" FontWeight="DemiBold">
+
+                            </Fluent:BackstageTabItem>
+                            <Fluent:SeparatorTabItem/>
+                            <Fluent:BackstageTabItem Header="Thoát" FontSize="15" FontWeight="DemiBold" 
                                            MouseLeftButtonDown="FluentButtonQuit_MouseLeftButtonDown"/>
                         </Fluent:BackstageTabControl>
                     </Fluent:Backstage>
@@ -56,7 +237,7 @@
             </Fluent:Ribbon>
         </Grid>
         <Grid>
-            
+
         </Grid>
     </DockPanel>
 </Fluent:RibbonWindow>

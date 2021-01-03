@@ -25,7 +25,7 @@ namespace CakeShop
         public Nullable<int> IDTypeCake { get; set; }
         public string Description { get; set; }
         public Nullable<int> Price { get; set; }
-        public Nullable<int> Volume { get; set; }
+        public Nullable<int> Amount { get; set; }
         public string ImageProduct { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

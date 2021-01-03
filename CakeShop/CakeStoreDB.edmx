@@ -54,7 +54,7 @@
           <Property Name="IDTypeCake" Type="int" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
           <Property Name="Price" Type="int" />
-          <Property Name="Volume" Type="int" />
+          <Property Name="Amount" Type="int" />
           <Property Name="ImageProduct" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -223,7 +223,7 @@
           <Property Name="IDTypeCake" Type="Int32" />
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Int32" />
-          <Property Name="Volume" Type="Int32" />
+          <Property Name="Amount" Type="Int32" />
           <Property Name="ImageProduct" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CakeImportOrders" Relationship="Self.FK_CakeImportOrder_Product" FromRole="Product" ToRole="CakeImportOrder" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
@@ -393,7 +393,7 @@
                 <ScalarProperty Name="IDTypeCake" ColumnName="IDTypeCake" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Volume" ColumnName="Volume" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="ImageProduct" ColumnName="ImageProduct" />
               </MappingFragment>
             </EntityTypeMapping>
