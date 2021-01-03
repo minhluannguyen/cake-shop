@@ -110,6 +110,7 @@
       <DependentUpon>CakeStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CustomXMLExtension.cs" />
+    <Compile Include="IsEmptyStringConverter.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>CakeStoreDB.tt</DependentUpon>
     </Compile>
@@ -630,6 +631,7 @@
       <DependentUpon>CakeStoreDB.edmx</DependentUpon>
       <LastGenOutput>CakeStoreDB.cs</LastGenOutput>
     </Content>
+    <Resource Include="Images\search-brown.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

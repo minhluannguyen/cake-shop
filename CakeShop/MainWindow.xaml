@@ -13,6 +13,7 @@
                      ResizeMode="NoResize"
                      WindowStyle="None">
     <Fluent:RibbonWindow.Resources>
+        <local:IsEmptyStringConverter x:Key="stringConverter"/>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
@@ -28,8 +29,10 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <SolidColorBrush x:Key="hintTextColor" Color="#FF9E88"/>
-        <SolidColorBrush x:Key="showColor" Color="#FD5533"/>
+        <SolidColorBrush x:Key="bgKeyColor" Color="#FFEED3"/>
+        <SolidColorBrush x:Key="whiteShowColor" Color="#F7ECCD"/>
+        <SolidColorBrush x:Key="hintTextColor" Color="#B8693E"/>
+        <SolidColorBrush x:Key="showColor" Color="#704026"/>
         <SolidColorBrush x:Key="transparentColor" Color="Transparent"/>
         <SolidColorBrush x:Key="hoverbutton" Color="#008EFF"/>
         <SolidColorBrush x:Key="clickbutton" Color="#006BBF"/>
@@ -107,8 +110,44 @@
             </Setter>
 
         </Style>
-    </Fluent:RibbonWindow.Resources>
+        <Style
+            x:Key="suggestWordButton" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource hoverbutton}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource clickbutton}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="FontSize" Value="20"/>
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="Foreground" Value="{StaticResource hintTextColor}"/>
+                                <Setter Property="FontWeight" Value="DemiBold"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
 
+        </Style>
+    </Fluent:RibbonWindow.Resources>
     <DockPanel LastChildFill="True">
         <DockPanel.Background>
             <ImageBrush ImageSource="Images/Background/bg.jpg" Opacity="0.8"/>
@@ -237,7 +276,119 @@
             </Fluent:Ribbon>
         </Grid>
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4.5*"/>
+                <ColumnDefinition Width="5.5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2.*"/>
+                    <RowDefinition Height="1.3*"/>
+                    <RowDefinition Height="4.7*"/>
+                    <RowDefinition Height="2.*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1" Margin="20">
+                    <TextBlock Padding="15" Background="#FFEED3"
+                               Margin="10 10 10 10"/>
+                    <TextBox x:Name="txtboxSearch" FontSize="20" Padding="5" 
+                             Foreground="{StaticResource showColor}" TextWrapping="Wrap"
+                             Margin="10 10 10 10"
+                             KeyDown="txtboxSearch_KeyDown"
+                         >
+                        <TextBox.Style>
+                            <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                <Style.Resources>
+                                    <VisualBrush x:Key="hintname" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                        <VisualBrush.Visual>
+                                            <StackPanel 
+                                                Orientation="Horizontal"
+                                            >
+                                                <Label Width="10"/>
+                                                <Image x:Name="searchImage" 
+                                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                                    Width="20"
+                                                    Height="20"
+                                                    Source="Images/search-brown.png"
+                                                />
+                                                <Label Content="Search" Margin="10 0 0 0" Foreground="{StaticResource hintTextColor}" FontSize="20" />
+                                            </StackPanel>
 
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </Style.Resources>
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                        <Setter Property="Background" Value="{StaticResource hintname}" />
+                                        <Setter Property="BorderBrush" Value="{StaticResource hintTextColor}"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="{x:Null}">
+                                        <Setter Property="Background" Value="{StaticResource hintname}" />
+                                        <Setter Property="BorderBrush" Value="{StaticResource hintTextColor}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsKeyboardFocused" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource transparentColor}" />
+                                    </Trigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding RelativeSource={x:Static RelativeSource.Self},Path=IsKeyboardFocused}" Value="False" />
+                                            <Condition Binding="{Binding RelativeSource={x:Static RelativeSource.Self},Path=Text, Converter={StaticResource stringConverter}}" Value="1"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Background" Value="{StaticResource transparentColor}"/>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                </Grid>
+                <!--this will be list suggest word-->
+                <StackPanel Grid.Row="2" Margin="80 20" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Button Style="{DynamicResource suggestWordButton}" Content="All" Width="50"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="1.5*"/>
+                </Grid.RowDefinitions>
+                <Border x:Name="borderOfListView" 
+                        Opacity="0.8"
+                        Margin="10"
+                        VerticalAlignment="Top"
+                        BorderBrush="#F73148"
+                        BorderThickness=".5"
+                        CornerRadius="18"
+                        Grid.Row="1">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="5"
+                                          Opacity=".5"
+                                          ShadowDepth="3" />
+                    </Border.Effect>
+                    <Border Name="ReceiverColor"
+                            BorderBrush="#F73148"
+                            BorderThickness="0"
+                            CornerRadius="15">
+                        <Grid>
+                            <Border Name="Mask"
+                                            Background="#FFEEE0"
+                                            BorderBrush="#F73148"
+                                            BorderThickness=".5"
+                                            CornerRadius="13">
+                            </Border>
+                            <!--this is list of cake-->
+                            <StackPanel>
+                                <Image x:Name="splashImg"
+                                               Stretch="Fill"
+                                               VerticalAlignment="Top"
+                                               Source="/Images/Background/cake-1850011_1920.jpg"/>
+                                <StackPanel.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                </StackPanel.OpacityMask>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Border>
+            </Grid>
         </Grid>
     </DockPanel>
 </Fluent:RibbonWindow>
