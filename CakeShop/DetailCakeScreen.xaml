@@ -5,13 +5,65 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CakeShop"
         mc:Ignorable="d"
-        Title="DetailCakeScreen"
+        Title="Cake Shop"
         Height="700" Width="1100"
-        MinWidth="620px"
-        MinHeight="150px"
-        WindowStyle="None"
         WindowStartupLocation="CenterScreen"
 >
+    <Window.Resources>
+        <SolidColorBrush x:Key="bgKeyColor" Color="#FFEED3"/>
+        <SolidColorBrush x:Key="whiteShowColor" Color="#F7ECCD"/>
+        <SolidColorBrush x:Key="hintTextColor" Color="#B8693E"/>
+        <SolidColorBrush x:Key="showColor" Color="#704026"/>
+        <SolidColorBrush x:Key="transparentColor" Color="Transparent"/>
+        <SolidColorBrush x:Key="hoverbutton" Color="#008EFF"/>
+        <SolidColorBrush x:Key="clickbutton" Color="#006BBF"/>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="Transparent"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style
+            x:Key="suggestWordButton" TargetType="{x:Type Button}"
+        >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource hoverbutton}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource clickbutton}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="FontSize" Value="20"/>
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="Foreground" Value="{StaticResource hintTextColor}"/>
+                                <Setter Property="FontWeight" Value="DemiBold"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -28,7 +80,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="50"
-                Foreground="#fd5533" 
+                Foreground="{StaticResource hintTextColor}" 
                 FontWeight="Bold" 
                 FontFamily="Barlow Condensed"
             />
@@ -122,7 +174,7 @@
                                 VerticalAlignment="Center"
                                 FontSize="40"
                                 Margin="0"
-                                Foreground="#fd5533" 
+                                Foreground="{StaticResource hintTextColor}" 
                                 FontWeight="Bold" 
                                 FontFamily="Barlow Condensed"
                                 Text="Mô tả"
@@ -136,136 +188,36 @@
                             Padding="5"
                             TextWrapping="WrapWithOverflow"
                         />
-                        
-                        <ListView
-                            Name="stepListView"
-                            Foreground="Black"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                            Grid.Row="0"
-                            BorderBrush="Transparent"
-                            IsEnabled="False" 
-                            BorderThickness="0"
+
+                        <StackPanel
+                            Orientation="Horizontal"
                         >
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel
-                                        Orientation="Vertical"
-                                        IsEnabled="False"
-                                    >
-                                        <Grid
-                                            Margin="0, 0, 20, 0"
-                                        >
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="80"></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <Border 
-                                                Grid.Column="0"
-                                                CornerRadius="20,20,20,20"
-                                                Width="55" Height="75"
-                                                Background="DarkGreen"
-                                                VerticalAlignment="Top"
-                                                Margin="0, 0, 10, 0"
-                                            >
-                                                <StackPanel
-                                                    Orientation="Vertical"
-                                                >
-                                                    <TextBlock 
-                                                        Text="Bước"
-                                                        Margin="0, 5, 0, 0"
-                                                        HorizontalAlignment="Center"
-                                                        FontSize="19"
-                                                        Foreground="AntiqueWhite" 
-                                                        FontWeight="Bold"
-                                                    />
-
-                                                    <TextBlock 
-                                                        Text="{Binding Stepnumber}"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        FontSize="22"
-                                                        Foreground="AntiqueWhite" 
-                                                        FontWeight="Bold"
-                                                    />
-
-                                                </StackPanel>
-                                            </Border>
-
-                                            <Grid 
-                                                Grid.Column="1"
-                                            >
-
-                                                <ListView
-                                                    ItemsSource="{Binding StepImages}"
-                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                                    ScrollViewer.CanContentScroll="True"
-                                                    IsEnabled="True"
-                                                    BorderBrush="Transparent"
-                                                    BorderThickness="0"
-                                                >
-                                                    <ListView.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <WrapPanel
-                                                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                                            />
-                                                        </ItemsPanelTemplate>
-                                                    </ListView.ItemsPanel>
-                                                    <ListView.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <StackPanel>
-                                                                <Border 
-                                                                CornerRadius="20,20,20,20"
-                                                                Width="220" Height="140"
-                                                            >
-                                                                    <Border.Background>
-                                                                        <ImageBrush 
-                                                                    Stretch="Fill"
-                                                                    ImageSource="{Binding ImgPath}"
-                                                                    RenderOptions.BitmapScalingMode="HighQuality"
-                                                                />
-                                                                    </Border.Background>
-                                                                </Border>
-                                                            </StackPanel>
-                                                        </DataTemplate>
-                                                    </ListView.ItemTemplate>
-                                                </ListView>
-
-                                            </Grid>
-
-
-
-                                        </Grid>
-
-                                        <ScrollViewer 
-                                            VerticalScrollBarVisibility="Auto"
-                                            Padding="10"
-                                            IsEnabled="False"
-                                        >
-                                            <TextBlock 
-                                                x:Name="descriptionTextBlock" 
-                                                Text="{Binding StepDetail}"
-                                                FontSize="14"
-                                                TextWrapping="Wrap"
-                                            />
-                                        </ScrollViewer>
-                                        <Border 
-                                            BorderThickness="0,0,0,1"
-                                            Padding="0, 0, 0, 10"
-                                            BorderBrush="#FF434343"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Bottom"
-                                            SnapsToDevicePixels="True"
-                                        >
-                                            <Grid
-                                                Width="{Binding ElementName=infoScrollViewer, Path=ActualWidth}"
-                                            >
-                                            </Grid>
-                                        </Border>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                            <TextBlock 
+                                Grid.Row="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontSize="40"
+                                Margin="0"
+                                Foreground="{StaticResource hintTextColor}" 
+                                FontWeight="Bold" 
+                                FontFamily="Barlow Condensed"
+                                Text="Số lượng hiện tại: "
+                            />
+                            
+                            <TextBlock 
+                                Grid.Row="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontSize="40"
+                                Margin="0"
+                                Foreground="{StaticResource hintTextColor}" 
+                                FontWeight="Bold" 
+                                FontFamily="Barlow Condensed"
+                                Text="0"
+                            />
+                        </StackPanel>
+                        
+                        
 
                     </StackPanel>
                 </ScrollViewer>
@@ -274,63 +226,16 @@
                     Grid.Row="1"
                 >
                     <StackPanel
-                        HorizontalAlignment="Right"
+                        HorizontalAlignment="Left"
                         Orientation="Horizontal"
                     >
-                        <ToggleButton 
-                            x:Name="favouriteButton"
-                            Padding="10"
-                            Margin="10, 10"
-                            Background="#fd5533"
-                            IsChecked="{Binding Favourite}"
-                        >
-                            <ToggleButton.Content>
-                                <StackPanel
-                                    HorizontalAlignment="Left"
-                                    Orientation="Horizontal"
-                                >
-                                    <TextBlock
-                                        FontSize="20"
-                                        VerticalAlignment="Center"
-                                        FontWeight="Bold"
-                                        Text="Favourite"
-                                    />
-                                    <Image
-                                        RenderOptions.BitmapScalingMode="HighQuality"
-                                        Width="30"
-                                        Height="30"
-                                        Margin="10, 0, 10, 0"/>
-
-                                </StackPanel>
-                            </ToggleButton.Content>
-                            <ToggleButton.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="15"/>
-                                </Style>
-                                <Style TargetType="{x:Type ToggleButton}">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
-                                                    <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsChecked" Value="true">
-                                                        <Setter Property="Background" TargetName="border" Value="Transparent"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ToggleButton.Resources>
-                        </ToggleButton>
 
                         <Button
                             Padding="10"
-                            Margin="10, 10"
-                            Background="#fd5533"
-                            IsCancel="True"
+                            Margin="5"
+                            Height="40"
+                            Width="40"
+                            Style="{DynamicResource suggestWordButton}"
                         >
                             <Button.Content>
                                 <StackPanel
@@ -338,25 +243,14 @@
                                     Orientation="Horizontal"
                                 >
                                     <TextBlock
-                                        FontSize="20"
+                                        FontSize="50"
                                         VerticalAlignment="Center"
                                         FontWeight="Bold"
-                                        Text="Back"
+                                        Text="-"
                                     />
-                                    <Image
-                                        RenderOptions.BitmapScalingMode="HighQuality"
-                                        Width="30"
-                                        Height="30"
-                                        Margin="10, 0, 10, 0"
-                                        Source="Images/right-arrow.png"
-                                    />
-
                                 </StackPanel>
                             </Button.Content>
                             <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="15"/>
-                                </Style>
                                 <Style TargetType="{x:Type Button}">
                                     <Setter Property="Template">
                                         <Setter.Value>
@@ -381,6 +275,95 @@
                                     </Setter>
                                 </Style>
                             </Button.Resources>
+                        </Button>
+
+                        <TextBox
+                            Margin="5, 10"
+                            Height="40"
+                            Width="90"
+                            BorderBrush="{StaticResource hintTextColor}"
+                            Foreground="{StaticResource hintTextColor}"
+                            BorderThickness="3"
+                            Text="0"
+                            FontSize="30"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                        />
+
+                        <Button
+                            Padding="10"
+                            Margin="5, 0"
+                            Height="40"
+                            Width="40"
+                            Style="{DynamicResource suggestWordButton}"
+                            HorizontalContentAlignment="Left"
+                        >
+                            <Button.Content>
+                                <Grid
+                                >
+                                    <TextBlock
+                                        FontSize="30"
+                                        FontWeight="Bold"
+                                        Text="+"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                    />
+                                </Grid>
+                            </Button.Content>
+                            <Button.Resources>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                                                    <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsDefaulted" Value="true">
+                                                        <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="true">
+                                                        <Setter Property="Cursor" Value="Hand" />
+                                                        <Setter Property="Background" Value="#fd5535" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="true">
+                                                        <Setter Property="Background" TargetName="border" Value="#FFE54D2F"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                        <Button
+                            Padding="10"
+                            Margin="10, 10"
+                            Style="{DynamicResource suggestWordButton}"
+                        >
+                            <Button.Content>
+                                <StackPanel
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal"
+                                >
+                                    <TextBlock
+                                        FontSize="20"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        Text="Add to cart"
+                                    />
+                                    <Image
+                                        RenderOptions.BitmapScalingMode="HighQuality"
+                                        Width="30"
+                                        Height="30"
+                                        Margin="10, 0, 10, 0"
+                                        Source="Images/shopping-cart.png"
+                                    />
+
+                                </StackPanel>
+                            </Button.Content>
+                            
                         </Button>
 
                     </StackPanel>

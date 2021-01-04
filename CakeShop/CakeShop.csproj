@@ -42,10 +42,10 @@
       <HintPath>packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Fluent, Version=8.0.0.0, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
       <HintPath>packages\Fluent.Ribbon.8.0.3\lib\net462\Fluent.dll</HintPath>
@@ -129,6 +129,9 @@
     <Compile Include="Product.cs">
       <DependentUpon>CakeStoreDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="ProductImage.cs">
+      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
@@ -136,9 +139,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="TypeCake.cs">
       <DependentUpon>CakeStoreDB.tt</DependentUpon>
     </Compile>
@@ -641,6 +641,11 @@
       <DependentUpon>CakeStoreDB.edmx</DependentUpon>
       <LastGenOutput>CakeStoreDB.cs</LastGenOutput>
     </Content>
+    <Resource Include="Images\first-page-arrow.png" />
+    <Resource Include="Images\last-page-arrow.png" />
+    <Resource Include="Images\next-page-arrow.png" />
+    <Resource Include="Images\prev-page-arrow.png" />
+    <Resource Include="Images\shopping-cart.png" />
     <Resource Include="Images\search-brown.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

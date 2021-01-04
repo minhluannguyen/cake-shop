@@ -10,13 +10,14 @@
         <EntityTypeShape EntityType="CakeStoreDBModel.Order" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CakeStoreDBModel.OrderDetail" Width="1.5" PointX="8.25" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="CakeStoreDBModel.Product" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CakeStoreDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CakeStoreDBModel.TypeCake" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
         <AssociationConnector Association="CakeStoreDBModel.FK_CakeImportOrder_Product" ManuallyRouted="false" />
         <AssociationConnector Association="CakeStoreDBModel.FK_Order_Customer" ManuallyRouted="false" />
         <AssociationConnector Association="CakeStoreDBModel.FK_OrderDetail_Order" ManuallyRouted="false" />
         <AssociationConnector Association="CakeStoreDBModel.FK_OrderDetail_Product" ManuallyRouted="false" />
         <AssociationConnector Association="CakeStoreDBModel.FK_Product_TypeCake" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CakeStoreDBModel.ProductImage" Width="1.5" PointX="3.375" PointY="8" />
+        <AssociationConnector Association="CakeStoreDBModel.FK_ProductImages_Product" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

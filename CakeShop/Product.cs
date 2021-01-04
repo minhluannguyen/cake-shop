@@ -19,6 +19,7 @@ namespace CakeShop
         {
             this.CakeImportOrders = new HashSet<CakeImportOrder>();
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.ProductImages = new HashSet<ProductImage>();
         }
     
         public int ID { get; set; }
@@ -26,12 +27,14 @@ namespace CakeShop
         public string Description { get; set; }
         public Nullable<int> Price { get; set; }
         public Nullable<int> Amount { get; set; }
-        public string ImageProduct { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CakeImportOrder> CakeImportOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual TypeCake TypeCake { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductImage> ProductImages { get; set; }
     }
 }
