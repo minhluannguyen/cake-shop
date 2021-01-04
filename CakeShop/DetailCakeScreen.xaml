@@ -1,0 +1,392 @@
+﻿<Window x:Class="CakeShop.DetailCakeScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CakeShop"
+        mc:Ignorable="d"
+        Title="DetailCakeScreen"
+        Height="700" Width="1100"
+        MinWidth="620px"
+        MinHeight="150px"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="8*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid
+            Grid.Row="0"
+        >
+            <TextBlock 
+                x:Name="foodNameTextBlock" 
+                Grid.Row="0"
+                Text="CAKE NAME"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="50"
+                Foreground="#fd5533" 
+                FontWeight="Bold" 
+                FontFamily="Barlow Condensed"
+            />
+
+        </Grid>
+
+        <Grid 
+            Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid 
+                Grid.Column="0"
+            >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"></RowDefinition>
+                    <RowDefinition Height="2*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid
+                    Grid.Row="0"
+                >
+                    <Border
+                        Margin="10"
+                    >
+                        <Border.Background>
+                            <ImageBrush
+                                ImageSource="/Images/passport.png"
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                            />
+                        </Border.Background>
+                    </Border>
+                </Grid>
+
+                <Grid
+                    Grid.Row="1"
+                >
+                    <ListView
+                        Padding="5, 10"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                    >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Border
+                                        CornerRadius="20"
+                                        Margin="10"
+                                    >
+                                        <Border.Background>
+                                            <ImageBrush
+                                                ImageSource="/Images/passport.png"
+                                                RenderOptions.BitmapScalingMode="HighQuality"
+                                            />
+                                        </Border.Background>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Grid>
+
+            <Grid 
+                Grid.Column="1"
+            >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <ScrollViewer 
+                    x:Name="infoScrollViewer"
+                >
+                    <StackPanel
+                        ScrollViewer.CanContentScroll="False"
+                    >
+                        <Border 
+                            BorderThickness="0,0,0,1"
+                            BorderBrush="#FF434343"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            SnapsToDevicePixels="True"
+                            Width="150" Height="50"
+                        >
+                            <TextBlock 
+                                Grid.Row="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontSize="40"
+                                Margin="0"
+                                Foreground="#fd5533" 
+                                FontWeight="Bold" 
+                                FontFamily="Barlow Condensed"
+                                Text="Mô tả"
+                            />
+
+                        </Border>
+
+                        <TextBlock
+                            Text="Description"
+                            FontSize="23"
+                            Padding="5"
+                            TextWrapping="WrapWithOverflow"
+                        />
+                        
+                        <ListView
+                            Name="stepListView"
+                            Foreground="Black"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                            Grid.Row="0"
+                            BorderBrush="Transparent"
+                            IsEnabled="False" 
+                            BorderThickness="0"
+                        >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel
+                                        Orientation="Vertical"
+                                        IsEnabled="False"
+                                    >
+                                        <Grid
+                                            Margin="0, 0, 20, 0"
+                                        >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Border 
+                                                Grid.Column="0"
+                                                CornerRadius="20,20,20,20"
+                                                Width="55" Height="75"
+                                                Background="DarkGreen"
+                                                VerticalAlignment="Top"
+                                                Margin="0, 0, 10, 0"
+                                            >
+                                                <StackPanel
+                                                    Orientation="Vertical"
+                                                >
+                                                    <TextBlock 
+                                                        Text="Bước"
+                                                        Margin="0, 5, 0, 0"
+                                                        HorizontalAlignment="Center"
+                                                        FontSize="19"
+                                                        Foreground="AntiqueWhite" 
+                                                        FontWeight="Bold"
+                                                    />
+
+                                                    <TextBlock 
+                                                        Text="{Binding Stepnumber}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="22"
+                                                        Foreground="AntiqueWhite" 
+                                                        FontWeight="Bold"
+                                                    />
+
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Grid 
+                                                Grid.Column="1"
+                                            >
+
+                                                <ListView
+                                                    ItemsSource="{Binding StepImages}"
+                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                    ScrollViewer.CanContentScroll="True"
+                                                    IsEnabled="True"
+                                                    BorderBrush="Transparent"
+                                                    BorderThickness="0"
+                                                >
+                                                    <ListView.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <WrapPanel
+                                                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                            />
+                                                        </ItemsPanelTemplate>
+                                                    </ListView.ItemsPanel>
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel>
+                                                                <Border 
+                                                                CornerRadius="20,20,20,20"
+                                                                Width="220" Height="140"
+                                                            >
+                                                                    <Border.Background>
+                                                                        <ImageBrush 
+                                                                    Stretch="Fill"
+                                                                    ImageSource="{Binding ImgPath}"
+                                                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                                                />
+                                                                    </Border.Background>
+                                                                </Border>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+
+                                            </Grid>
+
+
+
+                                        </Grid>
+
+                                        <ScrollViewer 
+                                            VerticalScrollBarVisibility="Auto"
+                                            Padding="10"
+                                            IsEnabled="False"
+                                        >
+                                            <TextBlock 
+                                                x:Name="descriptionTextBlock" 
+                                                Text="{Binding StepDetail}"
+                                                FontSize="14"
+                                                TextWrapping="Wrap"
+                                            />
+                                        </ScrollViewer>
+                                        <Border 
+                                            BorderThickness="0,0,0,1"
+                                            Padding="0, 0, 0, 10"
+                                            BorderBrush="#FF434343"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Bottom"
+                                            SnapsToDevicePixels="True"
+                                        >
+                                            <Grid
+                                                Width="{Binding ElementName=infoScrollViewer, Path=ActualWidth}"
+                                            >
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                    </StackPanel>
+                </ScrollViewer>
+
+                <Grid
+                    Grid.Row="1"
+                >
+                    <StackPanel
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal"
+                    >
+                        <ToggleButton 
+                            x:Name="favouriteButton"
+                            Padding="10"
+                            Margin="10, 10"
+                            Background="#fd5533"
+                            IsChecked="{Binding Favourite}"
+                        >
+                            <ToggleButton.Content>
+                                <StackPanel
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal"
+                                >
+                                    <TextBlock
+                                        FontSize="20"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        Text="Favourite"
+                                    />
+                                    <Image
+                                        RenderOptions.BitmapScalingMode="HighQuality"
+                                        Width="30"
+                                        Height="30"
+                                        Margin="10, 0, 10, 0"/>
+
+                                </StackPanel>
+                            </ToggleButton.Content>
+                            <ToggleButton.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                                                    <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="true">
+                                                        <Setter Property="Background" TargetName="border" Value="Transparent"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+
+                        <Button
+                            Padding="10"
+                            Margin="10, 10"
+                            Background="#fd5533"
+                            IsCancel="True"
+                        >
+                            <Button.Content>
+                                <StackPanel
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal"
+                                >
+                                    <TextBlock
+                                        FontSize="20"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        Text="Back"
+                                    />
+                                    <Image
+                                        RenderOptions.BitmapScalingMode="HighQuality"
+                                        Width="30"
+                                        Height="30"
+                                        Margin="10, 0, 10, 0"
+                                        Source="Images/right-arrow.png"
+                                    />
+
+                                </StackPanel>
+                            </Button.Content>
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                                                    <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsDefaulted" Value="true">
+                                                        <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="true">
+                                                        <Setter Property="Cursor" Value="Hand" />
+                                                        <Setter Property="Background" Value="#fd5535" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="true">
+                                                        <Setter Property="Background" TargetName="border" Value="#FFE54D2F"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                    </StackPanel>
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
