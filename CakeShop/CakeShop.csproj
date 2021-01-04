@@ -631,6 +631,10 @@
       <DependentUpon>CakeStoreDB.edmx</DependentUpon>
       <LastGenOutput>CakeStoreDB.cs</LastGenOutput>
     </Content>
+    <Resource Include="Images\control-icon\first-page.png" />
+    <Resource Include="Images\control-icon\last-page.png" />
+    <Resource Include="Images\control-icon\next-page.png" />
+    <Resource Include="Images\control-icon\prev-page.png" />
     <Resource Include="Images\search-brown.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

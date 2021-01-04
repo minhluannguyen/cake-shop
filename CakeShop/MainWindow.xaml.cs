@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace CakeShop
     /// </summary>
     public partial class MainWindow : Fluent.RibbonWindow
     {
+        CakeStoreDBEntities db = new CakeStoreDBEntities();
         public MainWindow()
         {
             InitializeComponent();
@@ -48,6 +50,19 @@ namespace CakeShop
         private void txtboxSearch_KeyDown(object sender, KeyEventArgs e)
         {
 
+        }
+
+        private void BackstageTabItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var senderItem = sender as Fluent.BackstageTabItem;
+            
+
+            switch (senderItem.Name)
+            {
+                case "TypeCakeItem":
+                    
+                    break;
+            }
         }
     }
 }
