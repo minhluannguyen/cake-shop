@@ -42,10 +42,10 @@
       <HintPath>packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Fluent, Version=8.0.0.0, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
       <HintPath>packages\Fluent.Ribbon.8.0.3\lib\net462\Fluent.dll</HintPath>
@@ -61,6 +61,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -88,14 +89,45 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CakeImportOrder.cs">
+      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CakeStoreDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CakeStoreDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CakeStoreDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CakeStoreDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CakeStoreDB.edmx</DependentUpon>
+    </Compile>
     <Compile Include="ConstantVariable.cs" />
     <Compile Include="CustomAppConfiguration.cs" />
+    <Compile Include="Customer.cs">
+      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="CustomXMLExtension.cs" />
     <Compile Include="DetailCakeScreen.xaml.cs">
       <DependentUpon>DetailCakeScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IsEmptyStringConverter.cs" />
+    <Compile Include="Order.cs">
+      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderDetail.cs">
+      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="PreMainScreen.xaml.cs">
       <DependentUpon>PreMainScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product.cs">
+      <DependentUpon>CakeStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
@@ -104,6 +136,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TypeCake.cs">
+      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -143,6 +181,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EntityDeploy Include="CakeStoreDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CakeStoreDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="CakeStoreDB.edmx.diagram">
+      <DependentUpon>CakeStoreDB.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -578,6 +623,25 @@
     <Resource Include="Images\cookies.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Background\bg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CakeStoreDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CakeStoreDB.edmx</DependentUpon>
+      <LastGenOutput>CakeStoreDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="CakeStoreDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CakeStoreDB.edmx</DependentUpon>
+      <LastGenOutput>CakeStoreDB.cs</LastGenOutput>
+    </Content>
+    <Resource Include="Images\search-brown.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

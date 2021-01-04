@@ -34,5 +34,20 @@ namespace CakeShop
         {
             Application.Current.Shutdown();
         }
+
+        private void TypeCake_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void addNewTypeCake_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void txtboxSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
     }
 }
