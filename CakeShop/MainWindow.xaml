@@ -209,12 +209,20 @@
                                                     Margin="30">
                                         <ListView.View>
                                             <GridView>
-                                                <GridViewColumn Width="200" DisplayMemberBinding="{Binding TENTV}">
+                                                <GridViewColumn Width="auto">
                                                     <GridViewColumn.Header>
                                                         <GridViewColumnHeader Tag="Mã Bánh">Mã Bánh</GridViewColumnHeader>
                                                     </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200">
+                                                                <TextBlock Text="{Binding ID}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
                                                 </GridViewColumn>
-                                                <GridViewColumn Width="600" DisplayMemberBinding="{Binding SDT}">
+                                                <GridViewColumn Width="500" DisplayMemberBinding="{Binding NameTypeCake}">
                                                     <GridViewColumn.Header>
                                                         <GridViewColumnHeader Tag="Tên Bánh">Tên Bánh</GridViewColumnHeader>
                                                     </GridViewColumn.Header>
@@ -224,16 +232,38 @@
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
                                                 </GridViewColumn>
-                                                <GridViewColumn Width="auto" DisplayMemberBinding="{Binding EMAIL}">
+                                                <GridViewColumn Width="auto" >
                                                     <GridViewColumn.Header>
                                                         <GridViewColumnHeader Tag="Số Chủng Loại">Số Chủng Loại</GridViewColumnHeader>
                                                     </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200">
+                                                                <TextBlock Text="{Binding AmountType}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+                                                <GridViewColumn Width="auto">
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Tồn kho">Tồn kho</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200">
+                                                                <TextBlock Text="{Binding Amount}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
                                                 </GridViewColumn>
                                             </GridView>
                                         </ListView.View>
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
-                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TypeCake_PreviewMouseLeftButtonDown" />
+                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
                                             </Style>
                                         </ListView.ItemContainerStyle>
                                     </ListView>
@@ -252,7 +282,7 @@
                                             </Button.Content>
                                         </Button>
 
-                                        <TextBox Text="1" FontSize="20"   Width="30"
+                                        <TextBox Text="1" FontSize="15"   Width="30" FontWeight="DemiBold"
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"/>
                                         <Label Name="totalPages" Content="/1" FontSize="20" 
@@ -281,7 +311,7 @@
                                                 Foreground="White"
                                                 Background="#0078D7"
                                                 Style="{DynamicResource sgraykbtnstyle}"
-                                                Click="addNewTypeCake_Click"/>
+                                                Click="addItem_Click"/>
 
                                     </StackPanel>
                                 </Grid>

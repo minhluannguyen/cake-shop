@@ -22,6 +22,8 @@ namespace CakeShop
     public partial class MainWindow : Fluent.RibbonWindow
     {
         CakeStoreDBEntities db = new CakeStoreDBEntities();
+
+        public int RibbonItem { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -37,16 +39,6 @@ namespace CakeShop
             Application.Current.Shutdown();
         }
 
-        private void TypeCake_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void addNewTypeCake_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void txtboxSearch_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -54,15 +46,78 @@ namespace CakeShop
 
         private void BackstageTabItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var senderItem = sender as Fluent.BackstageTabItem;
-            
+            var senderItem = sender as Fluent.BackstageTabItem;            
 
             switch (senderItem.Name)
             {
                 case "TypeCakeItem":
-                    
+                    this.RibbonItem = ConstantVariable.RIBBON_TYPECAKE;
+                    var query = QueryDB.Instance.getBindingTypeCake();
+                    typeCakeListViewRibbon.ItemsSource = query;
                     break;
             }
+        }
+
+        private void ObjectWindowHandler(object sender, int action)
+        {
+            
+            switch (action)
+            {
+                case ConstantVariable.ADD_TYPECAKE:
+                case ConstantVariable.UPDATE_TYPECAKE:
+                    Debug.WriteLine($"{(sender as TypeCake).NameTypeCake} - {action}");
+                    this.BackstageTabItem_MouseLeftButtonDown(this.TypeCakeItem, null);
+                    break;
+            }
+        }
+        private void addItem_Click(object sender, RoutedEventArgs e)
+        {
+            var senderButton = sender as Button;
+
+            switch (senderButton.Name)
+            {
+                case "addNewTypeCakeBtn":
+                    var screen = new DialogTypeCake(null, ConstantVariable.ADD_TYPECAKE);
+                    screen.handler += this.ObjectWindowHandler;
+                    screen.Owner = this;
+                    screen.ShowDialog();
+
+                    break;
+            }
+        }
+
+        private void TypeCake_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var item = sender as ListViewItem;
+            
+            if (item != null && item.IsSelected)
+            {          
+                switch (this.RibbonItem)
+                {
+                    case ConstantVariable.RIBBON_TYPECAKE:
+                        dynamic selectedItem = typeCakeListViewRibbon.SelectedItem;
+                        //MessageBox.Show($"{selectedItem.NameTypeCake}");
+
+                        TypeCake typeCake = new TypeCake();
+                        typeCake.ID = selectedItem.ID;
+                        typeCake.NameTypeCake = selectedItem.NameTypeCake;
+
+                        var screen = new DialogTypeCake(typeCake, ConstantVariable.UPDATE_TYPECAKE);
+                        screen.handler += this.ObjectWindowHandler;
+                        screen.Owner = this;
+                        screen.ShowDialog();
+
+                        break;
+                }
+
+            }
+
+            
         }
     }
 }
