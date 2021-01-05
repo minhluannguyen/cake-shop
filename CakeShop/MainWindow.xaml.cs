@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +53,7 @@ namespace CakeShop
     public partial class MainWindow : Fluent.RibbonWindow
     {
         Paging _paging;
+        MainScreenListViewVM _vm;
         public MainWindow()
         {
             InitializeComponent();
@@ -66,7 +68,7 @@ namespace CakeShop
         private void RibbonWindow_Loaded(object sender, RoutedEventArgs e)
         {
             loadDatas();
-            
+
         }
 
         private void loadDatas()
@@ -76,7 +78,8 @@ namespace CakeShop
                 .Select(
                     x => x
                 );
-            productListView.ItemsSource = queryProduct.ToList();
+            _vm = new MainScreenListViewVM(queryProduct.ToList());
+            productListView.ItemsSource = _vm.listVM;
 
             var queryCakeType = db.TypeCakes
                 .Select(
@@ -124,38 +127,6 @@ namespace CakeShop
             return tmpBtn;
         }
 
-        string Convertor_UNICODE_ASCII(string unicodestring, bool includeSpace = false)
-        {                                                                               /* hàm convert từ chuỗi unicode sang chuỗi ascii                    */
-
-            unicodestring = unicodestring.Normalize(NormalizationForm.FormD);
-
-
-            StringBuilder stringBuilder = new StringBuilder();                          /* tạo một string builder để xây dựng chuỗi                         */
-
-            for (int i = 0; i < unicodestring.Length; i++)
-            {                                                                           /* quét từng ký tự và chuyển ký tự đó thành ký tự ascii             */
-                System.Globalization.UnicodeCategory unicodeCategory = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(unicodestring[i]);
-                if (unicodeCategory != System.Globalization.UnicodeCategory.NonSpacingMark)
-                {
-                    stringBuilder.Append(unicodestring[i]);                             /* lưu ký tự đó vào trong string builder dựng sẵn                   */
-                }
-            }
-            stringBuilder.Replace("Đ", "D");                                            /* quá trình chuyển đổi không thể chuyển đổi 2 ký tự đ,Đ            */
-            stringBuilder.Replace("đ", "d");
-            if (includeSpace)                                                           /* nếu người hàm kiểm tra có yêu cầu giữ lại ký tự space thì giữ    */
-            {
-                // do nothing
-            }
-            else
-            {
-                stringBuilder.Replace(" ", "");
-            }
-            /* trả về kết quả chuyển đổi và không thay đổi chuỗi ban đầu        */
-            string result = ((stringBuilder.ToString()).Normalize(NormalizationForm.FormD)).ToLower();
-
-            return result;
-        }
-
         void calculatePagingInfo()
         {
             CakeStoreDBEntities db = new CakeStoreDBEntities();
@@ -171,11 +142,12 @@ namespace CakeShop
             {
                 foreach (var product in db.Products.ToList())
                 {
-                    string convertedName = Convertor_UNICODE_ASCII(product.Name, true);
+                    string convertedName = Ulties.Convertor_UNICODE_ASCII(product.Name, true);
 
                     foreach (var key in keys)
                     {
-                        if (convertedName.IndexOf(key) > -1)
+                        string tmpkey = Ulties.Convertor_UNICODE_ASCII(key, true);
+                        if (convertedName.IndexOf(tmpkey) > -1)
                         {
                             IDProductsList.Add(product.ID);
                         }
@@ -221,14 +193,14 @@ namespace CakeShop
                     (((count % ItemsPerPage) == 0) ? 0 : 1)
             };
 
-            foreach(var pageNum in _paging.Pages)
+            foreach (var pageNum in _paging.Pages)
             {
                 var tmpButton = createNewPageButton(pageNum.Page);
                 if (_paging.CurrentPage == pageNum.Page)
                 {
                     var bc = new BrushConverter();
                     tmpButton.Background = (Brush)bc.ConvertFrom("#356829");
-                }    
+                }
                 pageNumberStackPanel.Children.Insert(pageNumberStackPanel.Children.Count - 2, tmpButton);
             }
         }
@@ -256,28 +228,29 @@ namespace CakeShop
             {
                 foreach (var product in db.Products.ToList())
                 {
-                    string convertedName = Convertor_UNICODE_ASCII(product.Name, true);
+                    string convertedName = Ulties.Convertor_UNICODE_ASCII(product.Name, true);
 
                     foreach (var key in keys)
                     {
-                        if (convertedName.IndexOf(key) > -1)
+                        string tmpkey = Ulties.Convertor_UNICODE_ASCII(key, true);
+                        if (convertedName.IndexOf(tmpkey) > -1)
                         {
                             IDProductsList.Add(product.ID);
                         }
                     }
                 }
-            sentenceQuery = db.Products
-                .Join(
-                    IDProductsList,
-                    p => p.ID,
-                    i => i,
-                    (p, i) => new
-                    {
-                        products = p
-                    }
-                ).Select(
-                    x => x.products
-                );
+                sentenceQuery = db.Products
+                    .Join(
+                        IDProductsList,
+                        p => p.ID,
+                        i => i,
+                        (p, i) => new
+                        {
+                            products = p
+                        }
+                    ).Select(
+                        x => x.products
+                    );
             }
 
 
@@ -301,7 +274,7 @@ namespace CakeShop
             {
                 case 0:
                     products = queryProducts
-                        .OrderBy( x => x.Name)
+                        .OrderBy(x => x.Name)
                         .Skip(skip).Take(take)
                         .ToList();
                     break;
@@ -324,8 +297,8 @@ namespace CakeShop
                         .ToList();
                     break;
             }
-            
-            productListView.ItemsSource = products;
+            _vm = new MainScreenListViewVM(products);
+            productListView.ItemsSource = _vm.listVM;
         }
 
         private void numberPageButton_Click(object sender, RoutedEventArgs e)
@@ -337,7 +310,7 @@ namespace CakeShop
 
         private void firstPageNumButton_Click(object sender, RoutedEventArgs e)
         {
-            _paging.CurrentPage = 0;
+            _paging.CurrentPage = 1;
             displayProducts();
         }
 
@@ -349,7 +322,7 @@ namespace CakeShop
 
         private void prevPageButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_paging.CurrentPage > 0)
+            if (_paging.CurrentPage > 1)
             {
                 _paging.CurrentPage--;
                 displayProducts();
@@ -390,7 +363,7 @@ namespace CakeShop
 
         private void txtboxSearch_KeyDown(object sender, KeyEventArgs e)
         {
-
+            displayProducts();
         }
 
         private void CakeTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -402,5 +375,55 @@ namespace CakeShop
         {
             displayProducts();
         }
+
+        private void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ListViewItem selectedItem = sender as ListViewItem;
+            var selectedItemVM= selectedItem.Content as MainScreenListViewItemVM;
+            DetailCakeScreen detailCakeScreen = new DetailCakeScreen(selectedItemVM.ProductInfo);
+
+            detailCakeScreen.ShowDialog();
+        }
+
+        public class MainScreenListViewItemVM
+        {
+            public Product ProductInfo { get; set; }
+            public string Thumbnail { get; set; }
+        }
+
+        public class MainScreenListViewVM
+        {
+            public List<MainScreenListViewItemVM> listVM;
+
+            public MainScreenListViewVM(List<Product> listProduct)
+            {
+                CakeStoreDBEntities db = new CakeStoreDBEntities();
+
+                listVM = new List<MainScreenListViewItemVM>();
+                foreach(var product in listProduct)
+                {
+                    MainScreenListViewItemVM mainScreenListViewItemVM = new MainScreenListViewItemVM();
+                    mainScreenListViewItemVM.ProductInfo = product;
+                    var queryImage = db.ProductImages
+                        .Where(
+                            x => x.ID_Product == product.ID
+                        )
+                        .Select(
+                            x => x.ImageName
+                        );
+                    int count = queryImage.ToList().Count();
+                    if (count == 0)
+                    { 
+                        mainScreenListViewItemVM.Thumbnail = "/Images/no_image_available.jpeg"; 
+                    }
+                    else
+                    {
+                        mainScreenListViewItemVM.Thumbnail = $"{Directory.GetCurrentDirectory()}\\Images\\Products\\{Ulties.Convertor_UNICODE_ASCII(product.Name, false)}\\{queryImage.ToList()[0]}";
+                    }
+                    listVM.Add(mainScreenListViewItemVM);
+                }
+            }
+        }
     }
+    
 }

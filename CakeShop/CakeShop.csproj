@@ -132,9 +132,11 @@
     <Compile Include="ProductImage.cs">
       <DependentUpon>CakeStoreDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="RawPriceToPriceConverter.cs" />
     <Compile Include="SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ulties.cs" />
     <Page Include="DetailCakeScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -647,6 +649,9 @@
     <Resource Include="Images\prev-page-arrow.png" />
     <Resource Include="Images\shopping-cart.png" />
     <Resource Include="Images\search-brown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\Products\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

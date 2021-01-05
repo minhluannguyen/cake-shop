@@ -6,10 +6,12 @@
         xmlns:local="clr-namespace:CakeShop"
         mc:Ignorable="d"
         Title="Cake Shop"
-        Height="700" Width="1100"
+        Height="700" 
+        Width="1350"
         WindowStartupLocation="CenterScreen"
 >
     <Window.Resources>
+        <local:RawPriceToPriceConverter x:Key="priceConverter"/>
         <SolidColorBrush x:Key="bgKeyColor" Color="#FFEED3"/>
         <SolidColorBrush x:Key="whiteShowColor" Color="#F7ECCD"/>
         <SolidColorBrush x:Key="hintTextColor" Color="#B8693E"/>
@@ -76,7 +78,7 @@
             <TextBlock 
                 x:Name="foodNameTextBlock" 
                 Grid.Row="0"
-                Text="CAKE NAME"
+                Text="{Binding Name}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="50"
@@ -110,7 +112,8 @@
                     >
                         <Border.Background>
                             <ImageBrush
-                                ImageSource="/Images/passport.png"
+                                x:Name="ThumbnailImage"
+                                ImageSource="{Binding Thumbnail}"
                                 RenderOptions.BitmapScalingMode="HighQuality"
                             />
                         </Border.Background>
@@ -122,26 +125,49 @@
                 >
                     <ListView
                         Padding="5, 10"
+                        Margin="5, 5, 5, 30"
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                        ItemsSource="{Binding ImageList}"
                     >
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel 
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid>
+                                <StackPanel>
+                                    <!--
                                     <Border
-                                        CornerRadius="20"
+                                        CornerRadius="20, 20, 20, 20"
                                         Margin="10"
                                     >
                                         <Border.Background>
                                             <ImageBrush
-                                                ImageSource="/Images/passport.png"
+                                                ImageSource="{Binding ImageName}"
                                                 RenderOptions.BitmapScalingMode="HighQuality"
                                             />
                                         </Border.Background>
                                     </Border>
-                                </Grid>
+                                    -->
+                                    <Image 
+                                        Height="100"
+                                        Source="{Binding ImageName}"
+                                        RenderOptions.BitmapScalingMode="HighQuality"
+                                    />
+                                </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
                     </ListView>
                 </Grid>
             </Grid>
@@ -160,32 +186,51 @@
                     <StackPanel
                         ScrollViewer.CanContentScroll="False"
                     >
-                        <Border 
-                            BorderThickness="0,0,0,1"
-                            BorderBrush="#FF434343"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
-                            SnapsToDevicePixels="True"
-                            Width="150" Height="50"
+
+                        <StackPanel
+                            Orientation="Horizontal"
                         >
                             <TextBlock 
                                 Grid.Row="0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontSize="40"
-                                Margin="0"
+                                Margin="5"
                                 Foreground="{StaticResource hintTextColor}" 
                                 FontWeight="Bold" 
                                 FontFamily="Barlow Condensed"
-                                Text="Mô tả"
+                                Text="Loại bánh: "
                             />
 
-                        </Border>
+                            <TextBlock 
+                                Grid.Row="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontSize="40"
+                                Margin="5"
+                                Foreground="{StaticResource hintTextColor}" 
+                                FontWeight="Bold" 
+                                FontFamily="Barlow Condensed"
+                                Text="{Binding CakeTypeName}"
+                            />
+                        </StackPanel>
+
+                        <TextBlock 
+                            Grid.Row="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="40"
+                            Margin="5"
+                            Foreground="{StaticResource hintTextColor}" 
+                            FontWeight="Bold" 
+                            FontFamily="Barlow Condensed"
+                            Text="Mô tả:"
+                        />
 
                         <TextBlock
-                            Text="Description"
+                            Text="{Binding Description}"
                             FontSize="23"
-                            Padding="5"
+                            Margin="10"
                             TextWrapping="WrapWithOverflow"
                         />
 
@@ -197,7 +242,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontSize="40"
-                                Margin="0"
+                                Margin="5"
                                 Foreground="{StaticResource hintTextColor}" 
                                 FontWeight="Bold" 
                                 FontFamily="Barlow Condensed"
@@ -209,11 +254,11 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontSize="40"
-                                Margin="0"
+                                Margin="5"
                                 Foreground="{StaticResource hintTextColor}" 
                                 FontWeight="Bold" 
                                 FontFamily="Barlow Condensed"
-                                Text="0"
+                                Text="{Binding Amount}"
                             />
                         </StackPanel>
                         
@@ -230,12 +275,24 @@
                         Orientation="Horizontal"
                     >
 
+                        <TextBlock 
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="40"
+                            Margin="15"
+                            Foreground="{StaticResource hintTextColor}" 
+                            FontWeight="Bold" 
+                            FontFamily="Barlow Condensed"
+                            Text="{Binding Price, Converter={StaticResource priceConverter}}"
+                        />
+
                         <Button
+                            x:Name="SubtractAmountButton"
                             Padding="10"
                             Margin="5"
                             Height="40"
                             Width="40"
-                            Style="{DynamicResource suggestWordButton}"
+                            Style="{DynamicResource suggestWordButton}" Click="SubtractAmountButton_Click"
                         >
                             <Button.Content>
                                 <StackPanel
@@ -278,6 +335,7 @@
                         </Button>
 
                         <TextBox
+                            x:Name="AmountTextBox"
                             Margin="5, 10"
                             Height="40"
                             Width="90"
@@ -285,18 +343,21 @@
                             Foreground="{StaticResource hintTextColor}"
                             BorderThickness="3"
                             Text="0"
-                            FontSize="30"
+                            FontSize="25"
                             VerticalContentAlignment="Center"
-                            HorizontalContentAlignment="Center"
+                            HorizontalContentAlignment="Center" TextChanged="AmountTextBox_TextChanged"
+                            
                         />
 
                         <Button
+                            x:Name="AddAmountButton"
                             Padding="10"
                             Margin="5, 0"
                             Height="40"
                             Width="40"
                             Style="{DynamicResource suggestWordButton}"
-                            HorizontalContentAlignment="Left"
+                            HorizontalContentAlignment="Left" Click="AddAmountButton_Click" 
+                            
                         >
                             <Button.Content>
                                 <Grid
@@ -351,7 +412,7 @@
                                         FontSize="20"
                                         VerticalAlignment="Center"
                                         FontWeight="Bold"
-                                        Text="Add to cart"
+                                        Text="Thêm vào giỏ"
                                     />
                                     <Image
                                         RenderOptions.BitmapScalingMode="HighQuality"

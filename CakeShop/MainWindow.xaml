@@ -7,7 +7,7 @@
     xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
     xmlns:local="clr-namespace:CakeShop"
     mc:Ignorable="d"
-    Title="MainWindow"
+    Title="Cake Store"
     Height="700" 
     Width="1350"
     WindowStartupLocation="CenterScreen"
@@ -15,8 +15,14 @@
     WindowStyle="None"
     Loaded="RibbonWindow_Loaded"
 >
+    <Window.Icon>
+        <BitmapImage UriSource="Images/cookies.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+    </Window.Icon>
+    
+    
     <Fluent:RibbonWindow.Resources>
         <local:IsEmptyStringConverter x:Key="stringConverter"/>
+        <local:RawPriceToPriceConverter x:Key="priceConverter"/>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
@@ -287,18 +293,21 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2.*"/>
-                    <RowDefinition Height="1.3*"/>
+                    <RowDefinition Height="1.5*"/>
                     <RowDefinition Height="4.7*"/>
                     <RowDefinition Height="2.*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="1" Margin="20">
                     <TextBlock Padding="10" Background="#FFEED3"/>
-                    <TextBox x:Name="txtboxSearch" FontSize="20" Padding="5" 
-                             Foreground="{StaticResource showColor}" 
-                             TextWrapping="Wrap"                             
-                             Height="50"
-                             KeyDown="txtboxSearch_KeyDown"
-                         >
+                    <TextBox 
+                        x:Name="txtboxSearch" 
+                        FontSize="20" 
+                        Padding="5" 
+                        Foreground="{StaticResource showColor}" 
+                        TextWrapping="Wrap"                             
+                        Height="50"
+                        KeyDown="txtboxSearch_KeyDown"
+                    >
                         <TextBox.Style>
                             <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                                 <Style.Resources>
@@ -307,14 +316,15 @@
                                             <StackPanel 
                                                 Orientation="Horizontal"
                                             >
-                                                <Label Width="10"/>
-                                                <Image x:Name="searchImage" 
+                                                <Label Width="10" />
+                                                <Image 
+                                                    x:Name="searchImage" 
                                                     RenderOptions.BitmapScalingMode="HighQuality"
                                                     Width="20"
                                                     Height="20"
                                                     Source="Images/search-brown.png"
                                                 />
-                                                <Label Content="Search" Margin="10 0 0 0" Foreground="{StaticResource hintTextColor}" FontSize="20" />
+                                                <Label Content="Nhập vào để tìm kiếm (Nhấn Enter để tìm)" Margin="5 0 0 0" Foreground="{StaticResource hintTextColor}" FontSize="18" />
                                             </StackPanel>
 
                                         </VisualBrush.Visual>
@@ -452,7 +462,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.5*"/>
                     <RowDefinition Height="7*"/>
-                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <Border x:Name="borderOfListView" 
                         Opacity="0.8"
@@ -487,6 +497,8 @@
                                     BorderBrush="Transparent"
                                     Foreground="#fd5533"
                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                    Height="480"
                                 >
                                     <ListView.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -534,7 +546,7 @@
                                                         <Border.Background>
                                                             <ImageBrush 
                                                                 Stretch="Fill"
-                                                                ImageSource="{Binding ImgTitle}"
+                                                                ImageSource="{Binding Thumbnail}"
                                                                 RenderOptions.BitmapScalingMode="HighQuality"
                                                             />
                                                         </Border.Background>
@@ -542,14 +554,31 @@
                                                 </Grid>
                                                 
                                                 <TextBlock 
-                                                    HorizontalAlignment="Center"
+                                                    HorizontalAlignment="Left"
                                                     FontSize="16"
-                                                    Text="{Binding Name}"
+                                                    Text="{Binding ProductInfo.Name}"
+                                                />
+
+                                                <TextBlock 
+                                                    HorizontalAlignment="Left"
+                                                    FontSize="16"
+                                                    Text="{Binding ProductInfo.Price, Converter={StaticResource priceConverter}}"
+                                                />
+
+                                                <Button 
+                                                    Style="{DynamicResource suggestWordButton}" 
+                                                    Content="Thêm vào giỏ"
+                                                    FontSize="15"
                                                 />
 
                                             </StackPanel>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
                                 </ListView>
                                 
                                 <StackPanel.OpacityMask>
