@@ -93,7 +93,9 @@
             <Button x:Name="actionBtn" Content="{Binding ActionName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" 
                     Margin="0 0 10 0" Click="actionBtn_Click" Padding="5" MaxHeight="40" MinWidth="60" 
                     Style="{DynamicResource sgraykbtnstyle}"/>
-            <Button x:Name="cancelBtn" Content="Thoát" Margin="0 0 50 0" Click="cancelBtn_Click" Padding="5" 
+            <Button x:Name="cancelBtn" Content="Thoát" Margin="0 0 10 0" Click="cancelBtn_Click" Padding="5" 
+                    MaxHeight="40" MinWidth="60" Style="{DynamicResource sgraykbtnstyle}"/>
+            <Button x:Name="deleteBtn" Content="Xóa" Margin="0 0 50 0" Click="deleteBtn_Click" Padding="5" 
                     MaxHeight="40" MinWidth="60" Style="{DynamicResource sgraykbtnstyle}"/>
         </StackPanel>
     </Grid>

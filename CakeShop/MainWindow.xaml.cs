@@ -65,6 +65,7 @@ namespace CakeShop
             {
                 case ConstantVariable.ADD_TYPECAKE:
                 case ConstantVariable.UPDATE_TYPECAKE:
+                case ConstantVariable.DEL_TYPECAKE:
                     Debug.WriteLine($"{(sender as TypeCake).NameTypeCake} - {action}");
                     this.BackstageTabItem_MouseLeftButtonDown(this.TypeCakeItem, null);
                     break;

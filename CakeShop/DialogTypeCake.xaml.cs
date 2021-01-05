@@ -53,6 +53,7 @@ namespace CakeShop
             {
                 this.TitleAction = "Thêm Loại Bánh";
                 this.ActionName = "Thêm";
+                this.deleteBtn.Visibility = Visibility.Collapsed;
             }
             else if (this.Action == ConstantVariable.UPDATE_TYPECAKE)
             {
@@ -74,6 +75,14 @@ namespace CakeShop
         private void cancelBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Action = ConstantVariable.CANCEL_ACTION;
+            this.Close();
+        }
+
+
+        private void deleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Action = ConstantVariable.DEL_TYPECAKE;
+            QueryDB.Instance.deleteATypeCake(this.Type);
             this.Close();
         }
 

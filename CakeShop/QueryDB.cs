@@ -88,5 +88,11 @@ namespace CakeShop
             type.NameTypeCake = typeCake.NameTypeCake;
             db.SaveChanges();
         }
+        public void deleteATypeCake(TypeCake typeCake)
+        {
+            var type = db.TypeCakes.Find(typeCake.ID);
+            db.TypeCakes.Remove(type);
+            db.SaveChanges();
+        }
     }
 }
