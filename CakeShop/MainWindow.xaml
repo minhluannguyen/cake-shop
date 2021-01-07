@@ -14,6 +14,7 @@
                      WindowStyle="None">
     <Fluent:RibbonWindow.Resources>
         <local:IsEmptyStringConverter x:Key="stringConverter"/>
+        <local:IntToMoneyStringConverter x:Key="moneyConverter"/>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
@@ -29,6 +30,11 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <SolidColorBrush x:Key="borderBtnEnable" Color="White"/>
+        <SolidColorBrush x:Key="borderBtnHover" Color="Black"/>
+        <SolidColorBrush x:Key="backgroundBtnEnable" Color="Transparent"/>
+        <SolidColorBrush x:Key="backgroundBtnHover" Color="Gray"/>
+        <SolidColorBrush x:Key="listCakeBackgroundColor" Color="White"/>
         <SolidColorBrush x:Key="bgKeyColor" Color="#FFEED3"/>
         <SolidColorBrush x:Key="whiteShowColor" Color="#F7ECCD"/>
         <SolidColorBrush x:Key="hintTextColor" Color="#B8693E"/>
@@ -121,8 +127,8 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
                                 <Setter Property="Cursor" Value="Hand" />
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource hoverbutton}"/>
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource backgroundBtnHover}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource borderBtnHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
                                 <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
@@ -134,8 +140,8 @@
                                 <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource backgroundBtnEnable}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource borderBtnEnable}"/>
                                 <Setter Property="FontSize" Value="20"/>
                                 <Setter Property="Padding" Value="10"/>
                                 <Setter Property="Foreground" Value="{StaticResource hintTextColor}"/>
@@ -150,7 +156,8 @@
     </Fluent:RibbonWindow.Resources>
     <DockPanel LastChildFill="True">
         <DockPanel.Background>
-            <ImageBrush ImageSource="Images/Background/bg.jpg" Opacity="0.8"/>
+            <ImageBrush ImageSource="Images/Background/mainWindow.jpg" Opacity="0.9"/>
+            <!--<SolidColorBrush Color="#FF9735" Opacity="0.8"/>-->
         </DockPanel.Background>
         <Grid DockPanel.Dock="Top" Height="60" Margin="10">
             <!--<Button x:Name="OpenBackstage" Click="OpenBackstage_Click">
@@ -209,22 +216,9 @@
                                                     Margin="30">
                                         <ListView.View>
                                             <GridView>
-                                                <GridViewColumn Width="auto">
-                                                    <GridViewColumn.Header>
-                                                        <GridViewColumnHeader Tag="Mã Bánh">Mã Bánh</GridViewColumnHeader>
-                                                    </GridViewColumn.Header>
-                                                    <GridViewColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <Grid Width="200">
-                                                                <TextBlock Text="{Binding ID}" 
-                                                                           HorizontalAlignment="Center"/>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </GridViewColumn.CellTemplate>
-                                                </GridViewColumn>
                                                 <GridViewColumn Width="500" DisplayMemberBinding="{Binding NameTypeCake}">
                                                     <GridViewColumn.Header>
-                                                        <GridViewColumnHeader Tag="Tên Bánh">Tên Bánh</GridViewColumnHeader>
+                                                        <GridViewColumnHeader Tag="Tên Loại Bánh">Tên Loại Bánh</GridViewColumnHeader>
                                                     </GridViewColumn.Header>
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
@@ -285,7 +279,7 @@
                                         <TextBox Text="1" FontSize="15"   Width="30" FontWeight="DemiBold"
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"/>
-                                        <Label Name="totalPages" Content="/1" FontSize="20" 
+                                        <Label Name="totalTypeCakePages" Content="/1" FontSize="20" 
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"/>
 
@@ -318,7 +312,7 @@
                             </Fluent:BackstageTabItem>
                             <Fluent:BackstageTabItem x:Name="cakeItem" Header="Bánh" FontSize="15" FontWeight="DemiBold"
                                                      MouseLeftButtonDown="BackstageTabItem_MouseLeftButtonDown">
-                                <!--<Grid>
+                                <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="9*"/>
                                         <RowDefinition Height="0.5*"/>
@@ -326,17 +320,12 @@
                                     </Grid.RowDefinitions>
                                     <ListView 
                                                     Grid.Row="0"
-                                                    x:Name="typeCakeListViewRibbon"
+                                                    x:Name="cakeListViewRibbon"
                                                     Foreground="Black"
                                                     Margin="30">
                                         <ListView.View>
                                             <GridView>
-                                                <GridViewColumn Width="200" DisplayMemberBinding="{Binding TENTV}">
-                                                    <GridViewColumn.Header>
-                                                        <GridViewColumnHeader Tag="Mã Bánh">Mã Bánh</GridViewColumnHeader>
-                                                    </GridViewColumn.Header>
-                                                </GridViewColumn>
-                                                <GridViewColumn Width="600" DisplayMemberBinding="{Binding SDT}">
+                                                <GridViewColumn Width="400" DisplayMemberBinding="{Binding NameCake}">
                                                     <GridViewColumn.Header>
                                                         <GridViewColumnHeader Tag="Tên Bánh">Tên Bánh</GridViewColumnHeader>
                                                     </GridViewColumn.Header>
@@ -346,48 +335,107 @@
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
                                                 </GridViewColumn>
-                                                <GridViewColumn Width="auto" DisplayMemberBinding="{Binding EMAIL}">
+                                                <GridViewColumn Width="auto" >
                                                     <GridViewColumn.Header>
-                                                        <GridViewColumnHeader Tag="Số Chủng Loại">Số Chủng Loại</GridViewColumnHeader>
+                                                        <GridViewColumnHeader Tag="Loại Bánh">Loại bánh</GridViewColumnHeader>
                                                     </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="300">
+                                                                <TextBlock Text="{Binding Type}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="auto" >
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Giá Bán">Giá Bán</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200">
+                                                                <TextBlock Text="{Binding Price, Converter={StaticResource moneyConverter}}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="100" >
+                                                    <GridViewColumn.HeaderTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Width="100" TextWrapping="Wrap" Background="Brown" 
+                                                                       Margin="5 0">
+                                                                <Run Text="{Binding}"/>
+                                                            </TextBlock>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.HeaderTemplate>
+                                                    <GridViewColumnHeader Content="Tồn kho" Background="Red"/>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="100" Background="Aqua">
+                                                                <TextBlock Text="{Binding Amount}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn>
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Còn Hạn Sử Dụng">
+                                                            <TextBlock Width="150" TextWrapping="Wrap">
+                                                                <Run Text="Còn Hạn"/>
+                                                                <LineBreak/>
+                                                                <Run Text="Sử Dụng"/>
+                                                            </TextBlock>
+                                                        </GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="150">
+                                                                <TextBlock Text="{Binding CountInValidDate}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
                                                 </GridViewColumn>
                                             </GridView>
                                         </ListView.View>
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
-                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TypeCake_PreviewMouseLeftButtonDown" />
+                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
                                             </Style>
                                         </ListView.ItemContainerStyle>
                                     </ListView>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
                                                         Grid.Row="1" Margin="0 -25 40 35">
-                                        <Button x:Name="firstPageBtn" Style="{StaticResource suggestWordButton}"
+                                        <Button x:Name="firstPageCakeBtn" Style="{StaticResource suggestWordButton}"
                                                         Margin="5 0">
                                             <Button.Content>
                                                 <Image Source="/Images/control-icon/first-page.png" MaxHeight="20"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button x:Name="prevPageBtn" Style="{StaticResource suggestWordButton}"
+                                        <Button x:Name="prevPageCakeBtn" Style="{StaticResource suggestWordButton}"
                                                         Margin="5 0">
                                             <Button.Content>
                                                 <Image Source="/Images/control-icon/prev-page.png" MaxHeight="20"/>
                                             </Button.Content>
                                         </Button>
 
-                                        <TextBox Text="1" FontSize="20"  
+                                        <TextBox Text="1" FontSize="15"   Width="30" FontWeight="DemiBold"
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"/>
-                                        <Label Name="totalPages" Content="/1" FontSize="20" 
+                                        <Label Name="totalProductsPages" Content="/1" FontSize="20" 
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"/>
 
-                                        <Button x:Name="nextPageBtn" Style="{StaticResource suggestWordButton}"
+                                        <Button x:Name="nextPageCakeBtn" Style="{StaticResource suggestWordButton}"
                                                         Margin="5 0">
                                             <Button.Content>
                                                 <Image Source="/Images/control-icon/next-page.png" MaxHeight="20"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button x:Name="lastPageBtn" Style="{StaticResource suggestWordButton}"
+                                        <Button x:Name="lastPageCakeBtn" Style="{StaticResource suggestWordButton}"
                                                         Margin="5 0">
                                             <Button.Content>
                                                 <Image Source="/Images/control-icon/last-page.png" MaxHeight="20"/>
@@ -395,7 +443,7 @@
                                         </Button>
                                     </StackPanel>
                                     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <Button x:Name="addNewTypeCakeBtn"
+                                        <Button x:Name="addNewCakeBtn"
                                                 Content="Thêm Loại Bánh"
                                                 Margin="10 -10 50 10"
                                                 Padding="5"
@@ -403,10 +451,10 @@
                                                 Foreground="White"
                                                 Background="#0078D7"
                                                 Style="{DynamicResource sgraykbtnstyle}"
-                                                Click="addNewTypeCake_Click"/>
+                                                Click="addItem_Click"/>
 
                                     </StackPanel>
-                                </Grid>-->
+                                </Grid>
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>
                             <Fluent:BackstageTabItem Header="Nhập Kho" FontSize="15" FontWeight="DemiBold">
@@ -494,7 +542,7 @@
                 </Grid>
                 <!--this will be list suggest word-->
                 <StackPanel Grid.Row="2" Margin="80 20" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Button Style="{DynamicResource suggestWordButton}" Content="Sort / Filter" Width="50"/>
+                    <Button Style="{DynamicResource suggestWordButton}" Content="Sort / Filter" Width="150"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="1">
@@ -503,43 +551,100 @@
                     <RowDefinition Height="7*"/>
                     <RowDefinition Height="1.5*"/>
                 </Grid.RowDefinitions>
-                <Border x:Name="borderOfListView" 
-                        Opacity="0.8"
-                        Margin="10"
-                        VerticalAlignment="Top"
-                        BorderBrush="#F73148"
-                        BorderThickness=".5"
-                        CornerRadius="18"
-                        Grid.Row="1">
+                <Border Grid.Row="1" Panel.ZIndex="-1" Opacity="0.9" Margin="0 0 60 0">
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="5"
                                           Opacity=".5"
                                           ShadowDepth="3" />
                     </Border.Effect>
-                    <Border Name="ReceiverColor"
+                    <Border 
+                            BorderBrush="White"
+                            Background="Transparent"
+                            BorderThickness="3.5"
+                            CornerRadius="15">
+                    </Border>
+                </Border>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="20 20 80 20"
+                        Panel.ZIndex="1">
+                    <Border x:Name="borderOfListView" 
+                            Margin="10"
+                            VerticalAlignment="Top"
+                            BorderBrush="#F73148"
+                            BorderThickness=".5"
+                            CornerRadius="18"
+                            Height="100" Width="100">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="5"
+                                          Opacity=".5"
+                                          ShadowDepth="3" />
+                        </Border.Effect>
+                        <Border Name="ReceiverColor"
                             BorderBrush="#F73148"
                             BorderThickness="0"
                             CornerRadius="15">
-                        <Grid>
-                            <Border Name="Mask"
-                                            Background="#FFEEE0"
-                                            BorderBrush="#F73148"
-                                            BorderThickness=".5"
-                                            CornerRadius="13">
-                            </Border>
-                            <!--this is list of cake-->
-                            <StackPanel>
-                                <Image x:Name="splashImg"
+                            <Canvas>
+                                <Border Name="Mask"
+                                    Background="{StaticResource listCakeBackgroundColor}"
+                                    BorderBrush="#F73148"
+                                    BorderThickness=".5"
+                                    CornerRadius="13"
+                                    Height="100" Width="100">
+                                </Border>
+                                <!--this is list of cake-->
+                                <StackPanel>
+                                    <Image x:Name="splashImg"
                                                Stretch="Fill"
                                                VerticalAlignment="Top"
-                                               Source="/Images/Background/cake-1850011_1920.jpg"/>
-                                <StackPanel.OpacityMask>
-                                    <VisualBrush Visual="{Binding ElementName=Mask}" />
-                                </StackPanel.OpacityMask>
-                            </StackPanel>
-                        </Grid>
+                                               Source="/Images/Background/cake-1850011_1920.jpg"
+                                        Height="100" Width="100"/>
+
+                                    <StackPanel.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                    </StackPanel.OpacityMask>
+                                </StackPanel>
+                            </Canvas>
+                        </Border>
                     </Border>
-                </Border>
+                    <Border x:Name="borderOfListViewxx" 
+                            Margin="10"
+                            VerticalAlignment="Top"
+                            BorderBrush="#F73148"
+                            BorderThickness=".5"
+                            CornerRadius="18"
+                            Height="100" Width="100">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="5"
+                                          Opacity=".5"
+                                          ShadowDepth="3" />
+                        </Border.Effect>
+                        <Border Name="ReceiverColorx"
+                            BorderBrush="#F73148"
+                            BorderThickness="0"
+                            CornerRadius="15">
+                            <Canvas>
+                                <Border Name="Maskx"
+                                    Background="{StaticResource listCakeBackgroundColor}"
+                                    BorderBrush="#F73148"
+                                    BorderThickness=".5"
+                                    CornerRadius="13"
+                                    Height="100" Width="100">
+                                </Border>
+                                <!--this is list of cake-->
+                                <StackPanel>
+                                    <Image x:Name="splashImgx"
+                                               Stretch="Fill"
+                                               VerticalAlignment="Top"
+                                               Source="/Images/Background/cake-1850011_1920.jpg"
+                                        Height="100" Width="100"/>
+
+                                    <StackPanel.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                    </StackPanel.OpacityMask>
+                                </StackPanel>
+                            </Canvas>
+                        </Border>
+                    </Border>
+                </StackPanel>
             </Grid>
         </Grid>
     </DockPanel>

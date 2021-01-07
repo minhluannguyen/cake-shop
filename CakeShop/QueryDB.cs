@@ -77,6 +77,23 @@ namespace CakeShop
 
             return query.Last().ID;
         }
+        public bool hasSameNameTypeCake(TypeCake Type)
+        {
+            var listTypeCake = db.TypeCakes.ToList();
+            foreach(var item in listTypeCake)
+            {
+                if (item.ID != Type.ID && item.NameTypeCake.Equals(Type.NameTypeCake))
+                {
+                    return true;
+                }
+                else
+                {
+                    // do nothing
+                }
+            }
+
+            return false;
+        }
         public void addATypeCake(TypeCake typeCake)
         {
             db.TypeCakes.Add(typeCake);
@@ -93,6 +110,25 @@ namespace CakeShop
             var type = db.TypeCakes.Find(typeCake.ID);
             db.TypeCakes.Remove(type);
             db.SaveChanges();
+        }
+
+        public dynamic getBindingCakeList()
+        {
+            var query = db.Products
+                        .Select(product => new
+                        {
+                            NameCake = product.Name,
+                            Type = "none",
+                            Price = product.Price,
+                            Amount = product.Amount,
+                            CountInValidDate = 0,
+                        });
+            //foreach (var item in query.ToList())
+            //{
+            //    Debug.WriteLine($"/> {item.Key.NameTypeCake}");
+            //    Debug.WriteLine($"-- {item.liQua.Sum(x => x ?? 0)}");
+            //}
+            return query.ToList();
         }
     }
 }

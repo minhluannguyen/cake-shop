@@ -89,15 +89,22 @@ namespace CakeShop
         private void actionBtn_Click(object sender, RoutedEventArgs e)
         {
             //Debug.WriteLine($"--{this.Type.NameTypeCake}");
-            if(this.Action == ConstantVariable.ADD_TYPECAKE)
+            if (!QueryDB.Instance.hasSameNameTypeCake(this.Type))
             {
-                QueryDB.Instance.addATypeCake(this.Type);
+                if (this.Action == ConstantVariable.ADD_TYPECAKE)
+                {
+                    QueryDB.Instance.addATypeCake(this.Type);
+                }
+                else if (this.Action == ConstantVariable.UPDATE_TYPECAKE)
+                {
+                    QueryDB.Instance.updateATypeCake(this.Type);
+                }
+                this.Close();
             }
-            else if (this.Action == ConstantVariable.UPDATE_TYPECAKE)
+            else
             {
-                QueryDB.Instance.updateATypeCake(this.Type);
+                MessageBox.Show("Đã tồn tại tên loại bánh này!");
             }
-            this.Close();
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)

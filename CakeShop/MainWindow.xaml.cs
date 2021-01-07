@@ -46,14 +46,20 @@ namespace CakeShop
 
         private void BackstageTabItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var senderItem = sender as Fluent.BackstageTabItem;            
+            var senderItem = sender as Fluent.BackstageTabItem;
+            dynamic query;
 
             switch (senderItem.Name)
             {
                 case "TypeCakeItem":
                     this.RibbonItem = ConstantVariable.RIBBON_TYPECAKE;
-                    var query = QueryDB.Instance.getBindingTypeCake();
+                    query = QueryDB.Instance.getBindingTypeCake();
                     typeCakeListViewRibbon.ItemsSource = query;
+                    break;
+                case "cakeItem":
+                    this.RibbonItem = ConstantVariable.RIBBON_CAKE;
+                    query = QueryDB.Instance.getBindingCakeList();
+                    cakeListViewRibbon.ItemsSource = query;
                     break;
             }
         }

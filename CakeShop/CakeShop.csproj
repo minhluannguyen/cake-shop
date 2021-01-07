@@ -113,6 +113,7 @@
     <Compile Include="DialogTypeCake.xaml.cs">
       <DependentUpon>DialogTypeCake.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IntToMoneyStringConverter.cs" />
     <Compile Include="IsEmptyStringConverter.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>CakeStoreDB.tt</DependentUpon>
@@ -650,6 +651,7 @@
       <DependentUpon>CakeStoreDB.edmx</DependentUpon>
       <LastGenOutput>CakeStoreDB.cs</LastGenOutput>
     </Content>
+    <Resource Include="Images\Background\mainWindow.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

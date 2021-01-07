@@ -68,20 +68,7 @@
                        Foreground="{StaticResource showColor}" FontWeight="Bold" FontSize="20"/>
         </Grid>
         <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="1.5*"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="*"/>                    
-                </Grid.ColumnDefinitions>
-                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Text="ID:" FontSize="18"/>
-                <TextBlock Padding="10, 0, 0, 0" Name="ID" VerticalAlignment="Center" FontSize="18" Grid.Column="1"        
-                           Text="{Binding Type.ID, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Converter={StaticResource intToStringConverter}}" />
-            </Grid>
-            <Grid Grid.Row="1" Margin="20 20 20 5">
+            <Grid Margin="30 40 30 15">
                 <TextBlock Padding="10, 0, 0, 0" Text="Enter keyword" Name="keywordPlaceholderTextBlock" 
                            FontStyle="Italic" VerticalAlignment="Center" Margin="5"/>
                 <TextBox Name="keywordTextBox" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"  
@@ -93,9 +80,9 @@
             <Button x:Name="actionBtn" Content="{Binding ActionName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" 
                     Margin="0 0 10 0" Click="actionBtn_Click" Padding="5" MaxHeight="40" MinWidth="60" 
                     Style="{DynamicResource sgraykbtnstyle}"/>
-            <Button x:Name="cancelBtn" Content="Thoát" Margin="0 0 10 0" Click="cancelBtn_Click" Padding="5" 
+            <Button x:Name="deleteBtn" Content="Xóa" Margin="0 0 10 0" Click="deleteBtn_Click" Padding="5" 
                     MaxHeight="40" MinWidth="60" Style="{DynamicResource sgraykbtnstyle}"/>
-            <Button x:Name="deleteBtn" Content="Xóa" Margin="0 0 50 0" Click="deleteBtn_Click" Padding="5" 
+            <Button x:Name="cancelBtn" Content="Thoát" Margin="0 0 50 0" Click="cancelBtn_Click" Padding="5" 
                     MaxHeight="40" MinWidth="60" Style="{DynamicResource sgraykbtnstyle}"/>
         </StackPanel>
     </Grid>
