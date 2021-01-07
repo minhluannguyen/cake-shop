@@ -75,6 +75,13 @@ namespace CakeShop
                     Debug.WriteLine($"{(sender as TypeCake).NameTypeCake} - {action}");
                     this.BackstageTabItem_MouseLeftButtonDown(this.TypeCakeItem, null);
                     break;
+
+                case ConstantVariable.ADD_CAKE:
+                case ConstantVariable.UPDATE_CAKE:
+                case ConstantVariable.DEL_CAKE:
+                    //Debug.WriteLine($"{(sender as Product).Name} - {action}");
+                    //this.BackstageTabItem_MouseLeftButtonDown(this.cakeItem, null);
+                    break;
             }
         }
         private void addItem_Click(object sender, RoutedEventArgs e)
@@ -84,19 +91,25 @@ namespace CakeShop
             switch (senderButton.Name)
             {
                 case "addNewTypeCakeBtn":
-                    var screen = new DialogTypeCake(null, ConstantVariable.ADD_TYPECAKE);
-                    screen.handler += this.ObjectWindowHandler;
-                    screen.Owner = this;
-                    screen.ShowDialog();
+                    {
+                        var screen = new DialogTypeCake(null, ConstantVariable.ADD_TYPECAKE);
+                        screen.handler += this.ObjectWindowHandler;
+                        screen.Owner = this;
+                        screen.ShowDialog();
+                    }
 
+                    break;
+                case "addNewCakeBtn":
+                    {
+                        var screen = new DialogCake(null, ConstantVariable.ADD_CAKE);
+                        screen.handler += this.ObjectWindowHandler;
+                        screen.Owner = this;
+                        screen.ShowDialog();
+                    }
                     break;
             }
         }
 
-        private void TypeCake_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
 
         private void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

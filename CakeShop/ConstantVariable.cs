@@ -14,6 +14,11 @@ namespace CakeShop
         public const int UPDATE_TYPECAKE = 0;
         public const int ADD_TYPECAKE = 1;
         public const int DEL_TYPECAKE = 2;
+
+        public const int UPDATE_CAKE = 3;
+        public const int ADD_CAKE = 4;
+        public const int DEL_CAKE = 5;
+
         //public const int UPDATE_CAKE = 2;
         //public const int ADD_CAKE = 3;
         //public const int UPDATE_JOURNEY = 4;

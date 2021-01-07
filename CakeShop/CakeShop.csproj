@@ -110,6 +110,9 @@
       <DependentUpon>CakeStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CustomXMLExtension.cs" />
+    <Compile Include="DialogCake.xaml.cs">
+      <DependentUpon>DialogCake.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DialogTypeCake.xaml.cs">
       <DependentUpon>DialogTypeCake.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,10 @@
       <DependentUpon>CakeStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="WPF_IntToStringConverter.cs" />
+    <Page Include="DialogCake.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DialogTypeCake.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

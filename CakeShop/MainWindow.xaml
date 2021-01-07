@@ -325,7 +325,7 @@
                                                     Margin="30">
                                         <ListView.View>
                                             <GridView>
-                                                <GridViewColumn Width="400" DisplayMemberBinding="{Binding NameCake}">
+                                                <GridViewColumn Width="300" DisplayMemberBinding="{Binding NameCake}">
                                                     <GridViewColumn.Header>
                                                         <GridViewColumnHeader Tag="Tên Bánh">Tên Bánh</GridViewColumnHeader>
                                                     </GridViewColumn.Header>
@@ -341,9 +341,9 @@
                                                     </GridViewColumn.Header>
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <Grid Width="300">
+                                                            <Grid Width="200">
                                                                 <TextBlock Text="{Binding Type}" 
-                                                                           HorizontalAlignment="Center"/>
+                                                                           HorizontalAlignment="Left"/>
                                                             </Grid>
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
@@ -361,19 +361,18 @@
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
                                                 </GridViewColumn>
-                                                <GridViewColumn Width="100" >
+                                                <GridViewColumn Width="200">
                                                     <GridViewColumn.HeaderTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Width="100" TextWrapping="Wrap" Background="Brown" 
-                                                                       Margin="5 0">
-                                                                <Run Text="{Binding}"/>
+                                                            <TextBlock TextWrapping="Wrap"
+                                                                       Margin="0">
+                                                                <Run Text="Tồn kho"/>
                                                             </TextBlock>
                                                         </DataTemplate>
                                                     </GridViewColumn.HeaderTemplate>
-                                                    <GridViewColumnHeader Content="Tồn kho" Background="Red"/>
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <Grid Width="100" Background="Aqua">
+                                                            <Grid Width="200">
                                                                 <TextBlock Text="{Binding Amount}" 
                                                                            HorizontalAlignment="Center"/>
                                                             </Grid>
@@ -381,18 +380,20 @@
                                                     </GridViewColumn.CellTemplate>
                                                 </GridViewColumn>
                                                 <GridViewColumn>
-                                                    <GridViewColumn.Header>
-                                                        <GridViewColumnHeader Tag="Còn Hạn Sử Dụng">
-                                                            <TextBlock Width="150" TextWrapping="Wrap">
-                                                                <Run Text="Còn Hạn"/>
-                                                                <LineBreak/>
-                                                                <Run Text="Sử Dụng"/>
-                                                            </TextBlock>
-                                                        </GridViewColumnHeader>
-                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.HeaderTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200" HorizontalAlignment="Center">
+                                                                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center">
+                                                                    <Run Text="Còn Hạn"/>
+                                                                    <LineBreak/>
+                                                                    <Run Text="Sử Dụng"/>
+                                                                </TextBlock>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.HeaderTemplate>
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <Grid Width="150">
+                                                            <Grid Width="200">
                                                                 <TextBlock Text="{Binding CountInValidDate}" 
                                                                            HorizontalAlignment="Center"/>
                                                             </Grid>
@@ -444,7 +445,7 @@
                                     </StackPanel>
                                     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
                                         <Button x:Name="addNewCakeBtn"
-                                                Content="Thêm Loại Bánh"
+                                                Content="Thêm Bánh"
                                                 Margin="10 -10 50 10"
                                                 Padding="5"
                                                 FontSize="13"
@@ -489,10 +490,10 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="1" Margin="20">
                     <TextBlock Padding="15" Background="#FFEED3"
-                               Margin="10 10 10 10"/>
+                               Margin="20 10 10 10"/>
                     <TextBox x:Name="txtboxSearch" FontSize="20" Padding="5" 
                              Foreground="{StaticResource showColor}" TextWrapping="Wrap"
-                             Margin="10 10 10 10"
+                             Margin="20 10 10 10"
                              KeyDown="txtboxSearch_KeyDown"
                          >
                         <TextBox.Style>

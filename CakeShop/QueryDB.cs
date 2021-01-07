@@ -115,14 +115,18 @@ namespace CakeShop
         public dynamic getBindingCakeList()
         {
             var query = db.Products
-                        .Select(product => new
-                        {
-                            NameCake = product.Name,
-                            Type = "none",
-                            Price = product.Price,
-                            Amount = product.Amount,
-                            CountInValidDate = 0,
-                        });
+                        .Join(db.TypeCakes,
+                            product => product.IDTypeCake,
+                            type => type.ID,
+                            (product, type) => new
+                            {
+                                NameCake = product.Name,
+                                Type = type.NameTypeCake,
+                                Price = product.Price,
+                                Amount = product.Amount,
+                                CountInValidDate = product.Amount,
+                            }
+                        );
             //foreach (var item in query.ToList())
             //{
             //    Debug.WriteLine($"/> {item.Key.NameTypeCake}");
@@ -130,5 +134,75 @@ namespace CakeShop
             //}
             return query.ToList();
         }
+
+        public int getLastIDCake()
+        {
+            var query = db.Products.ToList();
+            if (query.Count == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return query.Last().ID;
+            }
+        }
+        public dynamic getListImageOfProduct(int ID)
+        {
+            var entityVal = db.Products.Find(ID);
+            
+            if (entityVal != null)
+            {
+                var query = db.ProductImages
+                        .Where(
+                            entity => entity.ID_Product == entityVal.ID
+                        );
+                return query.ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public bool hasSameCake(Product product)
+        {
+            var listCake = db.Products.ToList();
+            foreach (var item in listCake)
+            {
+                if (item.ID != product.ID && item.Name.Equals(product.Name) && item.IDTypeCake == product.IDTypeCake)
+                {
+                    return true;
+                }
+                else
+                {
+                    // do nothing
+                }
+            }
+
+            return false;
+        }
+        public void addACake(Product product)
+        {
+            db.Products.Add(product);
+            db.SaveChanges();
+        }
+        public void updateACake(Product product)
+        {
+            var cake = db.Products.Find(product.ID);
+
+            cake.Name = product.Name;
+            cake.IDTypeCake = product.IDTypeCake;
+            cake.Price = product.Price;
+            cake.Description = product.Description;
+
+            db.SaveChanges();
+        }
+        public void deleteACake(Product product)
+        {
+            var cake = db.TypeCakes.Find(product.ID);
+            db.TypeCakes.Remove(cake);
+            db.SaveChanges();
+        }
+
     }
 }
