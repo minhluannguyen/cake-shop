@@ -58,9 +58,13 @@ namespace CakeShop
                 this.Cake.Price = product.Price;
 
                 var listQuery = QueryDB.Instance.getListImageOfProduct(this.Cake.ID);
+
                 foreach(var image in listQuery)
                 {
                     this.listCurrentImage.Add(image.ImageName);
+
+                    string ImagePath = $"{Directory.GetCurrentDirectory()}\\Images";
+                    File.Copy($"{ImagePath}\\Products\\{image.ImageName}", $"{ImagePath}\\ImagesTemp\\{image.ImageName}");
                 }
 
                 this.listImageOfProduct.ItemsSource = this.listCurrentImage;
@@ -181,14 +185,7 @@ namespace CakeShop
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            string CurrentPath = $"{Directory.GetCurrentDirectory()}\\Images\\ImagesTemp";
-            
-            DirectoryInfo directoryInfo = new DirectoryInfo(CurrentPath);
 
-            foreach (FileInfo file in directoryInfo.GetFiles())
-            {
-                file.Delete();
-            }
         }
 
         //private void TextBox_GotFocus(object sender, RoutedEventArgs e)

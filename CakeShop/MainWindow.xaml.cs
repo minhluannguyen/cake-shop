@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -105,6 +106,7 @@ namespace CakeShop
                         screen.handler += this.ObjectWindowHandler;
                         screen.Owner = this;
                         screen.ShowDialog();
+
                     }
                     break;
             }
@@ -152,6 +154,7 @@ namespace CakeShop
                             screen.handler += this.ObjectWindowHandler;
                             screen.Owner = this;
                             screen.ShowDialog();
+
                         }
 
                         break;
@@ -160,6 +163,11 @@ namespace CakeShop
             }
 
             
+        }
+
+        private void RibbonWindow_Closed(object sender, EventArgs e)
+        {
+            StaticTask.Instance.cleanFileInDirectory($"{Directory.GetCurrentDirectory()}\\Images\\ImagesTemp");
         }
     }
 }

@@ -18,7 +18,7 @@ namespace CakeShop
             string Path = $"{Directory.GetCurrentDirectory()}";
             Directory.CreateDirectory($"{Path}\\Images\\Products\\");  // if not exist
 
-            Path = $"{Path}\\Images\\Products\\{nameImage}";
+            Path = $"{Path}\\Images\\ImagesTemp\\{nameImage}";
             Debug.WriteLine($">{Path}<");
 
             return Path;
