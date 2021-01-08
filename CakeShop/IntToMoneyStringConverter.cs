@@ -28,20 +28,26 @@ namespace CakeShop
             {
                 // do nothing
             }
-
+            int startInsert = (moneyString.Length % 3 == 0 ? 3 : moneyString.Length % 3);
             for (int i = 0; i < countComma; i++)
             {
-                int positionComma = moneyString.Length % 3 + 3 * i;
+                int positionComma = startInsert + 3 * i + i;
                 stringBuilder.Insert(positionComma, ',');
             }            
 
             stringBuilder.Append(" VNĐ");
+
+
+            Debug.WriteLine($"{moneyVal} - {stringBuilder.ToString()}");
+
             return stringBuilder.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            var moneyVal = Int32.Parse(value as string);
+
+            return moneyVal;
         }
     }
 }

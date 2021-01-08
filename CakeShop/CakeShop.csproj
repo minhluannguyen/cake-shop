@@ -118,6 +118,7 @@
     </Compile>
     <Compile Include="IntToMoneyStringConverter.cs" />
     <Compile Include="IsEmptyStringConverter.cs" />
+    <Compile Include="LinkImageConverter.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>CakeStoreDB.tt</DependentUpon>
     </Compile>
@@ -143,6 +144,7 @@
     <Compile Include="TypeCake.cs">
       <DependentUpon>CakeStoreDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="TypeCakeNameConverter.cs" />
     <Compile Include="WPF_IntToStringConverter.cs" />
     <Page Include="DialogCake.xaml">
       <SubType>Designer</SubType>
@@ -658,6 +660,7 @@
       <DependentUpon>CakeStoreDB.edmx</DependentUpon>
       <LastGenOutput>CakeStoreDB.cs</LastGenOutput>
     </Content>
+    <Resource Include="Images\control-icon\photo.png" />
     <Resource Include="Images\Background\mainWindow.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

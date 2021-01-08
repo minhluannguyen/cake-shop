@@ -15,6 +15,9 @@
     <Fluent:RibbonWindow.Resources>
         <local:IsEmptyStringConverter x:Key="stringConverter"/>
         <local:IntToMoneyStringConverter x:Key="moneyConverter"/>
+        <local:TypeCakeNameConverter x:Key="IDtoNameTypeCakeConverter"/>
+
+
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
@@ -342,7 +345,7 @@
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <Grid Width="200">
-                                                                <TextBlock Text="{Binding Type}" 
+                                                                <TextBlock Text="{Binding Type, Converter={StaticResource IDtoNameTypeCakeConverter}}" 
                                                                            HorizontalAlignment="Left"/>
                                                             </Grid>
                                                         </DataTemplate>

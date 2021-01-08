@@ -120,17 +120,39 @@ namespace CakeShop
                 switch (this.RibbonItem)
                 {
                     case ConstantVariable.RIBBON_TYPECAKE:
-                        dynamic selectedItem = typeCakeListViewRibbon.SelectedItem;
-                        //MessageBox.Show($"{selectedItem.NameTypeCake}");
+                        {
+                            dynamic selectedItem = typeCakeListViewRibbon.SelectedItem;
+                            //MessageBox.Show($"{selectedItem.NameTypeCake}");
 
-                        TypeCake typeCake = new TypeCake();
-                        typeCake.ID = selectedItem.ID;
-                        typeCake.NameTypeCake = selectedItem.NameTypeCake;
+                            TypeCake typeCake = new TypeCake();
+                            typeCake.ID = selectedItem.ID;
+                            typeCake.NameTypeCake = selectedItem.NameTypeCake;
 
-                        var screen = new DialogTypeCake(typeCake, ConstantVariable.UPDATE_TYPECAKE);
-                        screen.handler += this.ObjectWindowHandler;
-                        screen.Owner = this;
-                        screen.ShowDialog();
+                            var screen = new DialogTypeCake(typeCake, ConstantVariable.UPDATE_TYPECAKE);
+                            screen.handler += this.ObjectWindowHandler;
+                            screen.Owner = this;
+                            screen.ShowDialog();
+                        }
+
+                        break;
+
+                    case ConstantVariable.RIBBON_CAKE:
+                        {
+                            dynamic selectedItem = cakeListViewRibbon.SelectedItem;
+                            //MessageBox.Show($"{selectedItem.NameTypeCake}");
+
+                            Product product = new Product();
+                            product.ID = selectedItem.ID;
+                            product.Name = selectedItem.NameCake;
+                            product.Price = selectedItem.Price;
+                            product.IDTypeCake = selectedItem.Type;
+                            product.Description = selectedItem.Description;
+
+                            var screen = new DialogCake(product, ConstantVariable.UPDATE_CAKE);
+                            screen.handler += this.ObjectWindowHandler;
+                            screen.Owner = this;
+                            screen.ShowDialog();
+                        }
 
                         break;
                 }

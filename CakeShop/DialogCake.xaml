@@ -8,12 +8,14 @@
         Title="DialogCake" Height="600" Width="900"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        Closed="Window_Closed">
     <Window.Resources>
         <local:WPF_IntToStringConverter x:Key="intToStringConverter"/>
         <local:IsEmptyStringConverter x:Key="stringConverter"/>
         <local:IntToMoneyStringConverter x:Key="moneyConverter"/>
-
+        <local:LinkImageConverter x:Key="LinkImgConverter"/>
+        <local:TypeCakeNameConverter x:Key="IDtoNameTypeCakeConverter"/>
 
         <SolidColorBrush x:Key="listCakeBackgroundColor" Color="White"/>
         <SolidColorBrush x:Key="borderBtnEnable" Color="White"/>
@@ -128,11 +130,12 @@
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="1.5*"/>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" Margin="15 5">
+                <Grid Grid.Column="0" Margin="10 5">
                     <TextBlock Padding="15" Background="#FFEED3"
                                Margin="10 10 10 10"/>
                     <TextBox x:Name="inputName" FontSize="15" Padding="30 5 5 0" 
-                             Foreground="{StaticResource showColor}" TextWrapping="Wrap"
+                             Foreground="{StaticResource showColor}" TextWrapping="Wrap" 
+                             Text="{Binding Cake.Name, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
                              Margin="10 10 10 10"
                              KeyDown="TextBoxInput_KeyDown"
                          >
@@ -176,15 +179,19 @@
                         </TextBox.Style>
                     </TextBox>
                 </Grid>
-                <Grid Grid.Column="1" Margin="15 10">
-                    <Button x:Name="NameTypeCake" Style="{StaticResource suggestWordButton}" Content="Type"
+                <Grid Grid.Column="1" Margin="10 10 15 10">
+                    <Button x:Name="NameTypeCake" Style="{StaticResource suggestWordButton}" 
+                            Content="{Binding Cake.IDTypeCake, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},
+                        Converter={StaticResource IDtoNameTypeCakeConverter}}"
                             FontSize="15"/>
                 </Grid>
-                <Grid Grid.Column="2" Margin="15 5">
+                <Grid Grid.Column="2" Margin="0 5">
                     <TextBlock Padding="15" Background="#FFEED3"
                                Margin="10 10 10 10"/>
-                    <TextBox x:Name="inputAmount" FontSize="15" Padding="30 5 5 0" 
+                    <TextBox x:Name="inputAmount" FontSize="15" Padding="10 5 5 0" 
                              Foreground="{StaticResource showColor}" TextWrapping="Wrap"
+                             Text="{Binding Cake.Price, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},
+                        Converter={StaticResource moneyConverter}}"
                              Margin="10 10 10 10"
                              KeyDown="TextBoxInput_KeyDown"
                          >
@@ -196,7 +203,7 @@
                                             <StackPanel 
                                                 Orientation="Horizontal"
                                             >
-                                                <Label Content="Số Lượng" Margin="0 0 0 0" 
+                                                <Label Content="Giá" Margin="0 0 0 0" 
                                                        Foreground="{StaticResource hintTextColor}" FontSize="15" />
                                             </StackPanel>
 
@@ -264,6 +271,7 @@
                             <TextBox x:Name="inputDescription" FontSize="15" Padding="15" 
                                      Foreground="{StaticResource showColor}" TextWrapping="Wrap"
                                      KeyDown="TextBoxInput_KeyDown"
+                                     Text="{Binding Cake.Description, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
                                  >
                                 <TextBox.Style>
                                     <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
@@ -319,18 +327,100 @@
                             CornerRadius="15">
                         </Border>
                     </Border>
-                    <Grid Grid.Row="1" Margin="20 20 20 20"
+                    <Grid Grid.Row="1" Margin="20 20 20 0"
                         Panel.ZIndex="1">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="2*"/>
-                            <RowDefinition Height="8*"/>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="8.5*"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
                             <TextBlock Text="Danh sách ảnh" FontSize="20" Foreground="{StaticResource showColor}" TextAlignment="Center"
                                        VerticalAlignment="Center"/>
                         </Grid>
                         <Grid Grid.Row="1" Margin="0">
-                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8.5*"/>
+                                <RowDefinition Height="1.5*"/>
+                            </Grid.RowDefinitions>
+                            <ListView x:Name="listImageOfProduct">                                
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel 
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                        />      
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Cursor="Hand" Orientation="Horizontal">
+                                            <Grid>
+                                                <Grid.Resources>
+                                                    <Style TargetType="{x:Type Border}" x:Key="styleBorder">
+                                                        <Style.Triggers>
+                                                            <EventTrigger RoutedEvent="MouseEnter">
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="84" />
+                                                                        <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="126" />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </EventTrigger>
+                                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="76" />
+                                                                        <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="114" />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </EventTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Resources>                                                
+                                                <Border x:Name="imageItemBorder" 
+                                                            CornerRadius="20"
+                                                            Width="114" Height="76"
+                                                            Margin="0, 0, 0, 0"
+                                                            Style="{StaticResource styleBorder}">
+                                                    <Border.Background>
+                                                        <ImageBrush 
+                                                            Stretch="Fill"
+                                                            ImageSource="{Binding ImageName, Converter={StaticResource LinkImgConverter}}"
+                                                            RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                    </Border.Background>
+                                                </Border>
+                                                <Button 
+                                                    Width="20"
+                                                    Height="20"
+                                                    Background="Transparent"
+                                                    BorderBrush="Transparent"
+                                                    VerticalAlignment="Top"
+                                                    HorizontalAlignment="Right" Click="DeleteImageOfProduct_Click"
+                                                >
+                                                    <Button.Content>
+                                                        <Image 
+                                                                RenderOptions.BitmapScalingMode="HighQuality"
+                                                                Width="15" Height="15" 
+                                                                Source="/Images/remove.png"
+
+                                                            />
+                                                    </Button.Content>
+                                                </Button>
+
+                                            </Grid>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                            <Button x:Name="addNewImg" Click="addNewImg_Click"  Panel.ZIndex="1" Grid.Row="1" 
+                                    HorizontalAlignment="Right" Margin="30 5" Padding="0"
+                                                    Style="{StaticResource suggestWordButton}">
+                                <Button.Content>
+                                    <Image Source="/Images/control-icon/photo.png" Height="30" Width="30" 
+                                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </Button.Content>
+                            </Button>
                         </Grid>
                     </Grid>
                 </Grid>

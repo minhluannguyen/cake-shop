@@ -77,6 +77,19 @@ namespace CakeShop
 
             return query.Last().ID;
         }
+        public string getNameTypeCakeByID(int ID)
+        {
+            var entityVal = db.TypeCakes.Find(ID);
+
+            if (entityVal != null)
+            {
+                return entityVal.NameTypeCake;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public bool hasSameNameTypeCake(TypeCake Type)
         {
             var listTypeCake = db.TypeCakes.ToList();
@@ -120,11 +133,13 @@ namespace CakeShop
                             type => type.ID,
                             (product, type) => new
                             {
+                                ID = product.ID,
                                 NameCake = product.Name,
-                                Type = type.NameTypeCake,
+                                Type = type.ID,
                                 Price = product.Price,
                                 Amount = product.Amount,
                                 CountInValidDate = product.Amount,
+                                Description = product.Description,
                             }
                         );
             //foreach (var item in query.ToList())
