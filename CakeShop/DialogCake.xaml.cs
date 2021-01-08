@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace CakeShop
     /// <summary>
     /// Interaction logic for DialogCake.xaml
     /// </summary>
-    public partial class DialogCake : Window
+    public partial class DialogCake : Window, INotifyPropertyChanged
     {
         public delegate void WindowHandler(object sender, int action);
         public event WindowHandler handler;
@@ -33,6 +34,7 @@ namespace CakeShop
         public string TitleAction { set; get; }
 
         public Product Cake { set; get; }
+        public event PropertyChangedEventHandler PropertyChanged;
         private DialogCake()
         {
             InitializeComponent();
@@ -180,7 +182,37 @@ namespace CakeShop
 
         private void DeleteImageOfProduct_Click(object sender, RoutedEventArgs e)
         {
+            var removeBtn = (Button)sender;
+            //Get current item.
+            var senderStackPanel = (StackPanel)((Grid)(removeBtn).Parent).Parent;
+            //Get TextBlock contain item's id.
+            var NameImage = ((Label)VisualTreeHelper.GetChild(senderStackPanel, 1)).Content as string;
+            //MessageBox.Show($"{NameImage}");
+            Debug.WriteLine("==============================================");
+            ProductImage choosenItem = null;
+            foreach (var item in this.listCurrentImage)
+            {
+                Debug.WriteLine($"{item.ImageName} - {NameImage}");
+                if ((item.ImageName).Equals(NameImage))
+                {
+                    choosenItem = item;
+                    break;
+                }
+                else
+                {
+                    // do nothing
+                }
+            }
+            if(choosenItem != null)
+            {
+                this.listCurrentImage.Remove(choosenItem);
 
+                this.listImageOfProduct.ItemsSource = this.listCurrentImage;
+            }
+            else
+            {
+                //MessageBox.Show("Khong tim thay");
+            }
         }
 
         private void Window_Closed(object sender, EventArgs e)

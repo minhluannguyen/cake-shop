@@ -167,6 +167,11 @@ namespace CakeShop
 
         private void RibbonWindow_Closed(object sender, EventArgs e)
         {
+            
+        }
+
+        private void RibbonWindow_Loaded(object sender, RoutedEventArgs e)
+        {
             StaticTask.Instance.cleanFileInDirectory($"{Directory.GetCurrentDirectory()}\\Images\\ImagesTemp");
         }
     }

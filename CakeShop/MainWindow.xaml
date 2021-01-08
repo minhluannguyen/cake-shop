@@ -12,7 +12,8 @@
                      WindowStartupLocation="CenterScreen"
                      ResizeMode="NoResize"
                      WindowStyle="None"
-                     Closed="RibbonWindow_Closed">
+                     Closed="RibbonWindow_Closed"
+                     Loaded="RibbonWindow_Loaded">
     <Fluent:RibbonWindow.Resources>
         <local:IsEmptyStringConverter x:Key="stringConverter"/>
         <local:IntToMoneyStringConverter x:Key="moneyConverter"/>

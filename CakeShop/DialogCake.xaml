@@ -342,7 +342,7 @@
                                 <RowDefinition Height="8.5*"/>
                                 <RowDefinition Height="1.5*"/>
                             </Grid.RowDefinitions>
-                            <ListView x:Name="listImageOfProduct">                                
+                            <ListView x:Name="listImageOfProduct" ScrollViewer.HorizontalScrollBarVisibility="Disabled">                                
                                 <ListView.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel 
@@ -408,6 +408,7 @@
                                                 </Button>
 
                                             </Grid>
+                                            <Label Content="{Binding ImageName}" Visibility="Collapsed"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
