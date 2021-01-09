@@ -316,11 +316,26 @@ namespace CakeShop
                 }
             }
         }
-        public void deleteACake(Product product)
+        public void deleteCake(Product product)
         {
-            var cake = db.TypeCakes.Find(product.ID);
-            db.TypeCakes.Remove(cake);
-            db.SaveChanges();
+            var cake = db.Products.Find(product.ID);
+
+            if(cake != null)
+            {
+                var listImageDelete = db.ProductImages
+                                    .Where(
+                                        image => image.ID_Product == product.ID
+                                    );
+                db.ProductImages.RemoveRange(listImageDelete);
+                db.SaveChanges();
+
+                db.Products.Remove(cake);
+                db.SaveChanges();
+            }
+            else
+            {
+                // do nothing
+            }
         }
 
     }

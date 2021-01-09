@@ -115,9 +115,9 @@ namespace CakeShop
 
         private void deleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            //this.Action = ConstantVariable.DEL_TYPECAKE;
-            //QueryDB.Instance.deleteATypeCake(this.Cake);
-            //this.Close();
+            this.Action = ConstantVariable.DEL_CAKE;
+            QueryDB.Instance.deleteCake(this.Cake);
+            this.Close();
         }
 
         private void actionBtn_Click(object sender, RoutedEventArgs e)

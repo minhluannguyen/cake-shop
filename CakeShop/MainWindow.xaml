@@ -668,7 +668,7 @@
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Cursor="Hand" >
+                            <StackPanel Cursor="Hand" VerticalAlignment="Top" Orientation="Vertical">
                                 <Grid  MouseDown="ItemProductPreview_MouseDown" Width="120" Height="120" HorizontalAlignment="Center">
                                     <Grid.Resources>
                                         <Style TargetType="{x:Type Border}" x:Key="styleBorder">
@@ -692,23 +692,6 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Grid.Resources>
-
-                                    <!--<Border 
-                                            x:Name="imageItemBorder" 
-                                            CornerRadius="20,0,20,0"
-                                            Width="250" Height="150"
-                                            Margin="0, 0, 0, 0"
-                                            Style="{StaticResource styleBorder}" 
-                                            MouseUp="imageItemBorder_MouseUp"
-                                        >
-                                        <Border.Background>
-                                            <ImageBrush 
-                                                    Stretch="Fill"
-                                                    ImageSource="{Binding ImgTitle}"
-                                                    RenderOptions.BitmapScalingMode="HighQuality"
-                                            />
-                                        </Border.Background>
-                                    </Border>-->
                                     <Border x:Name="borderOfListView" 
                                             Margin="10"
                                             VerticalAlignment="Top"
@@ -757,7 +740,7 @@
 
                                 <TextBlock 
                                         Text="{Binding ID}"
-                                        Visibility="Hidden"
+                                        Visibility="Collapsed"
                                     />
                             </StackPanel>
                         </DataTemplate>
