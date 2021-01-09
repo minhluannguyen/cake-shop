@@ -157,6 +157,7 @@
       <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="TypeCakeNameConverter.cs" />
+    <Compile Include="WPF_GetLinkImageFromSavedFolderConverter.cs" />
     <Compile Include="WPF_IntToStringConverter.cs" />
     <Page Include="DialogCake.xaml">
       <SubType>Designer</SubType>

@@ -10,18 +10,26 @@ using System.Windows.Data;
 
 namespace CakeShop
 {
-    class LinkImageConverter : IValueConverter
+    class WPF_GetLinkImageFromSavedFolderConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string nameImage = value as string;
-            string Path = $"{Directory.GetCurrentDirectory()}";
-            Directory.CreateDirectory($"{Path}\\Images\\ImagesTemp\\");  // if not exist
 
-            Path = $"{Path}\\Images\\ImagesTemp\\{nameImage}";
-            Debug.WriteLine($">{Path}<");
+            if (!string.IsNullOrEmpty(nameImage))
+            {
+                string Path = $"{Directory.GetCurrentDirectory()}";
+                Directory.CreateDirectory($"{Path}\\Images\\Products\\");  // if not exist
 
-            return Path;
+                Path = $"{Path}\\Images\\Products\\{nameImage}";
+                Debug.WriteLine($">{Path}<");
+
+                return Path;
+            }
+            else
+            {
+                return null;
+            }            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

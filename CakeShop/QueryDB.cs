@@ -147,12 +147,69 @@ namespace CakeShop
                                 CountInValidDate = product.Amount,
                                 Description = product.Description,
                             }
+                        ).GroupJoin(db.ProductImages,
+                            entity => entity.ID,
+                            image => image.ID_Product,
+                            (entity, image) => new
+                            {
+                                Product = entity,
+                                Image = image,
+                            }
+                        )
+                        .SelectMany(
+                            empty => empty.Image.DefaultIfEmpty(),
+                            (product, image) => new
+                            {
+                                ProductEntity = product.Product,
+                                ImageEntity = image,
+                            }
+                        )
+                        .GroupBy(
+                            obj => obj.ProductEntity,
+                            (key, listImage) => new
+                            {
+                                Key = key,
+                                ListImages = listImage.ToList()
+                            }
+                        )
+                        .Select(
+                            entity => new
+                            {
+                                ID = entity.Key.ID,
+                                NameCake = entity.Key.NameCake,
+                                Type = entity.Key.Type,
+                                Price = entity.Key.Price,
+                                Amount = entity.Key.Amount,
+                                CountInValidDate = entity.Key.CountInValidDate,
+                                Description = entity.Key.Description,
+                                Thumbnail = entity.ListImages.FirstOrDefault().ImageEntity.ImageName
+                            }
                         );
-            //foreach (var item in query.ToList())
-            //{
-            //    Debug.WriteLine($"/> {item.Key.NameTypeCake}");
-            //    Debug.WriteLine($"-- {item.liQua.Sum(x => x ?? 0)}");
-            //}
+                        //.GroupBy(
+                        //    obj => obj.ID,
+                        //    (key, listQuantity) => new
+                        //    {
+                        //        Key = key,
+                        //        liQua = listQuantity.ToList()
+                        //    }
+                        //)
+                        //.Select(
+                        //    entity => new
+                        //    {
+                        //        ID = entity.Key,
+                        //        NameCake = entity.liQua[0].NameCake,
+                        //        Type = entity.liQua[0].Type,
+                        //        Price = entity.liQua[0].Price,
+                        //        Amount = entity.liQua[0].Amount,
+                        //        CountInValidDate = entity.liQua[0].CountInValidDate,
+                        //        Description = entity.liQua[0].Description,
+                        //        Thumbnail = entity.liQua.Count() > 0 ? entity.liQua[0].Thumnail : null,
+                        //    });
+                        //foreach (var item in query.ToList())
+                        //{
+                        //    Debug.WriteLine($"/> {item.Key.NameTypeCake}");
+                        //    Debug.WriteLine($"-- {item.liQua.Sum(x => x ?? 0)}");
+                        //}
             return query.ToList();
         }
 
@@ -192,6 +249,12 @@ namespace CakeShop
             }
 
             return false;
+        }
+        public Product findProductByID(int ID)
+        {
+            Product product = db.Products.Find(ID);
+
+            return product;
         }
         public void addCake(Product product, BindingList<ProductImage> insertImage)
         {

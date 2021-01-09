@@ -18,6 +18,7 @@
         <local:IsEmptyStringConverter x:Key="stringConverter"/>
         <local:IntToMoneyStringConverter x:Key="moneyConverter"/>
         <local:TypeCakeNameConverter x:Key="IDtoNameTypeCakeConverter"/>
+        <local:WPF_GetLinkImageFromSavedFolderConverter x:Key="LinkImageOriginConverter"/>
 
 
         <Style TargetType="ListViewItem">
@@ -182,7 +183,7 @@
             </Button>-->
             <Fluent:Ribbon Height="50" Margin="0,0,1142,0">
                 <Fluent:Ribbon.Menu>
-                    <Fluent:Backstage x:Name="backstage" Background="#F6CCA2"
+                    <Fluent:Backstage x:Name="backstage" Background="#F6CCA2" IsOpenChanged="backstage_IsOpenChanged"
                                      >
                         <Fluent:Backstage.Header>
                             <StackPanel Orientation="Horizontal">
@@ -570,7 +571,7 @@
                             CornerRadius="15">
                     </Border>
                 </Border>
-                <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="20 20 80 20"
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="20 20 80 20" Visibility="Collapsed"
                         Panel.ZIndex="1">
                     <Border x:Name="borderOfListView" 
                             Margin="10"
@@ -651,6 +652,117 @@
                         </Border>
                     </Border>
                 </StackPanel>
+                <ListView Grid.Row="1" Background="Transparent" Margin="20 20 80 20"
+                        Name="dataListView"
+                        BorderBrush="Transparent"
+                        Foreground="#fd5533"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        Grid.Column="1">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel 
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Cursor="Hand" >
+                                <Grid  MouseDown="ItemProductPreview_MouseDown" Width="120" Height="120" HorizontalAlignment="Center">
+                                    <Grid.Resources>
+                                        <Style TargetType="{x:Type Border}" x:Key="styleBorder">
+                                            <Style.Triggers>
+                                                <EventTrigger RoutedEvent="MouseEnter">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="168" />
+                                                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="280" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                                <EventTrigger RoutedEvent="MouseLeave">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="150" />
+                                                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="250" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Resources>
+
+                                    <!--<Border 
+                                            x:Name="imageItemBorder" 
+                                            CornerRadius="20,0,20,0"
+                                            Width="250" Height="150"
+                                            Margin="0, 0, 0, 0"
+                                            Style="{StaticResource styleBorder}" 
+                                            MouseUp="imageItemBorder_MouseUp"
+                                        >
+                                        <Border.Background>
+                                            <ImageBrush 
+                                                    Stretch="Fill"
+                                                    ImageSource="{Binding ImgTitle}"
+                                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                            />
+                                        </Border.Background>
+                                    </Border>-->
+                                    <Border x:Name="borderOfListView" 
+                                            Margin="10"
+                                            VerticalAlignment="Top"
+                                            BorderBrush="#F73148"
+                                            BorderThickness=".5"
+                                            CornerRadius="18"
+                                            Height="100" Width="100">
+                                        <Border.Effect>
+                                            <DropShadowEffect BlurRadius="5"
+                                                              Opacity=".5"
+                                                              ShadowDepth="3" />
+                                        </Border.Effect>
+                                        <Border Name="ReceiverColor"
+                                                BorderBrush="#F73148"
+                                                BorderThickness="0"
+                                                CornerRadius="15">
+                                            <Canvas>
+                                                <Border Name="Mask"
+                                                        Background="{StaticResource listCakeBackgroundColor}"
+                                                        BorderBrush="#F73148"
+                                                        BorderThickness=".5"
+                                                        CornerRadius="13"
+                                                        Height="100" Width="100">
+                                                </Border>
+                                                <!--this is list of cake-->
+                                                <StackPanel>
+                                                    <Image x:Name="splashImg"
+                                                           Stretch="Fill"
+                                                           VerticalAlignment="Top"
+                                                           Source="{Binding Thumbnail, Converter={StaticResource LinkImageOriginConverter}}"
+                                                           Height="100" Width="100" />
+
+                                                    <StackPanel.OpacityMask>
+                                                        <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                                    </StackPanel.OpacityMask>
+                                                </StackPanel>
+                                            </Canvas>
+                                        </Border>
+                                    </Border>
+                                </Grid>
+                                <TextBlock 
+                                        HorizontalAlignment="Center" TextAlignment="Center"
+                                        FontSize="16" TextWrapping="Wrap" Width="100"
+                                        Text="{Binding NameCake}"
+                                    />
+
+                                <TextBlock 
+                                        Text="{Binding ID}"
+                                        Visibility="Hidden"
+                                    />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>                
+                </ListView>
             </Grid>
         </Grid>
     </DockPanel>

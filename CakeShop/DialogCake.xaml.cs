@@ -94,7 +94,6 @@ namespace CakeShop
             {
                 this.TitleAction = "Cập Nhật Bánh";
                 this.ActionName = "Cập nhật";
-                //this.keywordPlaceholderTextBlock.Visibility = Visibility.Hidden;
             }
             else
             {
@@ -141,6 +140,10 @@ namespace CakeShop
                 }
                 else if (this.Action == ConstantVariable.UPDATE_CAKE)
                 {
+                    foreach (var nameImage in this.listCurrentImage)
+                    {
+                        File.Copy($"{CurrentPath}\\Images\\ImagesTemp\\{nameImage.ImageName}", $"{CurrentPath}\\Images\\Products\\{nameImage.ImageName}", true);
+                    }
                     QueryDB.Instance.updateCake(this.Cake, this.listCurrentImage, this.listRemovedImage);
                 }
                 this.Close();

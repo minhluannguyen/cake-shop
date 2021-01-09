@@ -28,10 +28,12 @@ namespace CakeShop
         public MainWindow()
         {
             InitializeComponent();
+            dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList();
         }
         public MainWindow(bool a)
         {
             InitializeComponent();
+            dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList();
         }
 
 
@@ -173,6 +175,28 @@ namespace CakeShop
         private void RibbonWindow_Loaded(object sender, RoutedEventArgs e)
         {
             StaticTask.Instance.cleanFileInDirectory($"{Directory.GetCurrentDirectory()}\\Images\\ImagesTemp");
+        }
+
+        private void backstage_IsOpenChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList();
+        }
+
+        private void ItemProductPreview_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var selectedProduct = (Grid)sender;
+            //Get current item.
+            //var senderStackPanel = (StackPanel)((Grid)((Border)((Canvas)((StackPanel)(selectedProductImg).Parent).Parent).Parent).Parent).Parent;
+            var senderStackPanel = (StackPanel)(selectedProduct.Parent);
+
+            //Get TextBlock contain item's id.
+            var ID_Product = ((TextBlock)VisualTreeHelper.GetChild(senderStackPanel, 2)).Text as string;
+            var nameProduct = ((TextBlock)VisualTreeHelper.GetChild(senderStackPanel, 1)).Text as string;
+            MessageBox.Show($"> Name: {nameProduct} - ID: {ID_Product}");
+
+            // get Product by that ID
+            Product product = QueryDB.Instance.findProductByID(Int32.Parse(ID_Product));
+
         }
     }
 }
