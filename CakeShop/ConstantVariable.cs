@@ -10,6 +10,7 @@ namespace CakeShop
     class ConstantVariable
     {
         public const double EPSILON = 1e-5;
+        public const int TOP_TYPE_CAKE = 6;
 
         public const int UPDATE_TYPECAKE = 0;
         public const int ADD_TYPECAKE = 1;
@@ -19,10 +20,13 @@ namespace CakeShop
         public const int ADD_CAKE = 4;
         public const int DEL_CAKE = 5;
 
-        //public const int UPDATE_CAKE = 2;
-        //public const int ADD_CAKE = 3;
-        //public const int UPDATE_JOURNEY = 4;
-        //public const int ADD_JOURNEY = 5;
+        public const int FILTER_ALL = 0;
+        public const int SORT_BY_AZ = 1;
+        public const int SORT_BY_ZA = 2;
+        public const int SORT_BY_INC_PRICE = 3;
+        public const int SORT_BY_DEC_PRICE = 4;
+        public const int FILTER_BY_TYPE = 5;
+
 
         public const int RIBBON_TYPECAKE = 0;
         public const int RIBBON_CAKE = 1;

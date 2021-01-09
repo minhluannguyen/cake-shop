@@ -72,6 +72,52 @@ namespace CakeShop
             //}
             return query.ToList();
         }
+        public dynamic getTopTypeCake(int rank)
+        {
+            var query = db.TypeCakes
+                        .GroupJoin(db.Products,
+                            type => type.ID,
+                            product => product.IDTypeCake,
+                            (type, product) => new
+                            {
+                                TypeCakes = type,
+                                Products = product,
+                            }
+                        )
+                        .SelectMany(
+                            empty => empty.Products.DefaultIfEmpty(),
+                            (type, product) => new
+                            {
+                                TypeCakes = type.TypeCakes,
+                                Products = product,
+                            }
+                        )
+                        .GroupBy(
+                            obj => obj.TypeCakes,
+                            obj => obj.Products.Amount,
+                            (key, listQuantity) => new
+                            {
+                                Key = key,
+                                liQua = listQuantity.ToList()
+                            }
+                        )
+                        .Select(type => new
+                        {
+                            ID = type.Key.ID,
+                            NameTypeCake = type.Key.NameTypeCake,
+                            Amount = type.liQua.Sum(x => x ?? 0),
+                            AmountType = type.liQua.Count(x => (x ?? -1) >= 0)
+                        })
+                        .OrderByDescending(x => x.AmountType)
+                        .ThenByDescending(x => x.Amount)
+                        .Take(rank)
+                        .Select(type => new
+                        {
+                            ID = type.ID,
+                            NameTypeCake = type.NameTypeCake,
+                        });
+            return query.ToList();
+        }
         public List<TypeCake> getOriginTypeCakeList()
         {
             var query = db.TypeCakes;
@@ -131,7 +177,7 @@ namespace CakeShop
             db.SaveChanges();
         }
 
-        public dynamic getBindingCakeList()
+        public dynamic getBindingCakeList(int option = 0, string keyword = null, int typeFilter = -1)
         {
             var query = db.Products
                         .Join(db.TypeCakes,
@@ -185,31 +231,28 @@ namespace CakeShop
                                 Thumbnail = entity.ListImages.FirstOrDefault().ImageEntity.ImageName
                             }
                         );
-                        //.GroupBy(
-                        //    obj => obj.ID,
-                        //    (key, listQuantity) => new
-                        //    {
-                        //        Key = key,
-                        //        liQua = listQuantity.ToList()
-                        //    }
-                        //)
-                        //.Select(
-                        //    entity => new
-                        //    {
-                        //        ID = entity.Key,
-                        //        NameCake = entity.liQua[0].NameCake,
-                        //        Type = entity.liQua[0].Type,
-                        //        Price = entity.liQua[0].Price,
-                        //        Amount = entity.liQua[0].Amount,
-                        //        CountInValidDate = entity.liQua[0].CountInValidDate,
-                        //        Description = entity.liQua[0].Description,
-                        //        Thumbnail = entity.liQua.Count() > 0 ? entity.liQua[0].Thumnail : null,
-                        //    });
-                        //foreach (var item in query.ToList())
-                        //{
-                        //    Debug.WriteLine($"/> {item.Key.NameTypeCake}");
-                        //    Debug.WriteLine($"-- {item.liQua.Sum(x => x ?? 0)}");
-                        //}
+            switch (option)
+            {
+                case ConstantVariable.FILTER_ALL:
+                    // do nothing
+                    break;
+                case ConstantVariable.SORT_BY_AZ:
+                    query = query.OrderBy(x => x.NameCake);
+                    break;
+                case ConstantVariable.SORT_BY_ZA:
+                    query = query.OrderByDescending(x => x.NameCake);
+                    break;
+                case ConstantVariable.SORT_BY_INC_PRICE:
+                    query = query.OrderBy(x => x.Price);
+                    break;
+                case ConstantVariable.SORT_BY_DEC_PRICE:
+                    query = query.OrderByDescending(x => x.Price);
+                    break;
+                case ConstantVariable.FILTER_BY_TYPE:
+                    query = query.Where(x => x.Type == typeFilter);
+                    break;
+            }
+            
             return query.ToList();
         }
 

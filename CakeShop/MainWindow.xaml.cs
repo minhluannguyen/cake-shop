@@ -24,18 +24,19 @@ namespace CakeShop
     {
         CakeStoreDBEntities db = new CakeStoreDBEntities();
 
+        TypeCake type_filter = null;
+
         public int RibbonItem { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList();
+            this.updateListviewSource();
         }
         public MainWindow(bool a)
         {
             InitializeComponent();
-            dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList();
+            this.updateListviewSource();
         }
-
 
         private void FluentButtonQuit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -179,7 +180,7 @@ namespace CakeShop
 
         private void backstage_IsOpenChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList();
+            this.updateListviewSource();
         }
 
         private void ItemProductPreview_MouseDown(object sender, MouseButtonEventArgs e)
@@ -200,6 +201,81 @@ namespace CakeShop
             DetailCakeScreen screen = new DetailCakeScreen(product);
             screen.Owner = this;
             screen.ShowDialog();
+        }
+        private void Sort_Filter_Options_Click(object sender, RoutedEventArgs e)
+        {
+            var options = sender as Button;
+
+            switch (options.Name)
+            {
+                case "fullFilter":
+                    dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList(ConstantVariable.FILTER_ALL);
+                    break;
+                case "sortByAZ":
+                    dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList(ConstantVariable.SORT_BY_AZ);
+                    break;
+                case "sortByZA":
+                    dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList(ConstantVariable.SORT_BY_ZA);
+                    break;
+                case "sortByIncPrice":
+                    dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList(ConstantVariable.SORT_BY_INC_PRICE);
+                    break;
+                case "sortByDecPrice":
+                    dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList(ConstantVariable.SORT_BY_DEC_PRICE);
+                    break;
+                case "selectTypeFilter":
+                    {
+                        ListTypeCake screen = new ListTypeCake();
+                        screen.Owner = this;
+                        screen.handler += Screen_handler;
+                        screen.ShowDialog();
+                        if(type_filter != null)
+                        {
+                            dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList(ConstantVariable.FILTER_BY_TYPE, null, this.type_filter.ID);
+                        }
+                        else
+                        {
+                            // do nothing
+                        }
+                    }
+                    break;
+                default:
+                    //Get current item.
+                    //var senderStackPanel = (StackPanel)((Grid)((Border)((Canvas)((StackPanel)(selectedProductImg).Parent).Parent).Parent).Parent).Parent;
+                    var senderParent = (WrapPanel)(options.Parent);
+                    //Get TextBlock contain item's id.
+                    var ID_Product = Int32.Parse(((TextBlock)VisualTreeHelper.GetChild(senderParent, 1)).Text as string);
+                    Debug.WriteLine($">{ID_Product}");
+                    dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList(ConstantVariable.FILTER_BY_TYPE, null, ID_Product);
+                    break;
+            }
+        }
+
+        private void Screen_handler(object sender)
+        {
+            if(sender != null)
+            {
+                var type = sender as TypeCake;
+                this.type_filter = new TypeCake();
+                this.type_filter.ID = type.ID;
+                this.type_filter.NameTypeCake = type.NameTypeCake;
+            }
+            else
+            {
+                this.type_filter = null;
+            }
+        }
+
+        private void updateListviewSource()
+        {
+            dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList();
+            filterOptionList.ItemsSource = QueryDB.Instance.getTopTypeCake(ConstantVariable.TOP_TYPE_CAKE);
+        }
+
+        private void ButtonFilterTpe_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+
         }
     }
 }

@@ -490,17 +490,17 @@
             </Grid.ColumnDefinitions>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2.*"/>
-                    <RowDefinition Height="1.3*"/>
-                    <RowDefinition Height="4.7*"/>
-                    <RowDefinition Height="2.*"/>
+                    <RowDefinition Height="1.0*"/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="7.0*"/>
+                    <RowDefinition Height="0.5*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="1" Margin="20">
+                <Grid Grid.Row="1" Margin="25">
                     <TextBlock Padding="15" Background="#FFEED3"
-                               Margin="20 10 10 10"/>
-                    <TextBox x:Name="txtboxSearch" FontSize="20" Padding="5" 
-                             Foreground="{StaticResource showColor}" TextWrapping="Wrap"
-                             Margin="20 10 10 10"
+                               Margin="0 10 10 10"/>
+                    <TextBox x:Name="txtboxSearch" FontSize="20" Padding="15 5 5 5" 
+                             Foreground="{StaticResource showColor}" TextWrapping="Wrap" VerticalAlignment="Center"
+                             Margin="0 10 10 10" BorderThickness="0"
                              KeyDown="txtboxSearch_KeyDown"
                          >
                         <TextBox.Style>
@@ -549,8 +549,59 @@
                     </TextBox>
                 </Grid>
                 <!--this will be list suggest word-->
-                <StackPanel Grid.Row="2" Margin="80 20" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Button Style="{DynamicResource suggestWordButton}" Content="Sort / Filter" Width="150"/>
+                <StackPanel Grid.Row="2" Margin="80 20" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical">
+                    <TextBlock Text="Bộ lọc:"
+                               Foreground="{StaticResource hintTextColor}"
+                               Margin="10 10 0 0"
+                               FontSize="25"/>
+                    <WrapPanel Orientation="Horizontal" Margin="10">
+                        <ListView   Grid.Row="1" Background="Transparent"
+                                    Name="filterOptionList"
+                                    BorderBrush="Transparent"
+                                    Foreground="#fd5533"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                    Grid.Column="1">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel 
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <WrapPanel Cursor="Hand" VerticalAlignment="Top" Orientation="Vertical">
+                                        <Button Style="{DynamicResource suggestWordButton}" Content="{Binding NameTypeCake}" Margin="5" FontSize="18"
+                                                    Click="Sort_Filter_Options_Click"/>                                       
+                                        <TextBlock 
+                                            Text="{Binding ID}"
+                                            Visibility="Collapsed"
+                                        />
+                                    </WrapPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <Button x:Name="fullFilter" Style="{DynamicResource suggestWordButton}" Content="Tất cả"  Padding="10" Margin="5" FontSize="18"
+                                                Click="Sort_Filter_Options_Click"/>
+                        <Button x:Name="selectTypeFilter" Style="{DynamicResource suggestWordButton}" Content="Chọn Loại Bánh" Padding="10" Margin="5" FontSize="18"
+                                                Click="Sort_Filter_Options_Click"/>
+                    </WrapPanel>
+                    <TextBlock Text="Sắp xếp:"
+                               Foreground="{StaticResource hintTextColor}"
+                               Margin="10 10 0 0"
+                               FontSize="25"/>
+                    <WrapPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Left" Width="400">
+                        <Button x:Name="sortByAZ" Style="{DynamicResource suggestWordButton}" Content="Tên (A - Z)"  Padding="10" Margin="5" FontSize="18"
+                                Click="Sort_Filter_Options_Click"/>
+                        <Button x:Name="sortByZA" Style="{DynamicResource suggestWordButton}" Content="Tên (Z - A)"  Padding="10" Margin="5" FontSize="18"
+                                Click="Sort_Filter_Options_Click"/>
+                        <Button x:Name="sortByIncPrice" Style="{DynamicResource suggestWordButton}" Content="Giá (tăng dần)"  Padding="10" Margin="5" FontSize="18"
+                                Click="Sort_Filter_Options_Click"/>
+                        <Button x:Name="sortByDecPrice" Style="{DynamicResource suggestWordButton}" Content="Giá (giảm dần)"  Padding="10" Margin="5" FontSize="18"
+                                Click="Sort_Filter_Options_Click"/>
+                    </WrapPanel>
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="1">
