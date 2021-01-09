@@ -45,7 +45,63 @@ namespace CakeShop
 
         private void txtboxSearch_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.Enter)
+            {
+                var keyword = sender as string;
+                Debug.WriteLine($"-> {keyword}");
+            }
+            else
+            {
+                // do nothing
+            }
+            /*
+            //BindingList<FoodRecipe> listBySearch = new BindingList<FoodRecipe>();
+            keyword = ConstantAction.Convertor_UNICODE_ASCII(keyword, true);
 
+            //foreach (var food in this.recipes)
+            //{
+            //    listBySearch.Add(food);
+            //}
+
+            // Define the search terms. This list could also be dynamically populated at runtime.  
+            string[] keys = keyword.ToLower().Split(new char[] { '.', '?', '!', ' ', ';', ':', ',' },
+                                                    StringSplitOptions.RemoveEmptyEntries);
+            // search version find correct a word
+            // Find sentences that contain all the terms in the wordsToMatch array.  
+            // Note that the number of terms to match is not specified at compile time.  
+            //var sentenceQuery = from recipe in listBySearch
+            //                    let wordName = (ConstantAction.Convertor_UNICODE_ASCII(recipe.Name, true)).Split(new char[] { '.', '?', '!', ' ', ';', ':', ',' },
+            //                                            StringSplitOptions.RemoveEmptyEntries)
+            //                    where (
+            //                        wordName.Distinct().Intersect(keys).Count() == keys.Count()
+            //                    )
+            //                    select recipe;
+
+            // search version find nearest same word
+            var sentenceQuery = (
+                from recipe in this.recipes
+                where keys.All(s => (ConstantAction.Convertor_UNICODE_ASCII(recipe.Name, true)).IndexOf(s) > -1)
+                select recipe
+                );
+
+
+            //Debug.WriteLine("-------------------------------------------------------");
+            //foreach (var re in results)
+            //{
+            //    Debug.WriteLine(re.Name);
+            //}
+            //Debug.WriteLine("=======================================================");
+
+
+            BindingList<FoodRecipe> resultSearch = new BindingList<FoodRecipe>();
+            foreach (var nameFood in sentenceQuery)
+            {
+                resultSearch.Add(nameFood);
+            }
+
+            return resultSearch;
+            */
+            
         }
 
         private void BackstageTabItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
