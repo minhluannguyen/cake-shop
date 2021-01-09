@@ -192,11 +192,14 @@ namespace CakeShop
             //Get TextBlock contain item's id.
             var ID_Product = ((TextBlock)VisualTreeHelper.GetChild(senderStackPanel, 2)).Text as string;
             var nameProduct = ((TextBlock)VisualTreeHelper.GetChild(senderStackPanel, 1)).Text as string;
-            MessageBox.Show($"> Name: {nameProduct} - ID: {ID_Product}");
+            //MessageBox.Show($"> Name: {nameProduct} - ID: {ID_Product}");
 
             // get Product by that ID
             Product product = QueryDB.Instance.findProductByID(Int32.Parse(ID_Product));
 
+            DetailCakeScreen screen = new DetailCakeScreen(product);
+            screen.Owner = this;
+            screen.ShowDialog();
         }
     }
 }

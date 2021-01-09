@@ -3,8 +3,8 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                     xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
                      xmlns:local="clr-namespace:CakeShop"
+                     xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
                      mc:Ignorable="d"
                      Title="MainWindow"
                      Height="900" 
@@ -19,6 +19,7 @@
         <local:IntToMoneyStringConverter x:Key="moneyConverter"/>
         <local:TypeCakeNameConverter x:Key="IDtoNameTypeCakeConverter"/>
         <local:WPF_GetLinkImageFromSavedFolderConverter x:Key="LinkImageOriginConverter"/>
+        <local:WPF_BooleanToImageString x:Key="BooleanToImageString"/>
 
 
         <Style TargetType="ListViewItem">
@@ -656,7 +657,7 @@
                         Name="dataListView"
                         BorderBrush="Transparent"
                         Foreground="#fd5533"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                         Grid.Column="1">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>

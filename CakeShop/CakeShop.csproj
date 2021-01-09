@@ -118,6 +118,9 @@
       <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CustomXMLExtension.cs" />
+    <Compile Include="DetailCakeScreen.xaml.cs">
+      <DependentUpon>DetailCakeScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DialogCake.xaml.cs">
       <DependentUpon>DialogCake.xaml</DependentUpon>
     </Compile>
@@ -157,8 +160,15 @@
       <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="TypeCakeNameConverter.cs" />
+    <Compile Include="Ulties.cs" />
+    <Compile Include="WPF_BooleanToImageString.cs" />
     <Compile Include="WPF_GetLinkImageFromSavedFolderConverter.cs" />
     <Compile Include="WPF_IntToStringConverter.cs" />
+    <Compile Include="WPF_TitleDetailProduct.cs" />
+    <Page Include="DetailCakeScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DialogCake.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -681,6 +691,8 @@
       <DependentUpon>CakeShopDB.edmx</DependentUpon>
       <LastGenOutput>CakeShopDB.cs</LastGenOutput>
     </Content>
+    <Resource Include="Images\control-icon\shopping-cart-added.png" />
+    <Resource Include="Images\control-icon\shopping-cart.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.6.3.0\build\Fody.targets" Condition="Exists('packages\Fody.6.3.0\build\Fody.targets')" />
