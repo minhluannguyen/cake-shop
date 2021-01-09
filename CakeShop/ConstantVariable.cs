@@ -9,18 +9,30 @@ namespace CakeShop
 {
     class ConstantVariable
     {
-        public const int UPDATE_MEMBER = 0;
-        public const int NEW_MEMBER = 1;
-        public const int UPDATE_SPOT = 2;
-        public const int ADD_SPOT = 3;
-        public const int UPDATE_JOURNEY = 4;
-        public const int ADD_JOURNEY = 5;
+        public const double EPSILON = 1e-5;
+
+        public const int UPDATE_TYPECAKE = 0;
+        public const int ADD_TYPECAKE = 1;
+        public const int DEL_TYPECAKE = 2;
+
+        public const int UPDATE_CAKE = 3;
+        public const int ADD_CAKE = 4;
+        public const int DEL_CAKE = 5;
+
+        //public const int UPDATE_CAKE = 2;
+        //public const int ADD_CAKE = 3;
+        //public const int UPDATE_JOURNEY = 4;
+        //public const int ADD_JOURNEY = 5;
+
+        public const int RIBBON_TYPECAKE = 0;
+        public const int RIBBON_CAKE = 1;
 
         public const int DURING_SPLASH_SCREEN = 10;
 
         public const int CANCEL_ACTION = -1;
 
         public static char[] separatingPathChars = { '/', '\\' };
+        public static char[] numeric = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
 
         public const int MAX_DIMENSIONS_SPLASH = 450;

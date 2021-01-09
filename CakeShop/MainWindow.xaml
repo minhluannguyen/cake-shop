@@ -1,28 +1,30 @@
-﻿<Fluent:RibbonWindow 
-    x:Class="CakeShop.MainWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
-    xmlns:local="clr-namespace:CakeShop"
-    mc:Ignorable="d"
-    Title="Cake Store"
-    Height="700" 
-    Width="1350"
-    WindowStartupLocation="CenterScreen"
-    ResizeMode="NoResize"
-    WindowStyle="None"
-    Loaded="RibbonWindow_Loaded"
->
+﻿<Fluent:RibbonWindow x:Class="CakeShop.MainWindow"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+                     xmlns:local="clr-namespace:CakeShop"
+                     mc:Ignorable="d"
+                     Title="MainWindow"
+                     Height="900" 
+                     Width="1350"
+                     WindowStartupLocation="CenterScreen"
+                     ResizeMode="NoResize"
+                     WindowStyle="None"
+                     Closed="RibbonWindow_Closed"
+                     Loaded="RibbonWindow_Loaded">
     <Window.Icon>
         <BitmapImage UriSource="Images/cookies.png" RenderOptions.BitmapScalingMode="HighQuality"/>
     </Window.Icon>
-    
-    
     <Fluent:RibbonWindow.Resources>
         <local:IsEmptyStringConverter x:Key="stringConverter"/>
+        <local:IntToMoneyStringConverter x:Key="moneyConverter"/>
+        <local:TypeCakeNameConverter x:Key="IDtoNameTypeCakeConverter"/>
+        <local:WPF_GetLinkImageFromSavedFolderConverter x:Key="LinkImageOriginConverter"/>
         <local:RawPriceToPriceConverter x:Key="priceConverter"/>
+
+
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
@@ -38,6 +40,11 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <SolidColorBrush x:Key="borderBtnEnable" Color="White"/>
+        <SolidColorBrush x:Key="borderBtnHover" Color="Black"/>
+        <SolidColorBrush x:Key="backgroundBtnEnable" Color="Transparent"/>
+        <SolidColorBrush x:Key="backgroundBtnHover" Color="Gray"/>
+        <SolidColorBrush x:Key="listCakeBackgroundColor" Color="White"/>
         <SolidColorBrush x:Key="bgKeyColor" Color="#FFEED3"/>
         <SolidColorBrush x:Key="whiteShowColor" Color="#F7ECCD"/>
         <SolidColorBrush x:Key="hintTextColor" Color="#B8693E"/>
@@ -130,8 +137,8 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
                                 <Setter Property="Cursor" Value="Hand" />
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource hoverbutton}"/>
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource backgroundBtnHover}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource borderBtnHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
                                 <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
@@ -143,8 +150,8 @@
                                 <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource backgroundBtnEnable}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource borderBtnEnable}"/>
                                 <Setter Property="FontSize" Value="20"/>
                                 <Setter Property="Padding" Value="10"/>
                                 <Setter Property="Foreground" Value="{StaticResource hintTextColor}"/>
@@ -159,7 +166,8 @@
     </Fluent:RibbonWindow.Resources>
     <DockPanel LastChildFill="True">
         <DockPanel.Background>
-            <ImageBrush ImageSource="Images/Background/bg.jpg" Opacity="0.8"/>
+            <ImageBrush ImageSource="Images/Background/mainWindow.jpg" Opacity="0.9"/>
+            <!--<SolidColorBrush Color="#FF9735" Opacity="0.8"/>-->
         </DockPanel.Background>
         <Grid DockPanel.Dock="Top" Height="60" Margin="10">
             <!--<Button x:Name="OpenBackstage" Click="OpenBackstage_Click">
@@ -179,8 +187,8 @@
             </Button>-->
             <Fluent:Ribbon Height="50" Margin="0,0,1142,0">
                 <Fluent:Ribbon.Menu>
-                    <Fluent:Backstage x:Name="backstage" Background="#F6CCA2"
-                    >
+                    <Fluent:Backstage x:Name="backstage" Background="#F6CCA2" IsOpenChanged="backstage_IsOpenChanged"
+                                     >
                         <Fluent:Backstage.Header>
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="/Images/cookies.png" Height="40" IsEnabled="False"/>
@@ -203,52 +211,104 @@
                                 
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>
-                            <Fluent:BackstageTabItem Header="Loại Bánh" FontSize="15" FontWeight="DemiBold">
-                                <Fluent:BackstageTabItem.ContentTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="9*"/>
-                                                <RowDefinition Height="0.5*"/>
-                                                <RowDefinition Height="0.5*"/>
-                                            </Grid.RowDefinitions>
-                                            <ListView 
+                            <Fluent:BackstageTabItem Header="Loại Bánh" FontSize="15" FontWeight="DemiBold"
+                                                     Name="TypeCakeItem"
+                                                     MouseLeftButtonDown="BackstageTabItem_MouseLeftButtonDown">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="9*"/>
+                                        <RowDefinition Height="0.5*"/>
+                                        <RowDefinition Height="0.5*"/>
+                                    </Grid.RowDefinitions>
+                                    <ListView 
                                                     Grid.Row="0"
                                                     x:Name="typeCakeListViewRibbon"
                                                     Foreground="Black"
                                                     Margin="30">
-                                                <ListView.View>
-                                                    <GridView>
-                                                        <GridViewColumn Width="auto" DisplayMemberBinding="{Binding TENTV}">
-                                                            <GridViewColumn.Header>
-                                                                <GridViewColumnHeader Tag="Mã Bánh">Tên</GridViewColumnHeader>
-                                                            </GridViewColumn.Header>
-                                                        </GridViewColumn>
-                                                        <GridViewColumn Width="auto" DisplayMemberBinding="{Binding SDT}">
-                                                            <GridViewColumn.Header>
-                                                                <GridViewColumnHeader Tag="Tên Bánh">Số điện thoại</GridViewColumnHeader>
-                                                            </GridViewColumn.Header>
-                                                            <GridViewColumn.CellTemplate>
-                                                                <DataTemplate>
-                                                                    <TextBlock TextAlignment="Center"/>
-                                                                </DataTemplate>
-                                                            </GridViewColumn.CellTemplate>
-                                                        </GridViewColumn>
-                                                        <GridViewColumn Width="auto" DisplayMemberBinding="{Binding EMAIL}">
-                                                            <GridViewColumn.Header>
-                                                                <GridViewColumnHeader Tag="Số Chủng Loại">Email</GridViewColumnHeader>
-                                                            </GridViewColumn.Header>
-                                                        </GridViewColumn>
-                                                    </GridView>
-                                                </ListView.View>
-                                                <ListView.ItemContainerStyle>
-                                                    <Style TargetType="ListViewItem">
-                                                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TypeCake_PreviewMouseLeftButtonDown" />
-                                                    </Style>
-                                                </ListView.ItemContainerStyle>
-                                            </ListView>
-                                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                                                <Button x:Name="addNewTypeCakeBtn"
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Width="500" DisplayMemberBinding="{Binding NameTypeCake}">
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Tên Loại Bánh">Tên Loại Bánh</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock TextAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="auto" >
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Số Chủng Loại">Số Chủng Loại</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200">
+                                                                <TextBlock Text="{Binding AmountType}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+                                                <GridViewColumn Width="auto">
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Tồn kho">Tồn kho</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200">
+                                                                <TextBlock Text="{Binding Amount}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                    </ListView>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                                                        Grid.Row="1" Margin="0 -25 40 35">
+                                        <Button x:Name="firstPageTypeCakeBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/first-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button x:Name="prevPageTypeCakeBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/prev-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+
+                                        <TextBox Text="1" FontSize="15"   Width="30" FontWeight="DemiBold"
+                                                       HorizontalContentAlignment="Center"
+                                                       VerticalContentAlignment="Center"/>
+                                        <Label Name="totalTypeCakePages" Content="/1" FontSize="20" 
+                                                       HorizontalContentAlignment="Center"
+                                                       VerticalContentAlignment="Center"/>
+
+                                        <Button x:Name="nextPageTypeCakeBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/next-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button x:Name="lastPageTypeCakeBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/last-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button x:Name="addNewTypeCakeBtn"
                                                 Content="Thêm Loại Bánh"
                                                 Margin="10 -10 50 10"
                                                 Padding="5"
@@ -256,15 +316,157 @@
                                                 Foreground="White"
                                                 Background="#0078D7"
                                                 Style="{DynamicResource sgraykbtnstyle}"
-                                                Click="addNewTypeCake_Click"/>
+                                                Click="addItem_Click"/>
 
-                                            </StackPanel>
-                                        </Grid>
-                                    </DataTemplate>
-                                </Fluent:BackstageTabItem.ContentTemplate>
+                                    </StackPanel>
+                                </Grid>
                             </Fluent:BackstageTabItem>
-                            <Fluent:BackstageTabItem Header="Bánh" FontSize="15" FontWeight="DemiBold">
+                            <Fluent:BackstageTabItem x:Name="cakeItem" Header="Bánh" FontSize="15" FontWeight="DemiBold"
+                                                     MouseLeftButtonDown="BackstageTabItem_MouseLeftButtonDown">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="9*"/>
+                                        <RowDefinition Height="0.5*"/>
+                                        <RowDefinition Height="0.5*"/>
+                                    </Grid.RowDefinitions>
+                                    <ListView 
+                                                    Grid.Row="0"
+                                                    x:Name="cakeListViewRibbon"
+                                                    Foreground="Black"
+                                                    Margin="30">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Width="300" DisplayMemberBinding="{Binding NameCake}">
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Tên Bánh">Tên Bánh</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock TextAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="auto" >
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Loại Bánh">Loại bánh</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200">
+                                                                <TextBlock Text="{Binding Type, Converter={StaticResource IDtoNameTypeCakeConverter}}" 
+                                                                           HorizontalAlignment="Left"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="auto" >
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Giá Bán">Giá Bán</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200">
+                                                                <TextBlock Text="{Binding Price, Converter={StaticResource moneyConverter}}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="200">
+                                                    <GridViewColumn.HeaderTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock TextWrapping="Wrap"
+                                                                       Margin="0">
+                                                                <Run Text="Tồn kho"/>
+                                                            </TextBlock>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.HeaderTemplate>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200">
+                                                                <TextBlock Text="{Binding Amount}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn>
+                                                    <GridViewColumn.HeaderTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200" HorizontalAlignment="Center">
+                                                                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center">
+                                                                    <Run Text="Còn Hạn"/>
+                                                                    <LineBreak/>
+                                                                    <Run Text="Sử Dụng"/>
+                                                                </TextBlock>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.HeaderTemplate>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200">
+                                                                <TextBlock Text="{Binding CountInValidDate}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                    </ListView>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                                                        Grid.Row="1" Margin="0 -25 40 35">
+                                        <Button x:Name="firstPageCakeBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/first-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button x:Name="prevPageCakeBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/prev-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
 
+                                        <TextBox Text="1" FontSize="15"   Width="30" FontWeight="DemiBold"
+                                                       HorizontalContentAlignment="Center"
+                                                       VerticalContentAlignment="Center"/>
+                                        <Label Name="totalProductsPages" Content="/1" FontSize="20" 
+                                                       HorizontalContentAlignment="Center"
+                                                       VerticalContentAlignment="Center"/>
+
+                                        <Button x:Name="nextPageCakeBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/next-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button x:Name="lastPageCakeBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/last-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button x:Name="addNewCakeBtn"
+                                                Content="Thêm Bánh"
+                                                Margin="10 -10 50 10"
+                                                Padding="5"
+                                                FontSize="13"
+                                                Foreground="White"
+                                                Background="#0078D7"
+                                                Style="{DynamicResource sgraykbtnstyle}"
+                                                Click="addItem_Click"/>
+
+                                    </StackPanel>
+                                </Grid>
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>
                             <Fluent:BackstageTabItem Header="Nhập Kho" FontSize="15" FontWeight="DemiBold">
@@ -298,16 +500,13 @@
                     <RowDefinition Height="2.*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="1" Margin="20">
-                    <TextBlock Padding="10" Background="#FFEED3"/>
-                    <TextBox 
-                        x:Name="txtboxSearch" 
-                        FontSize="20" 
-                        Padding="5" 
-                        Foreground="{StaticResource showColor}" 
-                        TextWrapping="Wrap"                             
-                        Height="50"
-                        KeyDown="txtboxSearch_KeyDown"
-                    >
+                    <TextBlock Padding="15" Background="#FFEED3"
+                               Margin="20 10 10 10"/>
+                    <TextBox x:Name="txtboxSearch" FontSize="20" Padding="5" 
+                             Foreground="{StaticResource showColor}" TextWrapping="Wrap"
+                             Margin="20 10 10 10"
+                             KeyDown="txtboxSearch_KeyDown"
+                         >
                         <TextBox.Style>
                             <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                                 <Style.Resources>
@@ -362,7 +561,6 @@
                         <RowDefinition Height="100" />
                         <RowDefinition Height="2*" />
                     </Grid.RowDefinitions>
-                    
                     <Button 
                         Style="{DynamicResource suggestWordButton}" 
                         Content="Sort / Filter"
@@ -464,21 +662,34 @@
                     <RowDefinition Height="7*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Border x:Name="borderOfListView" 
-                        Opacity="0.8"
-                        Margin="10"
-                        VerticalAlignment="Top"
-                        BorderBrush="#F73148"
-                        BorderThickness=".5"
-                        CornerRadius="18"
-                        Grid.Row="1"
-                >
+                <Border Grid.Row="1" Panel.ZIndex="-1" Opacity="0.9" Margin="0 0 60 0">
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="5"
                                           Opacity=".5"
                                           ShadowDepth="3" />
                     </Border.Effect>
-                    <Border Name="ReceiverColor"
+                    <Border 
+                            BorderBrush="White"
+                            Background="Transparent"
+                            BorderThickness="3.5"
+                            CornerRadius="15">
+                    </Border>
+                </Border>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="20 20 80 20" Visibility="Collapsed"
+                        Panel.ZIndex="1">
+                    <Border x:Name="borderOfListView" 
+                            Margin="10"
+                            VerticalAlignment="Top"
+                            BorderBrush="#F73148"
+                            BorderThickness=".5"
+                            CornerRadius="18"
+                            Height="100" Width="100">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="5"
+                                          Opacity=".5"
+                                          ShadowDepth="3" />
+                        </Border.Effect>
+                        <Border Name="ReceiverColor"
                             BorderBrush="#F73148"
                             BorderThickness="0"
                             CornerRadius="15">
@@ -684,3 +895,162 @@
         </Grid>
     </DockPanel>
 </Fluent:RibbonWindow>
+
+<!-- 
+<Canvas>
+                                <Border Name="Mask"
+                                    Background="{StaticResource listCakeBackgroundColor}"
+                                    BorderBrush="#F73148"
+                                    BorderThickness=".5"
+                                    CornerRadius="13"
+                                    Height="100" Width="100">
+                                </Border>
+                                <!--this is list of cake-->
+                                <StackPanel>
+                                    <Image x:Name="splashImg"
+                                               Stretch="Fill"
+                                               VerticalAlignment="Top"
+                                               Source="/Images/Background/cake-1850011_1920.jpg"
+                                        Height="100" Width="100"/>
+
+                                    <StackPanel.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                    </StackPanel.OpacityMask>
+                                </StackPanel>
+                            </Canvas>
+                        </Border>
+                    </Border>
+                    <Border x:Name="borderOfListViewxx" 
+                            Margin="10"
+                            VerticalAlignment="Top"
+                            BorderBrush="#F73148"
+                            BorderThickness=".5"
+                            CornerRadius="18"
+                            Height="100" Width="100">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="5"
+                                          Opacity=".5"
+                                          ShadowDepth="3" />
+                        </Border.Effect>
+                        <Border Name="ReceiverColorx"
+                            BorderBrush="#F73148"
+                            BorderThickness="0"
+                            CornerRadius="15">
+                            <Canvas>
+                                <Border Name="Maskx"
+                                    Background="{StaticResource listCakeBackgroundColor}"
+                                    BorderBrush="#F73148"
+                                    BorderThickness=".5"
+                                    CornerRadius="13"
+                                    Height="100" Width="100">
+                                </Border>
+                                <!--this is list of cake-->
+                                <StackPanel>
+                                    <Image x:Name="splashImgx"
+                                               Stretch="Fill"
+                                               VerticalAlignment="Top"
+                                               Source="/Images/Background/cake-1850011_1920.jpg"
+                                        Height="100" Width="100"/>
+
+                                    <StackPanel.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                    </StackPanel.OpacityMask>
+                                </StackPanel>
+                            </Canvas>
+                        </Border>
+                    </Border>
+                </StackPanel>
+                <ListView Grid.Row="1" Background="Transparent" Margin="20 20 80 20"
+                        Name="dataListView"
+                        BorderBrush="Transparent"
+                        Foreground="#fd5533"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        Grid.Column="1">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel 
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Cursor="Hand" VerticalAlignment="Top" Orientation="Vertical">
+                                <Grid  MouseDown="ItemProductPreview_MouseDown" Width="120" Height="120" HorizontalAlignment="Center">
+                                    <Grid.Resources>
+                                        <Style TargetType="{x:Type Border}" x:Key="styleBorder">
+                                            <Style.Triggers>
+                                                <EventTrigger RoutedEvent="MouseEnter">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="168" />
+                                                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="280" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                                <EventTrigger RoutedEvent="MouseLeave">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="150" />
+                                                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="250" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Resources>
+                                    <Border x:Name="borderOfListView" 
+                                            Margin="10"
+                                            VerticalAlignment="Top"
+                                            BorderBrush="#F73148"
+                                            BorderThickness=".5"
+                                            CornerRadius="18"
+                                            Height="100" Width="100">
+                                        <Border.Effect>
+                                            <DropShadowEffect BlurRadius="5"
+                                                              Opacity=".5"
+                                                              ShadowDepth="3" />
+                                        </Border.Effect>
+                                        <Border Name="ReceiverColor"
+                                                BorderBrush="#F73148"
+                                                BorderThickness="0"
+                                                CornerRadius="15">
+                                            <Canvas>
+                                                <Border Name="Mask"
+                                                        Background="{StaticResource listCakeBackgroundColor}"
+                                                        BorderBrush="#F73148"
+                                                        BorderThickness=".5"
+                                                        CornerRadius="13"
+                                                        Height="100" Width="100">
+                                                </Border>
+                                                <!--this is list of cake-->
+                                                <StackPanel>
+                                                    <Image x:Name="splashImg"
+                                                           Stretch="Fill"
+                                                           VerticalAlignment="Top"
+                                                           Source="{Binding Thumbnail, Converter={StaticResource LinkImageOriginConverter}}"
+                                                           Height="100" Width="100" />
+
+                                                    <StackPanel.OpacityMask>
+                                                        <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                                    </StackPanel.OpacityMask>
+                                                </StackPanel>
+                                            </Canvas>
+                                        </Border>
+                                    </Border>
+                                </Grid>
+                                <TextBlock 
+                                        HorizontalAlignment="Center" TextAlignment="Center"
+                                        FontSize="16" TextWrapping="Wrap" Width="100"
+                                        Text="{Binding NameCake}"
+                                    />
+
+                                <TextBlock 
+                                        Text="{Binding ID}"
+                                        Visibility="Collapsed"
+                                    />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>                
+                </ListView> -->

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props" Condition="Exists('packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,6 +11,7 @@
     <RootNamespace>CakeShop</RootNamespace>
     <AssemblyName>CakeShop</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -56,6 +58,10 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PropertyChanged, Version=3.3.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>packages\PropertyChanged.Fody.3.3.1\lib\net40\PropertyChanged.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -90,44 +96,55 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CakeImportOrder.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="CakeStoreDB.Context.cs">
+    <Compile Include="CakeShopDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CakeStoreDB.Context.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="CakeStoreDB.cs">
+    <Compile Include="CakeShopDB.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="CakeStoreDB.Designer.cs">
+    <Compile Include="CakeShopDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CakeStoreDB.edmx</DependentUpon>
+      <DependentUpon>CakeShopDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="ConstantVariable.cs" />
     <Compile Include="CustomAppConfiguration.cs" />
     <Compile Include="Customer.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CustomXMLExtension.cs" />
-    <Compile Include="DetailCakeScreen.xaml.cs">
-      <DependentUpon>DetailCakeScreen.xaml</DependentUpon>
+    <Compile Include="DialogCake.xaml.cs">
+      <DependentUpon>DialogCake.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DialogTypeCake.xaml.cs">
+      <DependentUpon>DialogTypeCake.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IntToMoneyStringConverter.cs" />
     <Compile Include="IsEmptyStringConverter.cs" />
+    <Compile Include="LinkImageConverter.cs" />
+    <Compile Include="ListTypeCake.xaml.cs">
+      <DependentUpon>ListTypeCake.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Order.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="OrderDetail.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="PreMainScreen.xaml.cs">
       <DependentUpon>PreMainScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Product.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductImage.cs">
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductImage.cs">
       <DependentUpon>CakeStoreDB.tt</DependentUpon>
@@ -141,9 +158,32 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="TypeCake.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+    <Compile Include="QueryDB.cs" />
+    <Compile Include="SplashScreen.xaml.cs">
+      <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StaticTask.cs" />
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TypeCake.cs">
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TypeCakeNameConverter.cs" />
+    <Compile Include="WPF_GetLinkImageFromSavedFolderConverter.cs" />
+    <Compile Include="WPF_IntToStringConverter.cs" />
+    <Page Include="DialogCake.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DialogTypeCake.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ListTypeCake.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -183,12 +223,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="CakeStoreDB.edmx">
+    <EntityDeploy Include="CakeShopDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CakeStoreDB.Designer.cs</LastGenOutput>
+      <LastGenOutput>CakeShopDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="CakeStoreDB.edmx.diagram">
-      <DependentUpon>CakeStoreDB.edmx</DependentUpon>
+    <None Include="CakeShopDB.edmx.diagram">
+      <DependentUpon>CakeShopDB.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -633,15 +673,26 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CakeStoreDB.Context.tt">
+    <Resource Include="Images\control-icon\first-page.png" />
+    <Resource Include="Images\control-icon\last-page.png" />
+    <Resource Include="Images\control-icon\next-page.png" />
+    <Resource Include="Images\control-icon\prev-page.png" />
+    <Resource Include="Images\search-brown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\control-icon\photo.png" />
+    <Resource Include="Images\Background\mainWindow.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CakeShopDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CakeStoreDB.edmx</DependentUpon>
-      <LastGenOutput>CakeStoreDB.Context.cs</LastGenOutput>
+      <DependentUpon>CakeShopDB.edmx</DependentUpon>
+      <LastGenOutput>CakeShopDB.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="CakeStoreDB.tt">
+    <Content Include="CakeShopDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CakeStoreDB.edmx</DependentUpon>
-      <LastGenOutput>CakeStoreDB.cs</LastGenOutput>
+      <DependentUpon>CakeShopDB.edmx</DependentUpon>
+      <LastGenOutput>CakeShopDB.cs</LastGenOutput>
     </Content>
     <Resource Include="Images\first-page-arrow.png" />
     <Resource Include="Images\last-page-arrow.png" />
@@ -654,6 +705,7 @@
     <Folder Include="Images\Products\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\Fody.6.3.0\build\Fody.targets" Condition="Exists('packages\Fody.6.3.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
@@ -662,4 +714,7 @@
     <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
   <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+    <Error Condition="!Exists('packages\Fody.6.3.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.6.3.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props'))" />
+  </Target>
 </Project>
