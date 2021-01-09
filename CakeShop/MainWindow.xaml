@@ -19,9 +19,11 @@
     </Window.Icon>
     <Fluent:RibbonWindow.Resources>
         <local:IsEmptyStringConverter x:Key="stringConverter"/>
+        <local:TypeCakeNameConverter x:Key="TypeCakeConverter" />
+        <!--
         <local:IntToMoneyStringConverter x:Key="moneyConverter"/>
-        <local:TypeCakeNameConverter x:Key="IDtoNameTypeCakeConverter"/>
         <local:WPF_GetLinkImageFromSavedFolderConverter x:Key="LinkImageOriginConverter"/>
+        -->
         <local:RawPriceToPriceConverter x:Key="priceConverter"/>
 
 
@@ -366,7 +368,7 @@
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <Grid Width="200">
-                                                                <TextBlock Text="{Binding Price, Converter={StaticResource moneyConverter}}" 
+                                                                <TextBlock Text="{Binding Price, Converter={StaticResource priceConverter}}" 
                                                                            HorizontalAlignment="Center"/>
                                                             </Grid>
                                                         </DataTemplate>
@@ -487,6 +489,7 @@
                 </Fluent:Ribbon.Menu>
             </Fluent:Ribbon>
         </Grid>
+        
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4.5*"/>
@@ -500,17 +503,30 @@
                     <RowDefinition Height="2.*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="1" Margin="20">
-                    <TextBlock Padding="15" Background="#FFEED3"
-                               Margin="20 10 10 10"/>
-                    <TextBox x:Name="txtboxSearch" FontSize="20" Padding="5" 
-                             Foreground="{StaticResource showColor}" TextWrapping="Wrap"
-                             Margin="20 10 10 10"
-                             KeyDown="txtboxSearch_KeyDown"
-                         >
+                    <TextBlock 
+                        Padding="15"
+                        Background="#FFEED3"
+                        Margin="20 10 10 10"
+                    />
+                    <TextBox 
+                        x:Name="txtboxSearch" 
+                        FontSize="20" Padding="5" 
+                        Foreground="{StaticResource showColor}" TextWrapping="Wrap"
+                        Margin="20 10 10 10"
+                        KeyDown="txtboxSearch_KeyDown"
+                    >
                         <TextBox.Style>
-                            <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style 
+                                TargetType="TextBox" 
+                                xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                            >
                                 <Style.Resources>
-                                    <VisualBrush x:Key="hintname" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush 
+                                        x:Key="hintname" 
+                                        AlignmentX="Left" 
+                                        AlignmentY="Center"
+                                        Stretch="None"
+                                    >
                                         <VisualBrush.Visual>
                                             <StackPanel 
                                                 Orientation="Horizontal"
@@ -662,144 +678,142 @@
                     <RowDefinition Height="7*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Border Grid.Row="1" Panel.ZIndex="-1" Opacity="0.9" Margin="0 0 60 0">
-                    <Border.Effect>
-                        <DropShadowEffect BlurRadius="5"
-                                          Opacity=".5"
-                                          ShadowDepth="3" />
-                    </Border.Effect>
+                
+                <StackPanel 
+                    Orientation="Horizontal" 
+                    Grid.Row="1" 
+                    Margin="20 20 80 20" 
+                    Visibility="Collapsed"
+                    Panel.ZIndex="1"
+                >
                     <Border 
-                            BorderBrush="White"
-                            Background="Transparent"
-                            BorderThickness="3.5"
-                            CornerRadius="15">
-                    </Border>
-                </Border>
-                <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="20 20 80 20" Visibility="Collapsed"
-                        Panel.ZIndex="1">
-                    <Border x:Name="borderOfListView" 
-                            Margin="10"
-                            VerticalAlignment="Top"
-                            BorderBrush="#F73148"
-                            BorderThickness=".5"
-                            CornerRadius="18"
-                            Height="100" Width="100">
+                        x:Name="borderOfListView" 
+                        Margin="10"
+                        VerticalAlignment="Top"
+                        BorderBrush="#F73148"
+                        BorderThickness=".5"
+                        CornerRadius="18"
+                        Height="100" Width="100"
+                    >
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="5"
                                           Opacity=".5"
                                           ShadowDepth="3" />
                         </Border.Effect>
-                        <Border Name="ReceiverColor"
+                        <Border 
+                            Name="ReceiverColor"
                             BorderBrush="#F73148"
                             BorderThickness="0"
-                            CornerRadius="15">
-                        <Grid>
-                            <Border Name="Mask"
+                            CornerRadius="15"
+                        >
+                            <Grid>
+                                <Border Name="Mask"
                                 Background="#FFEEE0"
                                 BorderBrush="#F73148"
                                 BorderThickness=".5"
                                 CornerRadius="13"
                             >
-                            </Border>
-                            <!--this is list of cake-->
-                            <StackPanel>
-                                <ListView 
-                                    x:Name="productListView"
-                                    BorderBrush="Transparent"
-                                    Foreground="#fd5533"
-                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                    ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                    Height="480"
-                                >
-                                    <ListView.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel 
+                                </Border>
+                                <!--this is list of cake-->
+                                <StackPanel>
+                                    <ListView 
+                                        x:Name="productListView"
+                                        BorderBrush="Transparent"
+                                        Foreground="#fd5533"
+                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                        ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                        Height="480"
+                                    >
+                                        <ListView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel 
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                             />
-                                        </ItemsPanelTemplate>
-                                    </ListView.ItemsPanel>
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel
-                                                Cursor="Hand"
-                                            >
-                                                <Grid>
-                                                    <Grid.Resources>
-                                                        <Style TargetType="{x:Type Border}" x:Key="styleBorder">
-                                                            <Style.Triggers>
-                                                                <EventTrigger RoutedEvent="MouseEnter">
-                                                                    <BeginStoryboard>
-                                                                        <Storyboard>
-                                                                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="150" />
-                                                                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="250" />
-                                                                        </Storyboard>
-                                                                    </BeginStoryboard>
-                                                                </EventTrigger>
-                                                                <EventTrigger RoutedEvent="MouseLeave">
-                                                                    <BeginStoryboard>
-                                                                        <Storyboard>
-                                                                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="100" />
-                                                                            <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="200" />
-                                                                        </Storyboard>
-                                                                    </BeginStoryboard>
-                                                                </EventTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Grid.Resources>
+                                            </ItemsPanelTemplate>
+                                        </ListView.ItemsPanel>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel
+                                                    Cursor="Hand"
+                                                >
+                                                    <Grid>
+                                                        <Grid.Resources>
+                                                            <Style TargetType="{x:Type Border}" x:Key="styleBorder">
+                                                                <Style.Triggers>
+                                                                    <EventTrigger RoutedEvent="MouseEnter">
+                                                                        <BeginStoryboard>
+                                                                            <Storyboard>
+                                                                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="150" />
+                                                                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="250" />
+                                                                            </Storyboard>
+                                                                        </BeginStoryboard>
+                                                                    </EventTrigger>
+                                                                    <EventTrigger RoutedEvent="MouseLeave">
+                                                                        <BeginStoryboard>
+                                                                            <Storyboard>
+                                                                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="100" />
+                                                                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="200" />
+                                                                            </Storyboard>
+                                                                        </BeginStoryboard>
+                                                                    </EventTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Grid.Resources>
 
-                                                    <Border
-                                                        CornerRadius="20,20,20,20"
-                                                        Width="200" Height="100"
-                                                        Margin="0, 0, 0, 0"
-                                                        Style="{StaticResource styleBorder}" 
-                                                    >
-                                                        <Border.Background>
-                                                            <ImageBrush 
-                                                                Stretch="Fill"
-                                                                ImageSource="{Binding Thumbnail}"
-                                                                RenderOptions.BitmapScalingMode="HighQuality"
-                                                            />
-                                                        </Border.Background>
-                                                    </Border>
-                                                </Grid>
-                                                
-                                                <TextBlock 
-                                                    HorizontalAlignment="Left"
-                                                    FontSize="16"
-                                                    Text="{Binding ProductInfo.Name}"
-                                                />
+                                                        <Border
+                                                            CornerRadius="20,20,20,20"
+                                                            Width="200" Height="100"
+                                                            Margin="0, 0, 0, 0"
+                                                            Style="{StaticResource styleBorder}" 
+                                                        >
+                                                            <Border.Background>
+                                                                <ImageBrush 
+                                                                    Stretch="Fill"
+                                                                    ImageSource="{Binding Thumbnail}"
+                                                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                                                />
+                                                            </Border.Background>
+                                                        </Border>
+                                                    </Grid>
 
-                                                <TextBlock 
-                                                    HorizontalAlignment="Left"
-                                                    FontSize="16"
-                                                    Text="{Binding ProductInfo.Price, Converter={StaticResource priceConverter}}"
-                                                />
+                                                    <TextBlock 
+                                                        HorizontalAlignment="Left"
+                                                        FontSize="16"
+                                                        Text="{Binding ProductInfo.Name}"
+                                                    />
 
-                                                <Button 
-                                                    Style="{DynamicResource suggestWordButton}" 
-                                                    Content="Thêm vào giỏ"
-                                                    FontSize="15"
-                                                />
+                                                    <TextBlock 
+                                                        HorizontalAlignment="Left"
+                                                        FontSize="16"
+                                                        Text="{Binding ProductInfo.Price, Converter={StaticResource priceConverter}}"
+                                                    />
 
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                    <ListView.ItemContainerStyle>
-                                        <Style TargetType="ListViewItem">
-                                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
-                                        </Style>
-                                    </ListView.ItemContainerStyle>
-                                </ListView>
-                                
-                                <StackPanel.OpacityMask>
-                                    <VisualBrush Visual="{Binding ElementName=Mask}" />
-                                </StackPanel.OpacityMask>
-                            </StackPanel>
-                        </Grid>
+                                                    <Button 
+                                                        Style="{DynamicResource suggestWordButton}" 
+                                                        Content="Thêm vào giỏ"
+                                                        FontSize="15"
+                                                    />
+
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                    </ListView>
+
+                                    <StackPanel.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                    </StackPanel.OpacityMask>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
                     </Border>
-                </Border>
-
+                </StackPanel>
+                
                 <Grid
                     Grid.Row="2"
                 >
@@ -905,7 +919,7 @@
                                     CornerRadius="13"
                                     Height="100" Width="100">
                                 </Border>
-                                <!--this is list of cake-->
+                               this is list of cake=
                                 <StackPanel>
                                     <Image x:Name="splashImg"
                                                Stretch="Fill"
@@ -944,7 +958,7 @@
                                     CornerRadius="13"
                                     Height="100" Width="100">
                                 </Border>
-                                <!--this is list of cake-->
+                                this is list of cake
                                 <StackPanel>
                                     <Image x:Name="splashImgx"
                                                Stretch="Fill"
@@ -1024,7 +1038,7 @@
                                                         CornerRadius="13"
                                                         Height="100" Width="100">
                                                 </Border>
-                                                <!--this is list of cake-->
+                                                this is list of cake
                                                 <StackPanel>
                                                     <Image x:Name="splashImg"
                                                            Stretch="Fill"

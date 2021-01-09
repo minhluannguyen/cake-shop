@@ -713,8 +713,4 @@
     <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
     <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
-  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
-    <Error Condition="!Exists('packages\Fody.6.3.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.6.3.0\build\Fody.targets'))" />
-    <Error Condition="!Exists('packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props'))" />
-  </Target>
 </Project>

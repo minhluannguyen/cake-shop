@@ -466,7 +466,7 @@ namespace CakeShop
             
 
 
-        private void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var item = sender as ListViewItem;
             
@@ -518,22 +518,22 @@ namespace CakeShop
             
         }
 
-        private void RibbonWindow_Closed(object sender, EventArgs e)
+        void RibbonWindow_Closed(object sender, EventArgs e)
         {
             
         }
 
-        private void RibbonWindow_Loaded(object sender, RoutedEventArgs e)
+        void RibbonWindow_Loaded(object sender, RoutedEventArgs e)
         {
             StaticTask.Instance.cleanFileInDirectory($"{Directory.GetCurrentDirectory()}\\Images\\ImagesTemp");
         }
 
-        private void backstage_IsOpenChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void backstage_IsOpenChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             dataListView.ItemsSource = QueryDB.Instance.getBindingCakeList();
         }
 
-        private void ItemProductPreview_MouseDown(object sender, MouseButtonEventArgs e)
+        void ItemProductPreview_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var selectedProduct = (Grid)sender;
             //Get current item.
