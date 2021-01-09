@@ -183,7 +183,7 @@
                     <Button x:Name="NameTypeCake" Style="{StaticResource suggestWordButton}" 
                             Content="{Binding Cake.IDTypeCake, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},
                         Converter={StaticResource IDtoNameTypeCakeConverter}}"
-                            FontSize="15"/>
+                            FontSize="15" Click="NameTypeCake_Click"/>
                 </Grid>
                 <Grid Grid.Column="2" Margin="0 5">
                     <TextBlock Padding="15" Background="#FFEED3"

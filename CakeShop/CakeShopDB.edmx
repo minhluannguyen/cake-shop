@@ -59,10 +59,10 @@
         </EntityType>
         <EntityType Name="ProductImages">
           <Key>
-            <PropertyRef Name="ID_Product" />
-            <PropertyRef Name="ImageName" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID_Product" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID_Product" Type="int" Nullable="false" />
           <Property Name="ImageName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -257,10 +257,10 @@
         </EntityType>
         <EntityType Name="ProductImage">
           <Key>
-            <PropertyRef Name="ID_Product" />
-            <PropertyRef Name="ImageName" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID_Product" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID_Product" Type="Int32" Nullable="false" />
           <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Product" Relationship="Self.FK_ProductImages_Product" FromRole="ProductImages" ToRole="Product" />
         </EntityType>
@@ -453,6 +453,7 @@
           <EntitySetMapping Name="ProductImages">
             <EntityTypeMapping TypeName="CakeStoreDBModel.ProductImage">
               <MappingFragment StoreEntitySet="ProductImages">
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Product" ColumnName="ID_Product" />
                 <ScalarProperty Name="ImageName" ColumnName="ImageName" />
               </MappingFragment>

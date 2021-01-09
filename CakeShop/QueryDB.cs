@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,7 +72,11 @@ namespace CakeShop
             //}
             return query.ToList();
         }
-
+        public List<TypeCake> getOriginTypeCakeList()
+        {
+            var query = db.TypeCakes;
+            return query.ToList();
+        }
         public int getLastIDTypeCake()
         {
             var query = db.TypeCakes.ToList();
@@ -164,20 +170,11 @@ namespace CakeShop
         }
         public dynamic getListImageOfProduct(int ID)
         {
-            var entityVal = db.Products.Find(ID);
-            
-            if (entityVal != null)
-            {
-                var query = db.ProductImages
+            var query = db.ProductImages
                         .Where(
-                            entity => entity.ID_Product == entityVal.ID
+                            entity => entity.ID_Product == ID
                         );
-                return query.ToList();
-            }
-            else
-            {
-                return null;
-            }
+            return query.ToList();
         }
         public bool hasSameCake(Product product)
         {
@@ -196,12 +193,27 @@ namespace CakeShop
 
             return false;
         }
-        public void addACake(Product product)
+        public void addCake(Product product, BindingList<ProductImage> insertImage)
         {
             db.Products.Add(product);
             db.SaveChanges();
+
+            var realID = this.getLastIDCake();
+            Debug.WriteLine($">{realID}");
+            foreach (var item in insertImage)
+            {
+                ProductImage newImage = new ProductImage()
+                {
+                    ID_Product = realID,
+                    ImageName = item.ImageName,
+                    ID = db.ProductImages.Count() > 0 ? db.ProductImages.Last().ID + 1 : 0,
+                };
+
+                db.ProductImages.Add(newImage);
+                db.SaveChanges();
+            }
         }
-        public void updateACake(Product product)
+        public void updateCake(Product product)
         {
             var cake = db.Products.Find(product.ID);
 

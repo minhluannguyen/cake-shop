@@ -14,6 +14,7 @@ namespace CakeShop
     
     public partial class ProductImage
     {
+        public int ID { get; set; }
         public int ID_Product { get; set; }
         public string ImageName { get; set; }
     

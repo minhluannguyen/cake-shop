@@ -26,8 +26,8 @@ namespace CakeShop
         public delegate void WindowHandler(object sender, int action);
         public event WindowHandler handler;
 
-        public List<ProductImage> listCurrentImage = null;
-        public List<ProductImage> listRemovedImage = null;
+        public BindingList<ProductImage> listCurrentImage = null;
+        public BindingList<ProductImage> listRemovedImage = null;
 
         public int Action { set; get; }
         public string ActionName { set; get; }
@@ -47,8 +47,8 @@ namespace CakeShop
             this.Action = action;
             this.Cake = new Product();
 
-            this.listCurrentImage = new List<ProductImage>();
-            this.listRemovedImage = new List<ProductImage>();
+            this.listCurrentImage = new BindingList<ProductImage>();
+            this.listRemovedImage = new BindingList<ProductImage>();
 
             if (product != null)
             {
@@ -63,7 +63,7 @@ namespace CakeShop
 
                 foreach(var image in listQuery)
                 {
-                    this.listCurrentImage.Add(image.ImageName);
+                    this.listCurrentImage.Add(image);
 
                     string ImagePath = $"{Directory.GetCurrentDirectory()}\\Images";
                     File.Copy($"{ImagePath}\\Products\\{image.ImageName}", $"{ImagePath}\\ImagesTemp\\{image.ImageName}");
@@ -120,22 +120,31 @@ namespace CakeShop
         private void actionBtn_Click(object sender, RoutedEventArgs e)
         {
             //Debug.WriteLine($"--{this.Cake.NameTypeCake}");
-            //if (!QueryDB.Instance.hasSameNameTypeCake(this.Cake))
-            //{
-            //    if (this.Action == ConstantVariable.ADD_TYPECAKE)
-            //    {
-            //        QueryDB.Instance.addATypeCake(this.Cake);
-            //    }
-            //    else if (this.Action == ConstantVariable.UPDATE_TYPECAKE)
-            //    {
-            //        QueryDB.Instance.updateATypeCake(this.Cake);
-            //    }
-            //    this.Close();
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Đã tồn tại tên loại bánh này!");
-            //}
+            string CurrentPath = $"{Directory.GetCurrentDirectory()}";
+
+            if (!QueryDB.Instance.hasSameCake(this.Cake))
+            {
+                if (this.Action == ConstantVariable.ADD_CAKE)
+                {
+                    this.Cake.Amount = 0;
+
+                    foreach(var nameImage in this.listCurrentImage)
+                    {
+                        File.Copy($"{CurrentPath}\\Images\\ImagesTemp\\{nameImage.ImageName}", $"{CurrentPath}\\Images\\Products\\{nameImage.ImageName}", true);
+                    }
+
+                    QueryDB.Instance.addCake(this.Cake, this.listCurrentImage);
+                }
+                else if (this.Action == ConstantVariable.UPDATE_CAKE)
+                {
+                    QueryDB.Instance.updateCake(this.Cake);
+                }
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Đã tồn tại tên loại bánh này!");
+            }
         }
 
         private void TextBoxInput_KeyDown(object sender, KeyEventArgs e)
@@ -205,8 +214,8 @@ namespace CakeShop
             }
             if(choosenItem != null)
             {
+                this.listRemovedImage.Add(choosenItem);
                 this.listCurrentImage.Remove(choosenItem);
-
                 this.listImageOfProduct.ItemsSource = this.listCurrentImage;
             }
             else
@@ -220,17 +229,18 @@ namespace CakeShop
 
         }
 
-        //private void TextBox_GotFocus(object sender, RoutedEventArgs e)
-        //{
-        //    keywordPlaceholderTextBlock.Visibility = Visibility.Hidden;
-        //}
+        private void NameTypeCake_Click(object sender, RoutedEventArgs e)
+        {
+            ListTypeCake screen = new ListTypeCake();
+            screen.Owner = this;
+            screen.handler += Screen_handler;
+            screen.ShowDialog();
+        }
 
-        //private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        //{
-        //    if (keywordTextBox.Text.Length == 0)
-        //    {
-        //        keywordPlaceholderTextBlock.Visibility = Visibility.Visible;
-        //    }
-        //}
+        private void Screen_handler(object sender)
+        {
+            this.Cake.IDTypeCake = (sender as TypeCake).ID;
+            NameTypeCake.Content = QueryDB.Instance.getNameTypeCakeByID(this.Cake.IDTypeCake ?? -1);
+        }
     }
 }
