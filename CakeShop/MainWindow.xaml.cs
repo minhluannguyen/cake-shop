@@ -81,7 +81,7 @@ namespace CakeShop
                 case ConstantVariable.UPDATE_CAKE:
                 case ConstantVariable.DEL_CAKE:
                     //Debug.WriteLine($"{(sender as Product).Name} - {action}");
-                    //this.BackstageTabItem_MouseLeftButtonDown(this.cakeItem, null);
+                    this.BackstageTabItem_MouseLeftButtonDown(this.cakeItem, null);
                     break;
             }
         }

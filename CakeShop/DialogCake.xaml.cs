@@ -66,7 +66,11 @@ namespace CakeShop
                     this.listCurrentImage.Add(image);
 
                     string ImagePath = $"{Directory.GetCurrentDirectory()}\\Images";
-                    File.Copy($"{ImagePath}\\Products\\{image.ImageName}", $"{ImagePath}\\ImagesTemp\\{image.ImageName}");
+                    FileInfo fileInfo = new FileInfo($"{ImagePath}\\ImagesTemp\\{image.ImageName}");
+                    if (!fileInfo.Exists)
+                    {
+                        File.Copy($"{ImagePath}\\Products\\{image.ImageName}", $"{ImagePath}\\ImagesTemp\\{image.ImageName}");
+                    }
                 }
 
                 this.listImageOfProduct.ItemsSource = this.listCurrentImage;
@@ -137,7 +141,7 @@ namespace CakeShop
                 }
                 else if (this.Action == ConstantVariable.UPDATE_CAKE)
                 {
-                    QueryDB.Instance.updateCake(this.Cake);
+                    QueryDB.Instance.updateCake(this.Cake, this.listCurrentImage, this.listRemovedImage);
                 }
                 this.Close();
             }
@@ -177,7 +181,7 @@ namespace CakeShop
                     info = new FileInfo(item);
                     newImageName = $"{Guid.NewGuid()}{info.Extension}";
                     File.Copy(item, $"{ImagePath}\\ImagesTemp\\{newImageName}");
-                    this.listCurrentImage.Add(new ProductImage() { ID_Product = this.Cake.ID, ImageName = newImageName });
+                    this.listCurrentImage.Add(new ProductImage() { ID_Product = this.Cake.ID, ImageName = newImageName, ID = -1});  // -1 means a new image added
 
                 }
 

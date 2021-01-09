@@ -63,7 +63,7 @@ namespace CakeShop
                             ID = type.Key.ID,
                             NameTypeCake = type.Key.NameTypeCake,
                             Amount = type.liQua.Sum(x => x ?? 0),
-                            AmountType = (type.liQua.Sum(x => x ?? 0) > 0 ? type.liQua.Count() : 0)
+                            AmountType = type.liQua.Count(x => (x ?? -1) >= 0)
                         });
             //foreach (var item in query.ToList())
             //{
@@ -206,23 +206,52 @@ namespace CakeShop
                 {
                     ID_Product = realID,
                     ImageName = item.ImageName,
-                    ID = db.ProductImages.Count() > 0 ? db.ProductImages.Last().ID + 1 : 0,
+                    ID = db.ProductImages.Count() > 0 ? db.ProductImages.ToList().Last().ID + 1 : 0,
                 };
 
                 db.ProductImages.Add(newImage);
                 db.SaveChanges();
             }
         }
-        public void updateCake(Product product)
+        public void updateCake(Product product, BindingList<ProductImage> insertImage, BindingList<ProductImage> removeImage)
         {
             var cake = db.Products.Find(product.ID);
-
             cake.Name = product.Name;
             cake.IDTypeCake = product.IDTypeCake;
             cake.Price = product.Price;
             cake.Description = product.Description;
-
             db.SaveChanges();
+
+
+            foreach(var image in removeImage)
+            {
+                if (image.ID != -1)     // -1 means a image had already added
+                {
+                    var item = db.ProductImages.Find(image.ID);
+                    db.ProductImages.Remove(item);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    // do nothing
+                }
+            }
+            foreach (var image in insertImage)
+            {
+                if (image.ID == -1)     // -1 means a image had already added
+                {
+                    var item = new ProductImage();
+                    item.ID = db.ProductImages.ToList().Last().ID + 1;
+                    item.ID_Product = product.ID;
+                    item.ImageName = image.ImageName;
+                    db.ProductImages.Add(item);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    // do nothing
+                }
+            }
         }
         public void deleteACake(Product product)
         {

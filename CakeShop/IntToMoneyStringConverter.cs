@@ -45,7 +45,15 @@ namespace CakeShop
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var moneyVal = Int32.Parse(value as string);
+            var priceStr = value as string;
+            StringBuilder builder = new StringBuilder();
+            foreach(var character in priceStr)
+            {
+                if (ConstantVariable.numeric.Contains(character)){
+                    builder.Append(character);
+                }
+            }
+            var moneyVal = Int32.Parse(builder.ToString());
 
             return moneyVal;
         }

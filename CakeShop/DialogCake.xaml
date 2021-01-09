@@ -126,9 +126,9 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5.5*"/>
+                    <ColumnDefinition Width="5.0*"/>
                     <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="2.0*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Margin="10 5">
                     <TextBlock Padding="15" Background="#FFEED3"

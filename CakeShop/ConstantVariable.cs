@@ -32,6 +32,7 @@ namespace CakeShop
         public const int CANCEL_ACTION = -1;
 
         public static char[] separatingPathChars = { '/', '\\' };
+        public static char[] numeric = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
 
         public const int MAX_DIMENSIONS_SPLASH = 450;
