@@ -11,7 +11,6 @@
         <EntityTypeShape EntityType="CakeStoreDBModel.OrderDetail" Width="1.5" PointX="8.25" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="CakeStoreDBModel.Product" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CakeStoreDBModel.ProductImage" Width="1.5" PointX="5.25" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="CakeStoreDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CakeStoreDBModel.TypeCake" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
         <AssociationConnector Association="CakeStoreDBModel.FK_CakeImportOrder_Product" ManuallyRouted="false" />
         <AssociationConnector Association="CakeStoreDBModel.FK_Order_Customer" ManuallyRouted="false" />

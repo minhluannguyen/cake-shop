@@ -97,6 +97,7 @@
     <Compile Include="CakeImportOrder.cs">
       <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="CakeNameConverter.cs" />
     <Compile Include="CakeShopDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -118,11 +119,15 @@
       <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CustomXMLExtension.cs" />
+    <Compile Include="DateTimeFormatConverter.cs" />
     <Compile Include="DetailCakeScreen.xaml.cs">
       <DependentUpon>DetailCakeScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="DialogCake.xaml.cs">
       <DependentUpon>DialogCake.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DialogCakeImport.xaml.cs">
+      <DependentUpon>DialogCakeImport.xaml</DependentUpon>
     </Compile>
     <Compile Include="DialogTypeCake.xaml.cs">
       <DependentUpon>DialogTypeCake.xaml</DependentUpon>
@@ -130,6 +135,9 @@
     <Compile Include="IntToMoneyStringConverter.cs" />
     <Compile Include="IsEmptyStringConverter.cs" />
     <Compile Include="LinkImageConverter.cs" />
+    <Compile Include="ListCake.xaml.cs">
+      <DependentUpon>ListCake.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ListTypeCake.xaml.cs">
       <DependentUpon>ListTypeCake.xaml</DependentUpon>
     </Compile>
@@ -153,9 +161,6 @@
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="StaticTask.cs" />
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>CakeShopDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="TypeCake.cs">
       <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
@@ -173,7 +178,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="DialogCakeImport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DialogTypeCake.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ListCake.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

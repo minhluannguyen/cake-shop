@@ -17,12 +17,11 @@ namespace CakeShop
         public int ID { get; set; }
         public string ImportOrderName { get; set; }
         public Nullable<int> ProductID { get; set; }
-        public string ImageOrder { get; set; }
         public Nullable<System.DateTime> ImportDate { get; set; }
         public Nullable<System.DateTime> ExpirationDate { get; set; }
         public Nullable<int> Quantity { get; set; }
-        public Nullable<int> GoodsAmount { get; set; }
-        public Nullable<int> Remainder { get; set; }
+        public Nullable<int> ImportPrice { get; set; }
+        public Nullable<int> Total { get; set; }
     
         public virtual Product Product { get; set; }
     }

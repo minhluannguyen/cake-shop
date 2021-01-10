@@ -121,6 +121,11 @@ namespace CakeShop
                     query = QueryDB.Instance.getBindingCakeList();
                     cakeListViewRibbon.ItemsSource = query;
                     break;
+                case "cakeImportItem":
+                    this.RibbonItem = ConstantVariable.RIBBON_CAKEIMPORT;
+                    query = QueryDB.Instance.getBindingCakeImport();
+                    cakeImportOrderListViewRibbon.ItemsSource = query;
+                    break;
             }
         }
 
@@ -142,6 +147,13 @@ namespace CakeShop
                     //Debug.WriteLine($"{(sender as Product).Name} - {action}");
                     this.BackstageTabItem_MouseLeftButtonDown(this.cakeItem, null);
                     break;
+
+                case ConstantVariable.ADD_CAKEIMPORT:
+                case ConstantVariable.UPDATE_CAKEIMPORT:
+                case ConstantVariable.DEL_CAKEIMPORT:
+                    //Debug.WriteLine($"{(sender as Product).Name} - {action}");
+                    this.BackstageTabItem_MouseLeftButtonDown(this.cakeImportItem, null);
+                    break;
             }
         }
         private void addItem_Click(object sender, RoutedEventArgs e)
@@ -162,6 +174,15 @@ namespace CakeShop
                 case "addNewCakeBtn":
                     {
                         var screen = new DialogCake(null, ConstantVariable.ADD_CAKE);
+                        screen.handler += this.ObjectWindowHandler;
+                        screen.Owner = this;
+                        screen.ShowDialog();
+
+                    }
+                    break;
+                case "addNewCakeImportBtn":
+                    {
+                        var screen = new DialogCakeImport(null, ConstantVariable.ADD_CAKEIMPORT);
                         screen.handler += this.ObjectWindowHandler;
                         screen.Owner = this;
                         screen.ShowDialog();
@@ -210,6 +231,30 @@ namespace CakeShop
                             product.Description = selectedItem.Description;
 
                             var screen = new DialogCake(product, ConstantVariable.UPDATE_CAKE);
+                            screen.handler += this.ObjectWindowHandler;
+                            screen.Owner = this;
+                            screen.ShowDialog();
+
+                        }
+
+                        break;
+
+                    case ConstantVariable.RIBBON_CAKEIMPORT:
+                        {
+                            dynamic selectedItem = cakeImportOrderListViewRibbon.SelectedItem;
+                            //MessageBox.Show($"{selectedItem.NameTypeCake}");
+
+                            CakeImportOrder cakeImportOrder = new CakeImportOrder();
+                            cakeImportOrder.ID = selectedItem.ID;
+                            cakeImportOrder.ImportOrderName = selectedItem.ImportOrderName;
+                            cakeImportOrder.ProductID = selectedItem.ProductID;
+                            cakeImportOrder.ImportDate = selectedItem.ImportDate;
+                            cakeImportOrder.ExpirationDate = selectedItem.ExpirationDate;
+                            cakeImportOrder.Quantity = selectedItem.Quantity;
+                            cakeImportOrder.ImportPrice = selectedItem.ImportPrice;
+                            cakeImportOrder.Total = selectedItem.Total;
+
+                            var screen = new DialogCakeImport(cakeImportOrder, ConstantVariable.UPDATE_CAKEIMPORT);
                             screen.handler += this.ObjectWindowHandler;
                             screen.Owner = this;
                             screen.ShowDialog();
