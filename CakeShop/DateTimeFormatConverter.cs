@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -9,16 +8,18 @@ using System.Windows.Data;
 
 namespace CakeShop
 {
-    class IsEmptyStringConverter : IValueConverter                              /* converter to check if text in a view is empty or not */
+    class DateTimeFormatConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string textType = value as string;
-
-            if (textType.Length > 0)
-                return 1;
-            else
-                return 0;
+            var dateTime = value as Nullable<DateTime>;
+            string dateStr = "";
+            if (dateTime.HasValue)
+            {
+                CultureInfo iv = CultureInfo.InvariantCulture;
+                dateStr = dateTime.Value.ToString("dd/MM/yyyy", iv);
+            }
+            return dateStr;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

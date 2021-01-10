@@ -20,6 +20,10 @@ namespace CakeShop
         public const int ADD_CAKE = 4;
         public const int DEL_CAKE = 5;
 
+        public const int UPDATE_CAKEIMPORT = 6;
+        public const int ADD_CAKEIMPORT = 7;
+        public const int DEL_CAKEIMPORT = 8;
+
         public const int FILTER_ALL = 0;
         public const int SORT_BY_AZ = 1;
         public const int SORT_BY_ZA = 2;
@@ -31,6 +35,7 @@ namespace CakeShop
 
         public const int RIBBON_TYPECAKE = 0;
         public const int RIBBON_CAKE = 1;
+        public const int RIBBON_CAKEIMPORT = 2;
 
         public const int DURING_SPLASH_SCREEN = 10;
 

@@ -15,6 +15,7 @@
                      Closed="RibbonWindow_Closed"
                      Loaded="RibbonWindow_Loaded">
     <Fluent:RibbonWindow.Resources>
+        <local:DateTimeFormatConverter x:Key="DateTimeFormatConverter" />
         <local:IsEmptyStringConverter x:Key="stringConverter"/>
         <local:IntToMoneyStringConverter x:Key="moneyConverter"/>
         <local:TypeCakeNameConverter x:Key="IDtoNameTypeCakeConverter"/>
@@ -465,8 +466,158 @@
                                 </Grid>
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>
-                            <Fluent:BackstageTabItem Header="Nhập Kho" FontSize="15" FontWeight="DemiBold">
+                            <Fluent:BackstageTabItem x:Name="cakeImportItem" Header="Nhập Kho" FontSize="15" FontWeight="DemiBold"
+                                                      MouseLeftButtonDown="BackstageTabItem_MouseLeftButtonDown">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="9*"/>
+                                        <RowDefinition Height="0.5*"/>
+                                        <RowDefinition Height="0.5*"/>
+                                    </Grid.RowDefinitions>
+                                    <ListView 
+                                                    Grid.Row="0"
+                                                    x:Name="cakeImportOrderListViewRibbon"
+                                                    Foreground="Black"
+                                                    Margin="30">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding ImportOrderName}">
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Tên Đơn Hàng">Tên Đơn Hàng</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock TextAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding NameCake}">
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Tên Bánh">Tên Bánh</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock TextAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding ImportDate, Converter={StaticResource DateTimeFormatConverter}}">
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Ngày Nhập">Ngày Nhập</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock TextAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding ExpirationDate, Converter={StaticResource DateTimeFormatConverter}}">
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Ngày hết hạn">Ngày hết hạn</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock TextAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Quantity}">
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Số Lượng">Số Lượng</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock TextAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="Auto" >
+                                                    <GridViewColumn.Header>
+                                                        <GridViewColumnHeader Tag="Đơn Giá">Đơn giá</GridViewColumnHeader>
+                                                    </GridViewColumn.Header>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="Auto">
+                                                                <TextBlock Text="{Binding ImportPrice, Converter={StaticResource moneyConverter}}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="Auto">
+                                                    <GridViewColumn.HeaderTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock TextWrapping="Wrap"
+                                                                       Margin="0">
+                                                                <Run Text="Tổng tiền"/>
+                                                            </TextBlock>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.HeaderTemplate>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Width="200">
+                                                                <TextBlock Text="{Binding Total, Converter={StaticResource moneyConverter}}" 
+                                                                           HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                    </ListView>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                                                        Grid.Row="1" Margin="0 -25 40 35">
+                                        <Button x:Name="firstPageCakeImportBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/first-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button x:Name="prevPageCakeImportBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/prev-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
 
+                                        <TextBox Text="1" FontSize="15"   Width="30" FontWeight="DemiBold"
+                                                       HorizontalContentAlignment="Center"
+                                                       VerticalContentAlignment="Center"/>
+                                        <Label Name="totalCakeImportPages" Content="/1" FontSize="20" 
+                                                       HorizontalContentAlignment="Center"
+                                                       VerticalContentAlignment="Center"/>
+
+                                        <Button x:Name="nextPageCakeImportBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/next-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button x:Name="lastPageCakeImportBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/last-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button x:Name="addNewCakeImportBtn"
+                                                Content="Nhập Hàng"
+                                                Margin="10 -10 50 10"
+                                                Padding="5"
+                                                FontSize="13"
+                                                Foreground="White"
+                                                Background="#0078D7"
+                                                Style="{DynamicResource sgraykbtnstyle}"
+                                                Click="addItem_Click"/>
+
+                                    </StackPanel>
+                                </Grid>
                             </Fluent:BackstageTabItem>
                             <Fluent:BackstageTabItem Header="Tạo Đơn Hàng" FontSize="15" FontWeight="DemiBold">
 

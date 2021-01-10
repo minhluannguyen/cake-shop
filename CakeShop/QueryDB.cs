@@ -118,6 +118,28 @@ namespace CakeShop
                         });
             return query.ToList();
         }
+        public dynamic getBindingCakeImport()
+        {
+            var query = db.CakeImportOrders
+                        .Join(db.Products,
+                            cakeImport => cakeImport.ProductID,
+                            product => product.ID,
+                            (cakeImport, product) => new
+                            {
+                                ID = cakeImport.ID,
+                                ImportOrderName = cakeImport.ImportOrderName,
+                                ProductID = cakeImport.ProductID,
+                                NameCake = product.Name,
+                                ImportDate = cakeImport.ImportDate,
+                                ExpirationDate = cakeImport.ExpirationDate,
+                                Quantity = cakeImport.Quantity,
+                                ImportPrice = cakeImport.ImportPrice,
+                                Total = cakeImport.Total
+                            }
+                        );
+
+            return query.ToList();
+        }
         public List<TypeCake> getOriginTypeCakeList()
         {
             var query = db.TypeCakes;
@@ -319,6 +341,28 @@ namespace CakeShop
 
             return false;
         }
+        public bool hasSameCakeImport(CakeImportOrder cakeImportOrder)
+        {
+            var listCakeImport = db.CakeImportOrders.ToList();
+            foreach (var item in listCakeImport)
+            {
+                if (item.ID != cakeImportOrder.ID && item.ImportOrderName.Equals(cakeImportOrder.ImportOrderName) && item.ProductID == cakeImportOrder.ProductID)
+                {
+                    return true;
+                }
+                else
+                {
+                    // do nothing
+                }
+            }
+
+            return false;
+        }
+        public List<Product> getOriginProductList()
+        {
+            var query = db.Products;
+            return query.ToList();
+        }
         public Product findProductByID(int ID)
         {
             Product product = db.Products.Find(ID);
@@ -399,6 +443,69 @@ namespace CakeShop
                 db.SaveChanges();
 
                 db.Products.Remove(cake);
+                db.SaveChanges();
+            }
+            else
+            {
+                // do nothing
+            }
+        }
+        public string getNameCakeByID(int ID)
+        {
+            var entityVal = db.Products.Find(ID);
+
+            if (entityVal != null)
+            {
+                return entityVal.Name;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public void addCakeImport(CakeImportOrder cakeImportOrder)
+        {
+            //Save to CakeImportOrders
+            db.CakeImportOrders.Add(cakeImportOrder);
+            db.SaveChanges();
+
+            //Add amount to Products
+            var productQuery = db.Products
+                .Find(
+                    cakeImportOrder.ProductID
+                );
+            productQuery.Amount += cakeImportOrder.Quantity;
+            db.SaveChanges();
+        }
+        public void updateCakeImport(CakeImportOrder cakeImportOrder, int previousQuatity)
+        {
+            var cakeImport = db.CakeImportOrders.Find(cakeImportOrder.ID);
+            cakeImport.ImportOrderName = cakeImportOrder.ImportOrderName;
+            cakeImport.ProductID = cakeImportOrder.ProductID;
+            cakeImport.ImportDate = cakeImportOrder.ImportDate;
+            cakeImport.ExpirationDate = cakeImportOrder.ExpirationDate;
+            cakeImport.Quantity = cakeImportOrder.Quantity;
+            cakeImport.ImportPrice = cakeImportOrder.ImportPrice;
+            cakeImport.Total = cakeImportOrder.Total;
+            db.SaveChanges();
+
+
+            //Add amount to Products
+            var productQuery = db.Products
+                .Find(
+                    cakeImportOrder.ProductID
+                );
+            productQuery.Amount = productQuery.Amount - previousQuatity + cakeImport.Quantity;
+            db.SaveChanges();
+
+        }
+        public void deleteCakeImport(CakeImportOrder cakeImportOrder)
+        {
+            var cakeImport = db.CakeImportOrders.Find(cakeImportOrder.ID);
+
+            if (cakeImport != null)
+            {
+                db.CakeImportOrders.Remove(cakeImport);
                 db.SaveChanges();
             }
             else
