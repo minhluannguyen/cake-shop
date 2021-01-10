@@ -94,30 +94,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CakeImportOrder.cs">
-      <DependentUpon>CakeShopDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="CakeNameConverter.cs" />
-    <Compile Include="CakeShopDB.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CakeShopDB.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CakeShopDB.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CakeShopDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CakeShopDB.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CakeShopDB.edmx</DependentUpon>
-    </Compile>
     <Compile Include="ConstantVariable.cs" />
     <Compile Include="CustomAppConfiguration.cs" />
-    <Compile Include="Customer.cs">
-      <DependentUpon>CakeShopDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="CustomXMLExtension.cs" />
     <Compile Include="DateTimeFormatConverter.cs" />
     <Compile Include="DetailCakeScreen.xaml.cs">
@@ -141,29 +120,14 @@
     <Compile Include="ListTypeCake.xaml.cs">
       <DependentUpon>ListTypeCake.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Order.cs">
-      <DependentUpon>CakeShopDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OrderDetail.cs">
-      <DependentUpon>CakeShopDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="PreMainScreen.xaml.cs">
       <DependentUpon>PreMainScreen.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Product.cs">
-      <DependentUpon>CakeShopDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ProductImage.cs">
-      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="QueryDB.cs" />
     <Compile Include="SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="StaticTask.cs" />
-    <Compile Include="TypeCake.cs">
-      <DependentUpon>CakeShopDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="TypeCakeNameConverter.cs" />
     <Compile Include="Ulties.cs" />
     <Compile Include="WPF_BooleanToImageString.cs" />
@@ -233,13 +197,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="CakeShopDB.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CakeShopDB.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="CakeShopDB.edmx.diagram">
-      <DependentUpon>CakeShopDB.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -694,16 +651,6 @@
     <Resource Include="Images\Background\mainWindow.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CakeShopDB.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CakeShopDB.edmx</DependentUpon>
-      <LastGenOutput>CakeShopDB.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="CakeShopDB.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CakeShopDB.edmx</DependentUpon>
-      <LastGenOutput>CakeShopDB.cs</LastGenOutput>
-    </Content>
     <Resource Include="Images\control-icon\shopping-cart-added.png" />
     <Resource Include="Images\control-icon\shopping-cart.png" />
   </ItemGroup>

@@ -23,6 +23,7 @@ namespace CakeShop
         public int ID { get; set; }
         public Nullable<int> PhoneCustomer { get; set; }
         public Nullable<int> Amount { get; set; }
+        public Nullable<int> Status { get; set; }
     
         public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

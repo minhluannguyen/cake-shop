@@ -358,3 +358,24 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
+CakeShop/CakeStoreDB.tt
+CakeShop/CakeStoreDB.edmx.diagram
+CakeShop/CakeStoreDB.edmx
+CakeShop/CakeStoreDB.Designer.cs
+CakeShop/CakeStoreDB.cs
+CakeShop/CakeStoreDB.Context.tt
+CakeShop/CakeStoreDB.Context.cs
+CakeShop/CakeShopDB.tt
+CakeShop/CakeShopDB.edmx.diagram
+CakeShop/CakeShopDB.edmx
+CakeShop/CakeShopDB.Designer.cs
+CakeShop/CakeShopDB.cs
+CakeShop/CakeShopDB.Context.tt
+CakeShop/CakeShopDB.Context.cs
+CakeShop/CakeShopDB.tt
+CakeShop/CakeShopDB.edmx.diagram
+CakeShop/CakeShopDB.edmx
+CakeShop/CakeShopDB.Designer.cs
+CakeShop/CakeShopDB.cs
+CakeShop/CakeShopDB.Context.tt
+CakeShop/CakeShopDB.Context.cs
