@@ -21,6 +21,7 @@
         <local:TypeCakeNameConverter x:Key="IDtoNameTypeCakeConverter"/>
         <local:WPF_GetLinkImageFromSavedFolderConverter x:Key="LinkImageOriginConverter"/>
         <local:WPF_BooleanToImageString x:Key="BooleanToImageString"/>
+        <local:WPF_ID_ProductToThumnailConverter x:Key="fromID_ProductToThumbnailConverter"/>
 
 
         <Style TargetType="ListViewItem">
@@ -59,6 +60,27 @@
         <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
         <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
         <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+
+        <Style x:Key="cursorArrowFull" TargetType="{x:Type TextBlock}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Arrow"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Cursor" Value="Arrow"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="underlineTextBlockHandler" TargetType="{x:Type TextBlock}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="TextDecorations" Value="Underline"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="TextDecorations" Value="none"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
             <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
@@ -107,6 +129,13 @@
                             <Trigger Property="IsMouseOver" Value="true">
                                 <Setter Property="Cursor" Value="Hand" />
                                 <Setter Property="Background" TargetName="border" Value="{StaticResource hoverbutton}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource hoverbutton}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Cursor" Value="Arrow" />
+                                <Setter Property="Foreground" Value="#0078D7"/>
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource transparentColor}"/>
                                 <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource hoverbutton}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
@@ -623,18 +652,17 @@
                                                      MouseLeftButtonDown="BackstageTabItem_MouseLeftButtonDown">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="9.5*"/>
-                                        <!--<RowDefinition Height="0.5*"/>-->
-                                        <RowDefinition Height="0.5*"/>
+                                        <RowDefinition Height="8.5*"/>
+                                        <RowDefinition Height="1.5*"/>
                                     </Grid.RowDefinitions>
-                                    <!--<ListView Grid.Row="0" Background="Transparent" Margin="20 20 80 20"
+                                    <ListView Grid.Row="0" Margin="20 20 20 20"
                                               x:Name="detailCartListViewRibbon"
                                               BorderBrush="Transparent"
                                               Foreground="#fd5533"
                                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                                         <ListView.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <WrapPanel 
+                                                <StackPanel Orientation="Vertical" 
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Top"
                                                 />
@@ -643,12 +671,30 @@
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
                                                 <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                                                <!--<Style.Triggers>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property=""
+                                                        </MultiTrigger.Conditions>
+                                                        <MultiTrigger.Setters>
+                                                            
+                                                        </MultiTrigger.Setters>
+                                                    </MultiTrigger>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            
+                                                        </MultiTrigger.Conditions>
+                                                        <MultiTrigger.Setters>
+                                                            
+                                                        </MultiTrigger.Setters>
+                                                    </MultiTrigger>
+                                                </Style.Triggers>-->
                                             </Style>
                                         </ListView.ItemContainerStyle>
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
-                                                <StackPanel Cursor="Hand" VerticalAlignment="Top" Orientation="Horizontal">
-                                                    <Grid  MouseDown="ItemProductPreview_MouseDown" Width="120" Height="120" HorizontalAlignment="Center">
+                                                <StackPanel Cursor="Hand" VerticalAlignment="Top" Orientation="Horizontal" Margin="30 15">
+                                                    <Grid HorizontalAlignment="Center">
                                                         <Grid.Resources>
                                                             <Style TargetType="{x:Type Border}" x:Key="styleBorder">
                                                                 <Style.Triggers>
@@ -671,55 +717,93 @@
                                                                 </Style.Triggers>
                                                             </Style>
                                                         </Grid.Resources>
-                                                        <Border x:Name="borderOfListView" 
-                                                                Margin="10"
-                                                                VerticalAlignment="Top"
+                                                        <Border Margin="10"
+                                                                VerticalAlignment="Center"
                                                                 BorderBrush="#F73148"
                                                                 BorderThickness=".5"
                                                                 CornerRadius="18"
-                                                                Height="100" Width="100">
-                                                            <Border.Effect>
+                                                                Height="80" Width="120">
+                                                            <!--<Border.Effect>
                                                                 <DropShadowEffect BlurRadius="5"
                                                                                   Opacity=".5"
                                                                                   ShadowDepth="3" />
-                                                            </Border.Effect>
+                                                            </Border.Effect>-->
                                                             <Border Name="ReceiverColor"
                                                                     BorderBrush="#F73148"
                                                                     BorderThickness="0"
-                                                                    CornerRadius="15">
+                                                                    CornerRadius="15" Padding="30 0 30 0">
                                                                 <Canvas>
                                                                     <Border Name="Mask"
                                                                             Background="{StaticResource listCakeBackgroundColor}"
                                                                             BorderBrush="#F73148"
                                                                             BorderThickness=".5"
                                                                             CornerRadius="13"
-                                                                            Height="100" Width="100">
+                                                                            Height="80" Width="120">
                                                                     </Border>
-                                                                    <StackPanel>
-                                                                        <Image x:Name="splashImg"
-                                                                               Stretch="Fill"
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <StackPanel>
+                                                                            <Image Stretch="Fill"
                                                                                VerticalAlignment="Top"
-                                                                               Source="{Binding Thumbnail, Converter={StaticResource LinkImageOriginConverter}}"
-                                                                               Height="100" Width="100" />
-
-                                                                        <StackPanel.OpacityMask>
-                                                                            <VisualBrush Visual="{Binding ElementName=Mask}" />
-                                                                        </StackPanel.OpacityMask>
+                                                                               Source="{Binding ID_Product, Converter={StaticResource fromID_ProductToThumbnailConverter}}"
+                                                                               Height="80" Width="120" MouseDown="ImageProductInCart_MouseDown">
+                                                                                <Image.Style>
+                                                                                    <Style TargetType="Image">
+                                                                                        <Style.Triggers>
+                                                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                                                <Setter Property="Cursor" Value="Hand"/>
+                                                                                            </Trigger>
+                                                                                            <Trigger Property="IsMouseOver" Value="False">
+                                                                                                <Setter Property="Cursor" Value="Arrow"/>
+                                                                                            </Trigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                </Image.Style>
+                                                                            </Image>
+                                                                            <StackPanel.OpacityMask>
+                                                                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                                                            </StackPanel.OpacityMask>
+                                                                        </StackPanel>
+                                                                        <TextBlock Text="{Binding Name}" Width="250" FontSize="15" Margin="20 0 0 0" 
+                                                                                   TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#403432" HorizontalAlignment="Center"
+                                                                                   TextAlignment="Center" Style="{StaticResource underlineTextBlockHandler}"
+                                                                                   MouseDown="TextBlock_MouseDown"/>
+                                                                        <TextBlock Text="{Binding ID_Type, Converter={StaticResource IDtoNameTypeCakeConverter}}"
+                                                                                   Width="200" FontSize="13" Foreground="#403432" Margin="20 0 0 0" 
+                                                                                   TextWrapping="Wrap" VerticalAlignment="Center" Style="{StaticResource cursorArrowFull}"
+                                                                                   TextAlignment="Left"/>
+                                                                        <TextBlock Text="{Binding Price, Converter={StaticResource moneyConverter}}"
+                                                                                   Width="100"  FontSize="13" Foreground="#403432" Margin="20 0 0 0" 
+                                                                                   TextWrapping="Wrap" VerticalAlignment="Center" Style="{StaticResource cursorArrowFull}"
+                                                                                   TextAlignment="Right"/>
+                                                                        <TextBlock Text="{Binding Quantity}"
+                                                                                   Width="50" FontSize="13" Foreground="#403432" Margin="20 0 0 0" 
+                                                                                   TextWrapping="Wrap" VerticalAlignment="Center" Style="{StaticResource cursorArrowFull}"
+                                                                                   TextAlignment="Right"/>
+                                                                        <TextBlock Text="{Binding Amount, Converter={StaticResource moneyConverter}}"
+                                                                                   Width="150" FontSize="13" Foreground="#403432" Margin="20 0 20 0" 
+                                                                                   TextWrapping="Wrap" VerticalAlignment="Center" Style="{StaticResource cursorArrowFull}"
+                                                                                   TextAlignment="Right"/>
+                                                                        <TextBlock Text="Xóa" MouseEnter="DeleteDetail_MouseEnter" 
+                                                                                   MouseLeave="DeleteDetail_MouseLeave"
+                                                                                   MouseDown="DeleteDetail_MouseDown" Padding="10"
+                                                                                   FontSize="13" Foreground="#403432" Margin="20 0 0 0" 
+                                                                                   TextWrapping="Wrap" VerticalAlignment="Center"
+                                                                                   TextAlignment="Center"/>
                                                                     </StackPanel>
                                                                 </Canvas>
                                                             </Border>
                                                         </Border>
                                                     </Grid>
                                                     <TextBlock 
-                                                        Text="{Binding ID}"
+                                                        Text="{Binding ID_Product}"
                                                         Visibility="Collapsed"
                                                     />
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
-                                    </ListView>-->
-                                    <StackPanel Orientation="Vertical" Grid.Row="0">
-                                        <Grid  MouseDown="ItemProductPreview_MouseDown" Width="120" Height="120" HorizontalAlignment="Center">
+                                    </ListView>
+                                    <StackPanel Orientation="Vertical" Grid.Row="0" Visibility="Collapsed">
+                                        <Grid  MouseDown="ItemProductPreview_MouseDown" Width="auto" Height="120" HorizontalAlignment="Center">
                                             <Grid.Resources>
                                                 <Style TargetType="{x:Type Border}" x:Key="styleBorder">
                                                     <Style.Triggers>
@@ -782,7 +866,7 @@
                                                 </Border>
                                             </Border>
                                         </Grid>
-                                        <Grid  MouseDown="ItemProductPreview_MouseDown" Width="120" Height="120" HorizontalAlignment="Center">
+                                        <Grid  MouseDown="ItemProductPreview_MouseDown" Width="auto" Height="120" HorizontalAlignment="Center">
                                             <Grid.Resources>
                                                 <Style TargetType="{x:Type Border}" x:Key="styleBorder">
                                                     <Style.Triggers>
@@ -881,16 +965,21 @@
                                             </Button.Content>
                                         </Button>
                                     </StackPanel>
-                                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                        <TextBlock Margin="30" Foreground="#53413F" FontSize="30" TextAlignment="Right">
+                                            <Run Text="Tổng tiền hàng" />
+                                            <LineBreak/>
+                                            <Run Text="{Binding TotalPrice, Converter={StaticResource moneyConverter}}" Foreground="Red" BaselineAlignment="Center"/>
+                                        </TextBlock>
                                         <Button x:Name="payCartBtn"
                                                 Content="Thanh Toán"
-                                                Margin="10 -10 50 10"
-                                                Padding="5"
-                                                FontSize="13"
-                                                Foreground="#0078D7"
-                                                Background="Transparent"
+                                                Margin="0 0 80 0"
+                                                Padding="15 5"
+                                                FontSize="20"
+                                                Height="40"
                                                 Style="{DynamicResource sgraykbtnstyle}"
-                                                Click="addItem_Click"/>
+                                                Click="PaymentCommand_Click">
+                                        </Button>
 
                                     </StackPanel>
                                 </Grid>

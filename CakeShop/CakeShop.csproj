@@ -94,6 +94,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bill.xaml.cs">
+      <DependentUpon>Bill.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CakeImportOrder.cs">
       <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
@@ -171,8 +174,13 @@
     <Compile Include="Ulties.cs" />
     <Compile Include="WPF_BooleanToImageString.cs" />
     <Compile Include="WPF_GetLinkImageFromSavedFolderConverter.cs" />
+    <Compile Include="WPF_ID_ProductToThumnailConverter.cs" />
     <Compile Include="WPF_IntToStringConverter.cs" />
     <Compile Include="WPF_TitleDetailProduct.cs" />
+    <Page Include="Bill.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DetailCakeScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

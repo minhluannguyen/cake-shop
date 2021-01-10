@@ -49,6 +49,45 @@
                                 <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
                                 <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
                                 <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                                <Setter Property="Cursor" Value="Arrow"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="FontSize" Value="20"/>
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="Foreground" Value="{StaticResource hintTextColor}"/>
+                                <Setter Property="FontWeight" Value="DemiBold"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style
+            x:Key="toggleEnableBtn" TargetType="{x:Type Button}"
+        >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource hoverbutton}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource clickbutton}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                                <Setter Property="Cursor" Value="Arrow"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="True">
                                 <Setter Property="Background" TargetName="border" Value="{StaticResource bgKeyColor}"/>
@@ -213,17 +252,27 @@
                             <Run Text="Mô tả: "/>
                             <Run Text="{Binding Description}" FontWeight="Normal" FontStyle="Italic"/>
                         </TextBlock>
-                        <TextBlock 
-                                Grid.Row="0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                FontSize="20"
-                                Margin="5"
-                                Foreground="{StaticResource hintTextColor}" 
-                                FontWeight="Bold" 
-                                FontFamily="Barlow Condensed">
-                                <Run Text="Số lượng hiện có: "/>
-                                <Run Text="{Binding Amount}"/>
+                        <TextBlock Grid.Row="0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="20"
+                                   Margin="5"
+                                   Foreground="{StaticResource hintTextColor}" 
+                                   FontWeight="Bold" 
+                                   FontFamily="Barlow Condensed">
+                                    <Run Text="Số lượng hiện có: "/>
+                                    <Run Text="{Binding Amount}"/>
+                        </TextBlock>
+                        <TextBlock Grid.Row="0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="20"
+                                   Margin="5"
+                                   Foreground="{StaticResource hintTextColor}" 
+                                   FontWeight="Bold" 
+                                   FontFamily="Barlow Condensed">
+                                    <Run Text="Số lượng trong giỏ: "/>
+                                    <Run Text="{Binding QuantityInCart}"/>
                         </TextBlock>
                         <TextBlock 
                             HorizontalAlignment="Left"
@@ -261,7 +310,7 @@
 
                         <Button
                             x:Name="SubtractAmountButton"
-                            Padding="10"
+                            Padding="10 -10 10 0"
                             Margin="5"
                             Height="40"
                             Width="40"
@@ -275,7 +324,7 @@
                                     <TextBlock
                                         FontSize="50"
                                         VerticalAlignment="Center"
-                                        FontWeight="Bold"
+                                        FontWeight="Normal"
                                         Text="-"
                                     />
                                 </StackPanel>
@@ -318,13 +367,13 @@
                             Text="0"
                             FontSize="25"
                             VerticalContentAlignment="Center"
-                            HorizontalContentAlignment="Center" TextChanged="AmountTextBox_TextChanged"
+                            HorizontalContentAlignment="Center" TextChanged="AmountTextBox_TextChanged" LostFocus="AmountTextBox_LostFocus"
                             
                         />
 
                         <Button
                             x:Name="AddAmountButton"
-                            Padding="10"
+                            Padding="10 -10 10 0"
                             Margin="5, 0"
                             Height="40"
                             Width="40"
@@ -371,10 +420,12 @@
                             </Button.Resources>
                         </Button>
                     </StackPanel>
-                    <Button Padding="10"
+                    <Button x:Name="addToCartButton"
+                            Padding="10"
                             Margin="30 -10 260 35"
-                            Style="{DynamicResource suggestWordButton}"
-                            Grid.Row="1">
+                            Style="{DynamicResource toggleEnableBtn}"
+                            Grid.Row="1"
+                            Click="AddToCartButton_Click">
                         <Button.Content>
                             <StackPanel
                                     HorizontalAlignment="Left"

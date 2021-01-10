@@ -21,22 +21,38 @@ namespace CakeShop
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Fluent.RibbonWindow
+    public partial class MainWindow : Fluent.RibbonWindow, INotifyPropertyChanged
     {
         CakeStoreDBEntities db = new CakeStoreDBEntities();
 
         TypeCake type_filter = null;
+
+        public int _totalPrice = 0;
+
+
+        public int TotalPrice {
+            get { return _totalPrice; }
+            set
+            {
+                _totalPrice = value;
+                PropertyChanged?.Invoke(this,
+                    new PropertyChangedEventArgs("TotalPrice"));
+            }
+        }
+
 
         public int RibbonItem { get; set; }
         public MainWindow()
         {
             InitializeComponent();
             this.updateListviewSource();
+            this.DataContext = this;
         }
         public MainWindow(bool a)
         {
             InitializeComponent();
             this.updateListviewSource();
+            this.DataContext = this;
         }
 
         private void FluentButtonQuit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -110,27 +126,43 @@ namespace CakeShop
         private void BackstageTabItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var senderItem = sender as Fluent.BackstageTabItem;
-            dynamic query;
 
             switch (senderItem.Name)
             {
                 case "TypeCakeItem":
                     this.RibbonItem = ConstantVariable.RIBBON_TYPECAKE;
-                    query = QueryDB.Instance.getBindingTypeCake();
-                    typeCakeListViewRibbon.ItemsSource = query;
+                    {
+                        dynamic query = QueryDB.Instance.getBindingTypeCake();
+                        typeCakeListViewRibbon.ItemsSource = query;
+                    }
                     break;
                 case "cakeItem":
                     this.RibbonItem = ConstantVariable.RIBBON_CAKE;
-                    query = QueryDB.Instance.getBindingCakeList();
-                    cakeListViewRibbon.ItemsSource = query;
+                    {
+                        dynamic query = QueryDB.Instance.getBindingCakeList();
+                        cakeListViewRibbon.ItemsSource = query;
+                    }
                     break;
                 case "cakeImportItem":
                     this.RibbonItem = ConstantVariable.RIBBON_CAKEIMPORT;
-                    query = QueryDB.Instance.getBindingCakeImport();
-                    cakeImportOrderListViewRibbon.ItemsSource = query;
+                    {
+                        dynamic query = QueryDB.Instance.getBindingCakeImport();
+                        cakeImportOrderListViewRibbon.ItemsSource = query;
+                    }
                     break;
                 case "CartItem":
                     this.RibbonItem = ConstantVariable.RIBBON_PAYMENT;
+                    {
+                        dynamic query = QueryDB.Instance.getListProductInCart();
+                        detailCartListViewRibbon.ItemsSource = query;
+
+                        int total = 0;
+                        foreach(var item in query)
+                        {
+                            total = total + item.Amount;
+                        }
+                        this.TotalPrice = total;
+                    }
                     break;
                 case "SettingItem":
                     this.RibbonItem = ConstantVariable.RIBBON_SETTING;
@@ -271,6 +303,20 @@ namespace CakeShop
                         }
 
                         break;
+                    case ConstantVariable.RIBBON_PAYMENT:
+                        {
+                            dynamic selectedItem = detailCartListViewRibbon.SelectedItem;
+
+                            Product product = QueryDB.Instance.findProductByID(selectedItem.ID_Product);
+
+                            DetailCakeScreen screen = new DetailCakeScreen(product);
+                            screen.Owner = this;
+                            screen.ShowDialog();
+
+                            BackstageTabItem_MouseLeftButtonDown(CartItem, null);
+                        }
+
+                        break;
                 }
 
             }
@@ -302,7 +348,7 @@ namespace CakeShop
 
             //Get TextBlock contain item's id.
             var ID_Product = ((TextBlock)VisualTreeHelper.GetChild(senderStackPanel, 2)).Text as string;
-            var nameProduct = ((TextBlock)VisualTreeHelper.GetChild(senderStackPanel, 1)).Text as string;
+            //var nameProduct = ((TextBlock)VisualTreeHelper.GetChild(senderStackPanel, 1)).Text as string;
             //MessageBox.Show($"> Name: {nameProduct} - ID: {ID_Product}");
 
             // get Product by that ID
@@ -387,5 +433,62 @@ namespace CakeShop
 
 
         }
+
+        private void DeleteDetail_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var deleteSymbol = sender as TextBlock;
+
+            var converter = new System.Windows.Media.BrushConverter();
+            var brush = (Brush)converter.ConvertFromString("#F73148");
+
+            deleteSymbol.Foreground = brush;
+        }
+
+        private void DeleteDetail_MouseLeave(object sender, MouseEventArgs e)
+        {
+            var deleteSymbol = sender as TextBlock;
+
+            var converter = new System.Windows.Media.BrushConverter();
+            var brush = (Brush)converter.ConvertFromString("#403432");
+
+            deleteSymbol.Foreground = brush;
+        }
+
+        private void DeleteDetail_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBoxResult userChoose = MessageBox.Show("Bạn có chắc chắn xóa sản phẩm này khỏi giỏ hàng?", "Thông báo", MessageBoxButton.YesNo);
+            if(userChoose == MessageBoxResult.Yes)
+            {
+
+                //BackstageTabItem_MouseLeftButtonDown(CartItem, null);
+            }
+            else
+            {
+                // do nothing
+            }
+        }
+
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void ImageProductInCart_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void PaymentCommand_Click(object sender, RoutedEventArgs e)
+        {
+            Bill screeen = new Bill();
+            screeen.Owner = this;
+            screeen.ShowDialog();
+
+            BackstageTabItem_MouseLeftButtonDown(CartItem, null);
+        }
+
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

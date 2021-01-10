@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -36,6 +37,7 @@ namespace CakeShop
             _vm = new DetailCakeScreenVM(product);
             currentProduct = product;
             this.DataContext = _vm;
+            addToCartButton.IsEnabled = false;
         }
 
         public class DetailCakeScreenVM : INotifyPropertyChanged
@@ -58,12 +60,26 @@ namespace CakeShop
                 }
             }
 
+
+            public int _quantityInCart;
+            public int QuantityInCart
+            {
+                get { return _quantityInCart; }
+                set
+                {
+                    _quantityInCart = value;
+                    PropertyChanged?.Invoke(this,
+                        new PropertyChangedEventArgs("QuantityInCart"));
+                }
+            }
+
             public DetailCakeScreenVM(Product product)
             {
                 this.Name = product.Name;
                 this.Description = product.Description;
                 this.Amount = product.Amount.GetValueOrDefault();
                 this.Thumbnail = "/Images/no_image_available.jpeg";
+                this.QuantityInCart = QueryDB.Instance.countQuantityOfProductInCart(product.ID);
 
                 CakeStoreDBEntities db = new CakeStoreDBEntities();
 
@@ -139,14 +155,14 @@ namespace CakeShop
         {
             string amountStr = AmountTextBox.Text;
             int amount = 0;
-
             if (!int.TryParse(amountStr, out amount))
             {
                 MessageBox.Show("Số lượng phải là số!", "Lưu ý", MessageBoxButton.OK);
                 return;
             }
 
-            if (amount == 0)
+
+            if (amount == -_vm.QuantityInCart)
             {
                 return;
             }
@@ -159,19 +175,56 @@ namespace CakeShop
         {
             if (currentProduct == null)
                 return;
+            
 
             string amountStr = AmountTextBox.Text;
             int amount = 0;
 
-            if (!int.TryParse(amountStr, out amount))
-            {
-                MessageBox.Show("Số lượng phải là số!", "Lưu ý", MessageBoxButton.OK);
-                return;
+            if (amountStr.Length == 0) return;
+            
+            if (amountStr[0] == '-'){
+                if(amountStr.Length == 1)
+                {
+                    return;
+                }
+                else
+                {
+                    if (!int.TryParse(amountStr, out amount))
+                    {
+                        MessageBox.Show("Số lượng phải là số!", "Lưu ý", MessageBoxButton.OK);
+                        AmountTextBox.Text = "0";
+                        return;
+                    }
+                    //if(amount != 0)
+                    //{
+                    //    amount = -amount;
+                    //}
+                }
             }
-
-            if (amount < 0)
+            else
             {
-                AmountTextBox.Text = "0";
+                if (!int.TryParse(amountStr, out amount))
+                {
+                    MessageBox.Show("Số lượng phải là số!", "Lưu ý", MessageBoxButton.OK);
+                    AmountTextBox.Text = "0";
+                    return;
+                }
+            }
+            Debug.WriteLine($"-->> {amountStr[0] == '-'} - {amountStr} - {amount}");
+            if (amountStr[0] == '0' && amountStr.Length > 1)
+            {
+                AmountTextBox.Text = amountStr.Substring(1, amountStr.Length-1);
+            }
+            
+
+            //if (amountStr[0] == '-')
+            //{
+            //    amount = -amount;
+            //}
+
+            if (amount < -_vm.QuantityInCart)
+            {
+                AmountTextBox.Text = $"{-_vm.QuantityInCart}";
                 return;
             }
 
@@ -181,7 +234,49 @@ namespace CakeShop
                 return;
             }
 
+            if(amount != 0)
+            {
+                addToCartButton.IsEnabled = true;
+            }
+            else
+            {
+                addToCartButton.IsEnabled = false;
+            }
+
             AmountTextBox.Text = amount.ToString();
+        }
+        private void AddToCartButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int value = Int32.Parse(AmountTextBox.Text);
+                QueryDB.Instance.addToCart(currentProduct, value);
+                if (value > 0)
+                {
+                    MessageBox.Show("Thêm vào giỏ hàng thành công!");
+                }
+                else
+                {
+                    MessageBox.Show("Loại sản phẩm khỏi giỏ hàng thành công!");
+                }
+            }
+            catch(Exception )
+            {
+                MessageBox.Show("Thêm vào giỏ hàng thất bại!");
+            }
+
+        }
+
+        private void AmountTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if(AmountTextBox.Text.Length == 0)
+            {
+                AmountTextBox.Text = "0";
+            }
+            else
+            {
+                // do nothing
+            }
         }
     }
 }

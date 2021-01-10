@@ -324,6 +324,23 @@ namespace CakeShop
                         );
             return query.ToList();
         }
+        public string getThumbnailOf1Product(int ID)
+        {
+            string nameThumbnail = null;
+
+            var query = db.ProductImages.Where(x => x.ID_Product == ID);
+
+            if(query.Count() == 0)
+            {
+                nameThumbnail = string.Empty;
+            }
+            else
+            {
+                nameThumbnail = query.FirstOrDefault().ImageName;
+            }
+
+            return nameThumbnail;
+        }
         public bool hasSameCake(Product product)
         {
             var listCake = db.Products.ToList();
@@ -514,5 +531,89 @@ namespace CakeShop
             }
         }
 
+        public int getOrderWaitingOrder()
+        {
+            int id = 0;
+            if (db.Orders.Count() == 0)
+            {
+                id = 0;
+            }
+            else
+            {
+                id = db.Orders.Where(x => x.Status == 0).FirstOrDefault().ID;
+            }
+
+            return id;
+        }
+        public void addToCart(Product product, int quantity)
+        {
+            var productInCart = db.OrderDetails.Where(x => x.ID_Cake == product.ID && x.ID_Order == null);
+            if (productInCart.Count() == 0)  // the products haven't in cart yet
+            {
+                // generate a Detail
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.ID = db.OrderDetails.Count() > 0 ? db.OrderDetails.ToList().Last().ID + 1 : 0;
+                orderDetail.ID_Cake = product.ID;
+                orderDetail.ID_Order = null;
+                orderDetail.No = db.OrderDetails.Where(x => x.ID_Order == null).Count() + 1;
+                orderDetail.Quantity = quantity;
+                orderDetail.Amount = product.Price * quantity;
+
+                db.OrderDetails.Add(orderDetail);
+                db.SaveChanges();
+            }
+            else
+            {
+                var item = db.OrderDetails.Find(productInCart.FirstOrDefault().ID);
+                int newQuantity = (item.Quantity + quantity) ?? 0;
+                if (newQuantity > 0)
+                {
+                    item.Quantity = newQuantity > product.Amount ? product.Amount : newQuantity;
+                    item.Amount = item.Quantity * product.Price;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    db.OrderDetails.Remove(item);
+                    db.SaveChanges();
+                }
+            }
+        }
+        public dynamic getListProductInCart()
+        {
+            var query = db.OrderDetails
+                                .Join(db.Products,
+                                    detail => detail.ID_Cake,
+                                    product => product.ID,
+                                    (detail, product) => new
+                                    {
+                                        ID = detail.ID,
+                                        ID_Product = product.ID,
+                                        ID_Type = product.IDTypeCake,
+                                        No = detail.No,
+                                        Quantity = detail.Quantity,
+                                        Price = product.Price,
+                                        Amount = detail.Amount,
+                                        Name = product.Name,
+                                    }
+                                ).AsEnumerable();
+            return query.ToList();
+        }
+        public int countQuantityOfProductInCart(int idProduct)
+        {
+            int count = 0;
+
+            var query = db.OrderDetails.Where(x => x.ID_Cake == idProduct && x.ID_Order == null);
+            if(query.Count() > 0)   // has product in cart
+            {
+                count = query.FirstOrDefault().Quantity ?? 0;
+            }
+            else
+            {
+                count = 0;
+            }
+
+            return count;
+        }
     }
 }
