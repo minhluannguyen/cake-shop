@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -47,8 +48,10 @@ namespace CakeShop
         {
             if (e.Key == Key.Enter)
             {
-                var keyword = sender as string;
-                Debug.WriteLine($"-> {keyword}");
+                var keyword = (sender as TextBox).Text as string;
+                var listItem = QueryDB.Instance.getBindingCakeList(ConstantVariable.FILTER_BY_KEYWORD,keyword);
+                dataListView.ItemsSource = listItem;
+
             }
             else
             {

@@ -26,6 +26,7 @@ namespace CakeShop
         public const int SORT_BY_INC_PRICE = 3;
         public const int SORT_BY_DEC_PRICE = 4;
         public const int FILTER_BY_TYPE = 5;
+        public const int FILTER_BY_KEYWORD = 6;
 
 
         public const int RIBBON_TYPECAKE = 0;
@@ -50,6 +51,36 @@ namespace CakeShop
             {
                 return MAX_DIMENSIONS_SPLASH;
             }
+        }
+        public static string Convertor_UNICODE_ASCII(string unicodestring, bool includeSpace = true)
+        {                                                                               /* hàm convert từ chuỗi unicode sang chuỗi ascii                    */
+
+            unicodestring = unicodestring.Normalize(NormalizationForm.FormD);
+
+
+            StringBuilder stringBuilder = new StringBuilder();                          /* tạo một string builder để xây dựng chuỗi                         */
+
+            for (int i = 0; i < unicodestring.Length; i++)
+            {                                                                           /* quét từng ký tự và chuyển ký tự đó thành ký tự ascii             */
+                System.Globalization.UnicodeCategory unicodeCategory = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(unicodestring[i]);
+                if (unicodeCategory != System.Globalization.UnicodeCategory.NonSpacingMark)
+                {
+                    stringBuilder.Append(unicodestring[i]);                             /* lưu ký tự đó vào trong string builder dựng sẵn                   */
+                }
+            }
+            stringBuilder.Replace("Đ", "D");                                            /* quá trình chuyển đổi không thể chuyển đổi 2 ký tự đ,Đ            */
+            stringBuilder.Replace("đ", "d");
+            if (includeSpace)                                                           /* nếu người hàm kiểm tra có yêu cầu giữ lại ký tự space thì giữ    */
+            {
+                // do nothing
+            }
+            else
+            {
+                stringBuilder.Replace(" ", "");
+            }
+            /* trả về kết quả chuyển đổi và không thay đổi chuỗi ban đầu        */
+            string result = ((stringBuilder.ToString()).Normalize(NormalizationForm.FormD)).ToLower();
+            return result;
         }
 
 

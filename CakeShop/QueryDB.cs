@@ -145,7 +145,7 @@ namespace CakeShop
         public bool hasSameNameTypeCake(TypeCake Type)
         {
             var listTypeCake = db.TypeCakes.ToList();
-            foreach(var item in listTypeCake)
+            foreach (var item in listTypeCake)
             {
                 if (item.ID != Type.ID && item.NameTypeCake.Equals(Type.NameTypeCake))
                 {
@@ -251,10 +251,36 @@ namespace CakeShop
                 case ConstantVariable.FILTER_BY_TYPE:
                     query = query.Where(x => x.Type == typeFilter);
                     break;
+                case ConstantVariable.FILTER_BY_KEYWORD:
+                    keyword = ConstantVariable.Convertor_UNICODE_ASCII(keyword, true);
+                    string[] keys = keyword.ToLower().Split(new char[] { '.', '?', '!', ' ', ';', ':', ',' },
+                                                    StringSplitOptions.RemoveEmptyEntries);
+                    var bindingQuery = query.Select(entity => new
+                                                {
+                                                    ID = entity.ID,
+                                                    Name = entity.NameCake
+                                                }).AsEnumerable()
+                                                .Select(entity => new {
+                                                    ID = entity.ID,
+                                                    Name = (ConstantVariable.Convertor_UNICODE_ASCII(entity.Name, true) as string)
+                                                })
+                                                .Where(res => keys.All(s => (res.Name).Contains(s)))
+                                                .Join(query,
+                                                    key => key.ID,
+                                                    entity => entity.ID,
+                                                    (key, entity) => entity
+                                                );
+                    //foreach (var item in tempList)
+                    //{
+                    //    Debug.WriteLine($"-- {item.ID} - {item.NameCake}");
+                    //}
+                    return bindingQuery.ToList();
+                    break;
             }
-            
+
             return query.ToList();
         }
+
 
         public int getLastIDCake()
         {
