@@ -619,11 +619,285 @@
                                     </StackPanel>
                                 </Grid>
                             </Fluent:BackstageTabItem>
-                            <Fluent:BackstageTabItem Header="Tạo Đơn Hàng" FontSize="15" FontWeight="DemiBold">
+                            <Fluent:BackstageTabItem x:Name="CartItem" Header="Giỏ Hàng" FontSize="15" FontWeight="DemiBold"
+                                                     MouseLeftButtonDown="BackstageTabItem_MouseLeftButtonDown">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="9.5*"/>
+                                        <!--<RowDefinition Height="0.5*"/>-->
+                                        <RowDefinition Height="0.5*"/>
+                                    </Grid.RowDefinitions>
+                                    <!--<ListView Grid.Row="0" Background="Transparent" Margin="20 20 80 20"
+                                              x:Name="detailCartListViewRibbon"
+                                              BorderBrush="Transparent"
+                                              Foreground="#fd5533"
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                                        <ListView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel 
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Top"
+                                                />
+                                            </ItemsPanelTemplate>
+                                        </ListView.ItemsPanel>
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Cursor="Hand" VerticalAlignment="Top" Orientation="Horizontal">
+                                                    <Grid  MouseDown="ItemProductPreview_MouseDown" Width="120" Height="120" HorizontalAlignment="Center">
+                                                        <Grid.Resources>
+                                                            <Style TargetType="{x:Type Border}" x:Key="styleBorder">
+                                                                <Style.Triggers>
+                                                                    <EventTrigger RoutedEvent="MouseEnter">
+                                                                        <BeginStoryboard>
+                                                                            <Storyboard>
+                                                                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="168" />
+                                                                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="280" />
+                                                                            </Storyboard>
+                                                                        </BeginStoryboard>
+                                                                    </EventTrigger>
+                                                                    <EventTrigger RoutedEvent="MouseLeave">
+                                                                        <BeginStoryboard>
+                                                                            <Storyboard>
+                                                                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="150" />
+                                                                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="250" />
+                                                                            </Storyboard>
+                                                                        </BeginStoryboard>
+                                                                    </EventTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Grid.Resources>
+                                                        <Border x:Name="borderOfListView" 
+                                                                Margin="10"
+                                                                VerticalAlignment="Top"
+                                                                BorderBrush="#F73148"
+                                                                BorderThickness=".5"
+                                                                CornerRadius="18"
+                                                                Height="100" Width="100">
+                                                            <Border.Effect>
+                                                                <DropShadowEffect BlurRadius="5"
+                                                                                  Opacity=".5"
+                                                                                  ShadowDepth="3" />
+                                                            </Border.Effect>
+                                                            <Border Name="ReceiverColor"
+                                                                    BorderBrush="#F73148"
+                                                                    BorderThickness="0"
+                                                                    CornerRadius="15">
+                                                                <Canvas>
+                                                                    <Border Name="Mask"
+                                                                            Background="{StaticResource listCakeBackgroundColor}"
+                                                                            BorderBrush="#F73148"
+                                                                            BorderThickness=".5"
+                                                                            CornerRadius="13"
+                                                                            Height="100" Width="100">
+                                                                    </Border>
+                                                                    <StackPanel>
+                                                                        <Image x:Name="splashImg"
+                                                                               Stretch="Fill"
+                                                                               VerticalAlignment="Top"
+                                                                               Source="{Binding Thumbnail, Converter={StaticResource LinkImageOriginConverter}}"
+                                                                               Height="100" Width="100" />
 
+                                                                        <StackPanel.OpacityMask>
+                                                                            <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                                                        </StackPanel.OpacityMask>
+                                                                    </StackPanel>
+                                                                </Canvas>
+                                                            </Border>
+                                                        </Border>
+                                                    </Grid>
+                                                    <TextBlock 
+                                                        Text="{Binding ID}"
+                                                        Visibility="Collapsed"
+                                                    />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>-->
+                                    <StackPanel Orientation="Vertical" Grid.Row="0">
+                                        <Grid  MouseDown="ItemProductPreview_MouseDown" Width="120" Height="120" HorizontalAlignment="Center">
+                                            <Grid.Resources>
+                                                <Style TargetType="{x:Type Border}" x:Key="styleBorder">
+                                                    <Style.Triggers>
+                                                        <EventTrigger RoutedEvent="MouseEnter">
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="168" />
+                                                                    <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="280" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                        <EventTrigger RoutedEvent="MouseLeave">
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="150" />
+                                                                    <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="250" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Resources>
+                                            <Border x:Name="borderOfListViewtest" 
+                                                                Margin="10"
+                                                                VerticalAlignment="Top"
+                                                                BorderBrush="#F73148"
+                                                                BorderThickness=".5"
+                                                                CornerRadius="18"
+                                                                Height="100" Width="100">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="5"
+                                                                                  Opacity=".5"
+                                                                                  ShadowDepth="3" />
+                                                </Border.Effect>
+                                                <Border Name="ReceiverColortest"
+                                                                    BorderBrush="#F73148"
+                                                                    BorderThickness="0"
+                                                                    CornerRadius="15">
+                                                    <Grid>
+                                                        <Border Name="Masktest"
+                                                                            Background="{StaticResource listCakeBackgroundColor}"
+                                                                            BorderBrush="#F73148"
+                                                                            BorderThickness=".5"
+                                                                            CornerRadius="13"
+                                                                            Height="100" Width="100">
+                                                        </Border>
+                                                        <StackPanel>
+
+                                                            <Image x:Name="splashImgtest"
+                                                                               Stretch="Fill"
+                                                                               VerticalAlignment="Top"
+                                                                               Source="Images/Background/cake-1850011_1920.jpg"
+                                                                               Height="100" Width="100" />
+
+                                                            <StackPanel.OpacityMask>
+                                                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                                            </StackPanel.OpacityMask>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                        <Grid  MouseDown="ItemProductPreview_MouseDown" Width="120" Height="120" HorizontalAlignment="Center">
+                                            <Grid.Resources>
+                                                <Style TargetType="{x:Type Border}" x:Key="styleBorder">
+                                                    <Style.Triggers>
+                                                        <EventTrigger RoutedEvent="MouseEnter">
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="168" />
+                                                                    <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="280" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                        <EventTrigger RoutedEvent="MouseLeave">
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="150" />
+                                                                    <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="250" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Resources>
+                                            <Border x:Name="borderOfListViewtest1" 
+                                                                Margin="10"
+                                                                VerticalAlignment="Top"
+                                                                BorderBrush="#F73148"
+                                                                BorderThickness=".5"
+                                                                CornerRadius="18"
+                                                                Height="100" Width="100">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="5"
+                                                                                  Opacity=".5"
+                                                                                  ShadowDepth="3" />
+                                                </Border.Effect>
+                                                <Border Name="ReceiverColortest1"
+                                                                    BorderBrush="#F73148"
+                                                                    BorderThickness="0"
+                                                                    CornerRadius="15">
+                                                    <Canvas>
+                                                        <Border Name="Masktest1"
+                                                                            Background="{StaticResource listCakeBackgroundColor}"
+                                                                            BorderBrush="#F73148"
+                                                                            BorderThickness=".5"
+                                                                            CornerRadius="13"
+                                                                            Height="100" Width="100">
+                                                        </Border>
+                                                        <StackPanel>
+
+                                                            <Image x:Name="splashImgtest1"
+                                                                               Stretch="Fill"
+                                                                               VerticalAlignment="Top"
+                                                                               Source="C:\Users\phong\Documents\GitHub\cake-shop\CakeShop\Images\Background\cake-1850011_1920.jpg"
+                                                                               Height="100" Width="100" />
+
+                                                            <StackPanel.OpacityMask>
+                                                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                                            </StackPanel.OpacityMask>
+                                                        </StackPanel>
+                                                    </Canvas>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Collapsed"
+                                                        Grid.Row="1" Margin="0 -25 40 35">
+                                        <Button x:Name="firstPageCartDetailBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/first-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button x:Name="prevPageCartDetailBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/prev-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+
+                                        <TextBox Text="1" FontSize="15"   Width="30" FontWeight="DemiBold"
+                                                       HorizontalContentAlignment="Center"
+                                                       VerticalContentAlignment="Center"/>
+                                        <Label Name="totalCartDetailPages" Content="/1" FontSize="20" 
+                                                       HorizontalContentAlignment="Center"
+                                                       VerticalContentAlignment="Center"/>
+
+                                        <Button x:Name="nextPageCartDetailBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/next-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button x:Name="lastPageCartDetailBtn" Style="{StaticResource suggestWordButton}"
+                                                        Margin="5 0">
+                                            <Button.Content>
+                                                <Image Source="/Images/control-icon/last-page.png" MaxHeight="20"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button x:Name="payCartBtn"
+                                                Content="Thanh Toán"
+                                                Margin="10 -10 50 10"
+                                                Padding="5"
+                                                FontSize="13"
+                                                Foreground="#0078D7"
+                                                Background="Transparent"
+                                                Style="{DynamicResource sgraykbtnstyle}"
+                                                Click="addItem_Click"/>
+
+                                    </StackPanel>
+                                </Grid>
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>
-                            <Fluent:BackstageTabItem Header="Cài Đặt" FontSize="15" FontWeight="DemiBold">
+                            <Fluent:BackstageTabItem x:Name="SettingItem" Header="Cài Đặt" FontSize="15" FontWeight="DemiBold"
+                                                     MouseLeftButtonDown="BackstageTabItem_MouseLeftButtonDown">
 
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>

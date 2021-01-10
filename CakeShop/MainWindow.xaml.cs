@@ -129,6 +129,12 @@ namespace CakeShop
                     query = QueryDB.Instance.getBindingCakeImport();
                     cakeImportOrderListViewRibbon.ItemsSource = query;
                     break;
+                case "CartItem":
+                    this.RibbonItem = ConstantVariable.RIBBON_PAYMENT;
+                    break;
+                case "SettingItem":
+                    this.RibbonItem = ConstantVariable.RIBBON_SETTING;
+                    break;
             }
         }
 

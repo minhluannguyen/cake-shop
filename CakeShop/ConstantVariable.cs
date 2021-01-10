@@ -36,6 +36,8 @@ namespace CakeShop
         public const int RIBBON_TYPECAKE = 0;
         public const int RIBBON_CAKE = 1;
         public const int RIBBON_CAKEIMPORT = 2;
+        public const int RIBBON_PAYMENT = 3;
+        public const int RIBBON_SETTING = 4;
 
         public const int DURING_SPLASH_SCREEN = 10;
 

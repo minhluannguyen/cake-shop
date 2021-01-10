@@ -17,7 +17,6 @@ namespace CakeShop
         public int ID { get; set; }
         public Nullable<int> ID_Order { get; set; }
         public Nullable<int> ID_Cake { get; set; }
-        public Nullable<int> UnitPrice { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<int> Amount { get; set; }
         public Nullable<int> No { get; set; }
