@@ -24,11 +24,9 @@ namespace CakeShop
                 return _instance;
             }
         }
-
         private QueryDB() {
             this.db = new CakeStoreDBEntities();
         }
-
         public dynamic getBindingTypeCake()
         {
             var query = db.TypeCakes
@@ -198,7 +196,6 @@ namespace CakeShop
             db.TypeCakes.Remove(type);
             db.SaveChanges();
         }
-
         public dynamic getBindingCakeList(int option = 0, string keyword = null, int typeFilter = -1)
         {
             var query = db.Products
@@ -302,8 +299,6 @@ namespace CakeShop
 
             return query.ToList();
         }
-
-
         public int getLastIDCake()
         {
             var query = db.Products.ToList();
@@ -392,7 +387,7 @@ namespace CakeShop
             db.SaveChanges();
 
             var realID = this.getLastIDCake();
-            Debug.WriteLine($">{realID}");
+            //Debug.WriteLine($">{realID}");
             foreach (var item in insertImage)
             {
                 ProductImage newImage = new ProductImage()
@@ -530,7 +525,6 @@ namespace CakeShop
                 // do nothing
             }
         }
-
         public int getOrderWaitingOrder()
         {
             int id = 0;
@@ -619,10 +613,10 @@ namespace CakeShop
         public string getNameCustomerIfExistByPhoneNumber(string phonenumber)
         {
             var query = db.Customers.Find(phonenumber);
-            Debug.WriteLine($"-->{phonenumber}<--");
+            //Debug.WriteLine($"-->{phonenumber}<--");
             if (query != null)
             {
-                Debug.WriteLine($"-->{query.Name}<--");
+                //Debug.WriteLine($"-->{query.Name}<--");
                 return query.Name;
             }
             else
@@ -647,6 +641,7 @@ namespace CakeShop
             order.PhoneCustomer = customer.PhoneNumber;
             order.Amount = total;
             order.Status = 1;
+            order.Date = DateTime.Now;
             db.Orders.Add(order);
 
             var listProductIncart = db.OrderDetails.Where(x => x.ID_Order == null);
@@ -663,7 +658,17 @@ namespace CakeShop
         }
         public void removeProductFromCart(int ID_Product)
         {
+            var entity = db.OrderDetails.Where(x => x.ID_Order == null && x.ID_Cake == ID_Product).FirstOrDefault();       // 100% has that 1 product
+            db.OrderDetails.Remove(entity);
 
+            var query = db.OrderDetails.Where(x => x.ID_Order == null);  // get list product in cart
+            int indexNo = 1;
+            foreach(var item in query)
+            {
+                item.No = indexNo;
+                indexNo = indexNo + 1;
+            }
+            db.SaveChanges();
         }
     }
 }

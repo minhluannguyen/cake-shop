@@ -652,7 +652,7 @@
                                     <ListView Grid.Row="0" Margin="20 20 20 20"
                                               x:Name="detailCartListViewRibbon"
                                               BorderBrush="Transparent"
-                                              Foreground="#fd5533"
+                                              Foreground="#fd5533" SelectionChanged="detailCartListViewRibbon_SelectionChanged"
                                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                                         <ListView.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -664,7 +664,7 @@
                                         </ListView.ItemsPanel>
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
-                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                                                <!--<EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />-->
                                                 <Setter Property="Template">
                                                     <Setter.Value>
                                                         <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -673,8 +673,9 @@
                                                             </Border>
                                                             <ControlTemplate.Triggers>
                                                                 <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                                                    <Setter Property="IsSelected" Value="True"/>
+                                                                    <Setter Property="IsSelected" Value="False"/>
                                                                 </Trigger>
+
                                                                 <MultiTrigger>
                                                                     <MultiTrigger.Conditions>
                                                                         <Condition Property="IsMouseOver" Value="True"/>

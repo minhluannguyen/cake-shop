@@ -28,7 +28,7 @@ namespace CakeShop
         TypeCake type_filter = null;
 
         public int _totalPrice = 0;
-        private string NameItemCart = string.Empty;         //      <--- this will resolve allllllllllllllllllllllllllllllllllllllllllllllll
+        private Product ItemCart = null;  
 
         public int TotalPrice {
             get { return _totalPrice; }
@@ -156,9 +156,13 @@ namespace CakeShop
                         dynamic query = QueryDB.Instance.getListProductInCart();
                         detailCartListViewRibbon.ItemsSource = query;
 
-                        if(query.Count == 0)
+                        if(query.Count <= 0)
                         {
                             payCartBtn.IsEnabled = false;
+                        }
+                        else
+                        {
+                            payCartBtn.IsEnabled = true;
                         }
 
                         int total = 0;
@@ -465,8 +469,10 @@ namespace CakeShop
             MessageBoxResult userChoose = MessageBox.Show("Bạn có chắc chắn xóa sản phẩm này khỏi giỏ hàng?", "Thông báo", MessageBoxButton.YesNo);
             if(userChoose == MessageBoxResult.Yes)
             {
-                dynamic cartProduct = detailCartListViewRibbon.SelectedItem;
-                Debug.WriteLine($"ID -- {cartProduct.Name}");
+                Debug.WriteLine($"ID -- {this.ItemCart.Name}");
+
+                QueryDB.Instance.removeProductFromCart(this.ItemCart.ID);
+
                 BackstageTabItem_MouseLeftButtonDown(CartItem, null);
             }
             else
@@ -477,12 +483,20 @@ namespace CakeShop
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            DetailCakeScreen screen = new DetailCakeScreen(this.ItemCart);
+            screen.Owner = this;
+            screen.ShowDialog();
 
+            BackstageTabItem_MouseLeftButtonDown(CartItem, null);
         }
 
         private void ImageProductInCart_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            DetailCakeScreen screen = new DetailCakeScreen(this.ItemCart);
+            screen.Owner = this;
+            screen.ShowDialog();
 
+            BackstageTabItem_MouseLeftButtonDown(CartItem, null);
         }
 
         private void PaymentCommand_Click(object sender, RoutedEventArgs e)
@@ -493,9 +507,29 @@ namespace CakeShop
 
             BackstageTabItem_MouseLeftButtonDown(CartItem, null);
         }
+        private void detailCartListViewRibbon_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dynamic entity = (sender as ListView).SelectedItem;
+            if(entity != null)
+            {
+                int id = entity.ID_Product;
+                var Product_Clone = QueryDB.Instance.findProductByID(id);
 
+                this.ItemCart = new Product();
+                this.ItemCart.ID = Product_Clone.ID;
+                this.ItemCart.IDTypeCake = Product_Clone.IDTypeCake;
+                this.ItemCart.Name = Product_Clone.Name;
+                this.ItemCart.Price = Product_Clone.Price;
+                this.ItemCart.Description = Product_Clone.Description;
+                this.ItemCart.Amount = Product_Clone.Amount;
 
-
+                Debug.WriteLine($">>>> {this.ItemCart.Name}");
+            }
+            else
+            {
+                Debug.WriteLine($">>>> -----------");
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

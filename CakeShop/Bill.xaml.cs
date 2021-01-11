@@ -89,8 +89,15 @@ namespace CakeShop
 
         private void phoneNumberPlace_LostFocus(object sender, RoutedEventArgs e)
         {
-            billInfo.NameCustomer = QueryDB.Instance.getNameCustomerIfExistByPhoneNumber(billInfo.PhoneNumber);
-
+            billInfo.PhoneNumber = phoneNumberPlace.Text;
+            if (string.IsNullOrEmpty(inputNameCustomer.Text))
+            {
+                billInfo.NameCustomer = QueryDB.Instance.getNameCustomerIfExistByPhoneNumber(billInfo.PhoneNumber);
+            }
+            else
+            {
+                billInfo.NameCustomer = inputNameCustomer.Text;
+            }
         }
 
         private void phoneNumberPlace_KeyDown(object sender, KeyEventArgs e)
@@ -119,6 +126,10 @@ namespace CakeShop
             if(string.IsNullOrEmpty(this.billInfo.NameCustomer) || string.IsNullOrEmpty(this.billInfo.PhoneNumber))
             {
                 MessageBox.Show("Bạn chưa nhập sđt hoặc tên khách hàng.", "Thông báo");
+            }
+            else if (this.billInfo.PhoneNumber.Length > 10)
+            {
+                MessageBox.Show("Số điện thoại phải ít hơn 10 số.", "Thông báo");
             }
             else
             {
