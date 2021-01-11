@@ -615,5 +615,11 @@ namespace CakeShop
 
             return count;
         }
+        public string getNameCustomerIfExistByPhoneNumber(string phonenumber)
+        {
+            var query = db.Customers.Find(phonenumber);
+
+            return query.Name;
+        }
     }
 }

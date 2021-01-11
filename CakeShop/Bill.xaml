@@ -12,6 +12,7 @@
         <local:IntToMoneyStringConverter x:Key="moneyConverter"/>
         <local:LinkImageConverter x:Key="LinkImgConverter"/>
         <local:TypeCakeNameConverter x:Key="IDtoNameTypeCakeConverter"/>
+        <local:WPF_ID_ProductToThumnailConverter x:Key="fromID_ProductToThumbnailConverter"/>
 
         <SolidColorBrush x:Key="listCakeBackgroundColor" Color="White"/>
         <SolidColorBrush x:Key="borderBtnEnable" Color="White"/>
@@ -34,6 +35,17 @@
         <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
         <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
         <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+
+        <Style x:Key="cursorArrowFull" TargetType="{x:Type TextBlock}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Arrow"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Cursor" Value="Arrow"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style
             x:Key="suggestWordButton" TargetType="{x:Type Button}">
             <Setter Property="Template">
@@ -115,12 +127,12 @@
                        Margin="0 0 10 0" Padding="5" MaxHeight="40" MinWidth="60" TextAlignment="Center"
                        Foreground="{StaticResource showColor}" FontWeight="Bold" FontSize="20"/>
         </Grid>
-        <Grid Grid.Row="1" Margin="40 0">
+        <Grid Grid.Row="1" Margin="20 0">
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3.0*"/>
+                    <ColumnDefinition Width="2.4*"/>
                     <ColumnDefinition Width="0.1*"/>
-                    <ColumnDefinition Width="6.9*"/>
+                    <ColumnDefinition Width="7.5*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
                     <Border Grid.Row="1" Panel.ZIndex="-1" Opacity="0.9" Margin="0 0 0 0">
@@ -139,20 +151,15 @@
                     <Grid Grid.Row="1" Margin="20 20 20 20"
                         Panel.ZIndex="1">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="5*"/>
+                            <RowDefinition Height="3.5*"/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <TextBox Padding="10 0 0 0" FontSize="20" Foreground="{StaticResource showColor}" TextAlignment="Left"
-                                       VerticalAlignment="Center" x:Name="phoneNumberPlace" LostFocus="phoneNumberPlace_LostFocus" KeyDown="phoneNumberPlace_KeyDown"/>
-                        </Grid>
-                        <Grid Grid.Row="1" Margin="0">
-                            <TextBlock Padding="15" Background="#FFEED3"/>
-                            <TextBox x:Name="inputDescription" FontSize="15" Padding="15" 
-                                     Foreground="{StaticResource showColor}" TextWrapping="Wrap"
-                                     KeyDown="TextBoxInput_KeyDown"
-                                     Text="{Binding Cake.Description, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
-                                 >
+                        <Grid Grid.Row="0" VerticalAlignment="Center" Margin="0 0 0 5">
+                            <TextBlock Padding="10 0 0 0" Background="#FFEED3" FontSize="15" TextAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBox Padding="10 0 0 0" FontSize="15" Foreground="{StaticResource showColor}" TextAlignment="Left" TextWrapping="Wrap"
+                                       VerticalAlignment="Center" x:Name="phoneNumberPlace" LostFocus="phoneNumberPlace_LostFocus" KeyDown="phoneNumberPlace_KeyDown"
+                                     Text="{Binding PhoneNumber}">
                                 <TextBox.Style>
                                     <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                                         <Style.Resources>
@@ -160,7 +167,7 @@
                                                          Stretch="None">
                                                 <VisualBrush.Visual>
                                                     <Grid>
-                                                        <TextBlock Text="Mô tả" FontSize="15"
+                                                        <TextBlock Text="Số điện thoại" FontSize="15"
                                                                    Foreground="{StaticResource hintTextColor}" />
                                                     </Grid>
 
@@ -191,6 +198,58 @@
                                 </TextBox.Style>
                             </TextBox>
                         </Grid>
+                        <Grid Grid.Row="1" Margin="0">
+                            <TextBlock Padding="10 20 0 20" Background="#FFEED3" FontSize="15"/>
+                            <TextBox x:Name="inputDescription" Padding="20 20 0 20" 
+                                     Foreground="{StaticResource showColor}" TextWrapping="Wrap" FontSize="15"
+                                     Text="{Binding NameCustomer}"
+                                 >
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                        <Style.Resources>
+                                            <VisualBrush x:Key="hintname" AlignmentX="Center" AlignmentY="Center" 
+                                                         Stretch="None">
+                                                <VisualBrush.Visual>
+                                                    <Grid>
+                                                        <TextBlock Text="Tên Khách Hàng" FontSize="15"
+                                                                   Foreground="{StaticResource hintTextColor}" />
+                                                    </Grid>
+
+                                                </VisualBrush.Visual>
+                                            </VisualBrush>
+                                        </Style.Resources>
+                                        <Style.Triggers>
+                                            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                                <Setter Property="Background" Value="{StaticResource hintname}" />
+                                                <Setter Property="BorderBrush" Value="{StaticResource hintTextColor}"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="{x:Null}">
+                                                <Setter Property="Background" Value="{StaticResource hintname}" />
+                                                <Setter Property="BorderBrush" Value="{StaticResource hintTextColor}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource transparentColor}" />
+                                            </Trigger>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding RelativeSource={x:Static RelativeSource.Self},Path=IsKeyboardFocused}" Value="False" />
+                                                    <Condition Binding="{Binding RelativeSource={x:Static RelativeSource.Self},Path=Text, Converter={StaticResource stringConverter}}" Value="1"/>
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Background" Value="{StaticResource transparentColor}"/>
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </Grid>
+
+                        <Grid Grid.Row="2" Margin="0">
+                            <TextBlock Padding="10 20 0 20" Background="Transparent" FontSize="15" TextAlignment="Right">
+                                <Run Text="Tổng tiền hàng:     " FontWeight="DemiBold"/>
+                                <LineBreak/>
+                                <Run Text="{Binding TotalPrice, Converter={StaticResource moneyConverter}}" Foreground="Red" FontWeight="Bold"/>
+                            </TextBlock>
+                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid Grid.Column="2">
@@ -214,20 +273,17 @@
                             <RowDefinition Height="8.5*"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
-                            <TextBlock Text="Danh sách ảnh" FontSize="20" Foreground="{StaticResource showColor}" TextAlignment="Center"
+                            <TextBlock Text="Danh sách sản phẩm" FontSize="20" Foreground="{StaticResource showColor}" TextAlignment="Center"
                                        VerticalAlignment="Center"/>
                         </Grid>
-                        <Grid Grid.Row="1" Margin="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="8.5*"/>
-                                <RowDefinition Height="1.5*"/>
-                            </Grid.RowDefinitions>
-                            <ListView x:Name="listImageOfProduct" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <Grid Grid.Row="1" Margin="0 0 0 10">
+                            <ListView x:Name="listProductInCart" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent">
                                 <ListView.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel 
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
+                                        <StackPanel 
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Top"
+                                            Focusable="False"
                                         />
                                     </ItemsPanelTemplate>
                                 </ListView.ItemsPanel>
@@ -257,51 +313,75 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Grid.Resources>
-                                                <Border x:Name="imageItemBorder" 
-                                                            CornerRadius="20"
-                                                            Width="114" Height="76"
-                                                            Margin="0, 0, 0, 0"
-                                                            Style="{StaticResource styleBorder}">
-                                                    <Border.Background>
-                                                        <ImageBrush 
-                                                            Stretch="Fill"
-                                                            ImageSource="{Binding ImageName, Converter={StaticResource LinkImgConverter}}"
-                                                            RenderOptions.BitmapScalingMode="HighQuality"/>
-                                                    </Border.Background>
+                                                <Border Margin="10"
+                                                        VerticalAlignment="Center"
+                                                        BorderBrush="#F73148"
+                                                        BorderThickness=".5"
+                                                        CornerRadius="18"
+                                                        Height="40" Width="60">
+                                                    <Border Name="ReceiverColor"
+                                                            BorderBrush="#F73148"
+                                                            BorderThickness="0"
+                                                            CornerRadius="15">
+                                                        <Canvas>
+                                                            <Border Name="Mask"
+                                                                    Background="{StaticResource listCakeBackgroundColor}"
+                                                                    BorderBrush="#F73148"
+                                                                    BorderThickness=".5"
+                                                                    CornerRadius="13"
+                                                                    Height="40" Width="60">
+                                                            </Border>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <StackPanel>
+                                                                    <Image Stretch="Fill"
+                                                                           VerticalAlignment="Top" RenderOptions.BitmapScalingMode="HighQuality"
+                                                                           Source="{Binding ID_Product, Converter={StaticResource fromID_ProductToThumbnailConverter}}"
+                                                                           Height="40" Width="60">
+                                                                        <Image.Style>
+                                                                            <Style TargetType="Image">
+                                                                                <Style.Triggers>
+                                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                                        <Setter Property="Cursor" Value="Hand"/>
+                                                                                    </Trigger>
+                                                                                    <Trigger Property="IsMouseOver" Value="False">
+                                                                                        <Setter Property="Cursor" Value="Arrow"/>
+                                                                                    </Trigger>
+                                                                                </Style.Triggers>
+                                                                            </Style>
+                                                                        </Image.Style>
+                                                                    </Image>
+                                                                    <StackPanel.OpacityMask>
+                                                                        <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                                                    </StackPanel.OpacityMask>
+                                                                </StackPanel>
+                                                                <TextBlock Text="{Binding Name}" Width="100" FontSize="13" Margin="5 0 0 0" 
+                                                                                   TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#403432" HorizontalAlignment="Center"
+                                                                                   TextAlignment="Left" Style="{StaticResource cursorArrowFull}"/>
+                                                                <TextBlock Text="{Binding ID_Type, Converter={StaticResource IDtoNameTypeCakeConverter}}"
+                                                                                   Width="80" FontSize="10" Foreground="#403432" Margin="10 0 0 0" 
+                                                                                   TextWrapping="Wrap" VerticalAlignment="Center" Style="{StaticResource cursorArrowFull}"
+                                                                                   TextAlignment="Left"/>
+                                                                <TextBlock Text="{Binding Price, Converter={StaticResource moneyConverter}}"
+                                                                                   Width="80"  FontSize="10" Foreground="#403432" Margin="10 0 0 0" 
+                                                                                   TextWrapping="Wrap" VerticalAlignment="Center" Style="{StaticResource cursorArrowFull}"
+                                                                                   TextAlignment="Right"/>
+                                                                <TextBlock Text="{Binding Quantity}"
+                                                                                   Width="30" FontSize="10" Foreground="#403432" Margin="10 0 0 0" 
+                                                                                   TextWrapping="Wrap" VerticalAlignment="Center" Style="{StaticResource cursorArrowFull}"
+                                                                                   TextAlignment="Right"/>
+                                                                <TextBlock Text="{Binding Amount, Converter={StaticResource moneyConverter}}"
+                                                                                   Width="100" FontSize="10" Foreground="#403432" Margin="10 0 20 0" 
+                                                                                   TextWrapping="Wrap" VerticalAlignment="Center" Style="{StaticResource cursorArrowFull}"
+                                                                                   TextAlignment="Right"/>
+                                                            </StackPanel>
+                                                        </Canvas>
+                                                    </Border>
                                                 </Border>
-                                                <Button 
-                                                    Width="20"
-                                                    Height="20"
-                                                    Background="Transparent"
-                                                    BorderBrush="Transparent"
-                                                    VerticalAlignment="Top"
-                                                    HorizontalAlignment="Right" Click="DeleteImageOfProduct_Click"
-                                                >
-                                                    <Button.Content>
-                                                        <Image 
-                                                                RenderOptions.BitmapScalingMode="HighQuality"
-                                                                Width="15" Height="15" 
-                                                                Source="/Images/remove.png"
-
-                                                            />
-                                                    </Button.Content>
-                                                </Button>
-
                                             </Grid>
-                                            <Label Content="{Binding ImageName}" Visibility="Collapsed"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
-
-                            <Button x:Name="addNewImg" Click="addNewImg_Click"  Panel.ZIndex="1" Grid.Row="1" 
-                                    HorizontalAlignment="Right" Margin="30 5" Padding="0"
-                                                    Style="{StaticResource suggestWordButton}">
-                                <Button.Content>
-                                    <Image Source="/Images/control-icon/photo.png" Height="30" Width="30" 
-                                           RenderOptions.BitmapScalingMode="HighQuality"/>
-                                </Button.Content>
-                            </Button>
                         </Grid>
                     </Grid>
                 </Grid>

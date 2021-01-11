@@ -21,7 +21,7 @@ namespace CakeShop
         }
     
         public int ID { get; set; }
-        public Nullable<int> PhoneCustomer { get; set; }
+        public string PhoneCustomer { get; set; }
         public Nullable<int> Amount { get; set; }
         public Nullable<int> Status { get; set; }
         public Nullable<System.DateTime> Date { get; set; }

@@ -21,7 +21,7 @@ namespace CakeShop
         }
     
         public string Name { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
