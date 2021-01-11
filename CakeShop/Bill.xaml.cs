@@ -89,17 +89,23 @@ namespace CakeShop
 
         private void phoneNumberPlace_LostFocus(object sender, RoutedEventArgs e)
         {
-            //this.NameCustomer = QueryDB.Instance.getNameCustomerIfExistByPhoneNumber(this.PhoneNumber);
-            
+            billInfo.NameCustomer = QueryDB.Instance.getNameCustomerIfExistByPhoneNumber(billInfo.PhoneNumber);
+
         }
 
         private void phoneNumberPlace_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Enter)
             {
-                //this.NameCustomer = QueryDB.Instance.getNameCustomerIfExistByPhoneNumber(this.PhoneNumber);
-                Debug.WriteLine($"<{billInfo.PhoneNumber}>");
-                this.billInfo.NameCustomer = "Yasuo";
+                billInfo.PhoneNumber = phoneNumberPlace.Text;
+                if (string.IsNullOrEmpty(inputNameCustomer.Text))
+                {
+                    billInfo.NameCustomer = QueryDB.Instance.getNameCustomerIfExistByPhoneNumber(billInfo.PhoneNumber);
+                }
+                else
+                {
+                    billInfo.NameCustomer = inputNameCustomer.Text;
+                }
             }
             else
             {
@@ -110,7 +116,15 @@ namespace CakeShop
 
         private void payBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            if(string.IsNullOrEmpty(this.billInfo.NameCustomer) || string.IsNullOrEmpty(this.billInfo.PhoneNumber))
+            {
+                MessageBox.Show("Bạn chưa nhập sđt hoặc tên khách hàng.", "Thông báo");
+            }
+            else
+            {
+                QueryDB.Instance.addNewOrder(new Customer() { Name = billInfo.NameCustomer, PhoneNumber = billInfo.PhoneNumber }, billInfo.TotalPrice);
+                MessageBox.Show("Bạn đã hoàn tất thanh toán.", "Thông báo");
+            }
         }
         private void cancelBtn_Click(object sender, RoutedEventArgs e)
         {

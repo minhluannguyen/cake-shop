@@ -582,6 +582,7 @@ namespace CakeShop
         public dynamic getListProductInCart()
         {
             var query = db.OrderDetails
+                                .Where(x => x.ID_Order == null)
                                 .Join(db.Products,
                                     detail => detail.ID_Cake,
                                     product => product.ID,
@@ -618,8 +619,51 @@ namespace CakeShop
         public string getNameCustomerIfExistByPhoneNumber(string phonenumber)
         {
             var query = db.Customers.Find(phonenumber);
+            Debug.WriteLine($"-->{phonenumber}<--");
+            if (query != null)
+            {
+                Debug.WriteLine($"-->{query.Name}<--");
+                return query.Name;
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+        public void addNewOrder(Customer customer, int total)
+        {
+            var dbCustomer = db.Customers.Find(customer.PhoneNumber);
+            if (dbCustomer != null)
+            {
+                dbCustomer.Name = customer.Name;
+            }
+            else
+            {
+                db.Customers.Add(customer);
+            }
 
-            return query.Name;
+            Order order = new Order();
+            order.ID = db.Orders.Count() > 0 ? db.Orders.ToList().Last().ID + 1 : 0;
+            order.PhoneCustomer = customer.PhoneNumber;
+            order.Amount = total;
+            order.Status = 1;
+            db.Orders.Add(order);
+
+            var listProductIncart = db.OrderDetails.Where(x => x.ID_Order == null);
+            foreach (var item in listProductIncart)
+            {
+                var product = db.Products.Find(item.ID_Cake);
+                product.Amount = product.Amount - item.Quantity;
+
+                item.ID_Order = order.ID;
+            }
+
+            db.SaveChanges();
+
+        }
+        public void removeProductFromCart(int ID_Product)
+        {
+
         }
     }
 }

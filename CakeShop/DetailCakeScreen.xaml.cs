@@ -251,6 +251,7 @@ namespace CakeShop
             {
                 int value = Int32.Parse(AmountTextBox.Text);
                 QueryDB.Instance.addToCart(currentProduct, value);
+                this._vm.QuantityInCart = this._vm.QuantityInCart + value;
                 if (value > 0)
                 {
                     MessageBox.Show("Thêm vào giỏ hàng thành công!");

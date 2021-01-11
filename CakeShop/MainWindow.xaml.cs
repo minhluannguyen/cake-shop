@@ -28,7 +28,7 @@ namespace CakeShop
         TypeCake type_filter = null;
 
         public int _totalPrice = 0;
-
+        private string NameItemCart = string.Empty;         //      <--- this will resolve allllllllllllllllllllllllllllllllllllllllllllllll
 
         public int TotalPrice {
             get { return _totalPrice; }
@@ -155,6 +155,11 @@ namespace CakeShop
                     {
                         dynamic query = QueryDB.Instance.getListProductInCart();
                         detailCartListViewRibbon.ItemsSource = query;
+
+                        if(query.Count == 0)
+                        {
+                            payCartBtn.IsEnabled = false;
+                        }
 
                         int total = 0;
                         foreach(var item in query)
@@ -357,6 +362,7 @@ namespace CakeShop
             DetailCakeScreen screen = new DetailCakeScreen(product);
             screen.Owner = this;
             screen.ShowDialog();
+            BackstageTabItem_MouseLeftButtonDown(CartItem, null);
         }
         private void Sort_Filter_Options_Click(object sender, RoutedEventArgs e)
         {
@@ -459,8 +465,9 @@ namespace CakeShop
             MessageBoxResult userChoose = MessageBox.Show("Bạn có chắc chắn xóa sản phẩm này khỏi giỏ hàng?", "Thông báo", MessageBoxButton.YesNo);
             if(userChoose == MessageBoxResult.Yes)
             {
-
-                //BackstageTabItem_MouseLeftButtonDown(CartItem, null);
+                dynamic cartProduct = detailCartListViewRibbon.SelectedItem;
+                Debug.WriteLine($"ID -- {cartProduct.Name}");
+                BackstageTabItem_MouseLeftButtonDown(CartItem, null);
             }
             else
             {

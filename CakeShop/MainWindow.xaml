@@ -339,8 +339,6 @@
                                                 Margin="10 -10 50 10"
                                                 Padding="5"
                                                 FontSize="13"
-                                                Foreground="White"
-                                                Background="#0078D7"
                                                 Style="{DynamicResource sgraykbtnstyle}"
                                                 Click="addItem_Click"/>
 
@@ -486,8 +484,6 @@
                                                 Margin="10 -10 50 10"
                                                 Padding="5"
                                                 FontSize="13"
-                                                Foreground="White"
-                                                Background="#0078D7"
                                                 Style="{DynamicResource sgraykbtnstyle}"
                                                 Click="addItem_Click"/>
 
@@ -640,8 +636,6 @@
                                                 Margin="10 -10 50 10"
                                                 Padding="5"
                                                 FontSize="13"
-                                                Foreground="White"
-                                                Background="#0078D7"
                                                 Style="{DynamicResource sgraykbtnstyle}"
                                                 Click="addItem_Click"/>
 
@@ -671,24 +665,28 @@
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
                                                 <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
-                                                <!--<Style.Triggers>
-                                                    <MultiTrigger>
-                                                        <MultiTrigger.Conditions>
-                                                            <Condition Property=""
-                                                        </MultiTrigger.Conditions>
-                                                        <MultiTrigger.Setters>
-                                                            
-                                                        </MultiTrigger.Setters>
-                                                    </MultiTrigger>
-                                                    <MultiTrigger>
-                                                        <MultiTrigger.Conditions>
-                                                            
-                                                        </MultiTrigger.Conditions>
-                                                        <MultiTrigger.Setters>
-                                                            
-                                                        </MultiTrigger.Setters>
-                                                    </MultiTrigger>
-                                                </Style.Triggers>-->
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                            <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                                    <Setter Property="IsSelected" Value="True"/>
+                                                                </Trigger>
+                                                                <MultiTrigger>
+                                                                    <MultiTrigger.Conditions>
+                                                                        <Condition Property="IsMouseOver" Value="True"/>
+                                                                    </MultiTrigger.Conditions>
+                                                                    <Setter Property="IsSelected" Value="True"/>
+                                                                    <Setter Property="Background" TargetName="Bd" Value="{StaticResource transparentColor}"/>
+                                                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource hintTextColor}"/>
+                                                                </MultiTrigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
                                             </Style>
                                         </ListView.ItemContainerStyle>
                                         <ListView.ItemTemplate>
