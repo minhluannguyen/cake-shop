@@ -660,6 +660,7 @@ namespace CakeShop
         {
             var entity = db.OrderDetails.Where(x => x.ID_Order == null && x.ID_Cake == ID_Product).FirstOrDefault();       // 100% has that 1 product
             db.OrderDetails.Remove(entity);
+            db.SaveChanges();
 
             var query = db.OrderDetails.Where(x => x.ID_Order == null);  // get list product in cart
             int indexNo = 1;
@@ -667,6 +668,7 @@ namespace CakeShop
             {
                 item.No = indexNo;
                 indexNo = indexNo + 1;
+                Debug.WriteLine($"{item.No}");
             }
             db.SaveChanges();
         }
