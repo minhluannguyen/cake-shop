@@ -142,7 +142,14 @@ namespace CakeShop
                 {
                     foreach (var nameImage in this.listCurrentImage)
                     {
-                        File.Copy($"{CurrentPath}\\Images\\ImagesTemp\\{nameImage.ImageName}", $"{CurrentPath}\\Images\\Products\\{nameImage.ImageName}", true);
+                        try
+                        {
+                            File.Copy($"{CurrentPath}\\Images\\ImagesTemp\\{nameImage.ImageName}", $"{CurrentPath}\\Images\\Products\\{nameImage.ImageName}", true);
+                        }
+                        catch
+                        {
+
+                        }
                     }
                     QueryDB.Instance.updateCake(this.Cake, this.listCurrentImage, this.listRemovedImage);
                 }
