@@ -5,6 +5,7 @@
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                      xmlns:local="clr-namespace:CakeShop"
                      xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+                     xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
                      mc:Ignorable="d"
                      Title="MainWindow"
                      Height="900" 
@@ -234,7 +235,73 @@
                         </Fluent:Backstage.Header>
                         <Fluent:BackstageTabControl Background="#F6E5D8">
                             <Fluent:BackstageTabItem Header="Thống Kê" FontSize="15" FontWeight="DemiBold">
-                                
+                                <Grid
+                                    Margin="30"
+                                >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid
+                                        Grid.Column="0"
+                                    >
+                                        <lvc:CartesianChart
+                                            x:Name="monthsProfitColumnChart"
+                                            LegendLocation="Left"
+                                        >
+                                            <lvc:CartesianChart.AxisX>
+                                                <lvc:Axis Foreground="Black" Title="Tháng" Labels="{Binding Labels}"></lvc:Axis>
+                                            </lvc:CartesianChart.AxisX>
+                                            <lvc:CartesianChart.AxisY>
+                                                <lvc:Axis Foreground="Black" Title="Doanh thu" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                                            </lvc:CartesianChart.AxisY>
+                                        </lvc:CartesianChart>
+                                    </Grid>
+
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                    >
+                                        <TextBlock Text="Tháng: " />
+                                        <ComboBox
+                                            x:Name="cakeTypeProfitMonthsComboBox" SelectionChanged="cakeTypeProfitMonthsComboBox_SelectionChanged"
+                                            
+                                        >
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Month}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        
+                                        <TextBlock Text="Năm: " />
+                                        <ComboBox
+                                            x:Name="yearsComboBox" SelectionChanged="yearsComboBox_SelectionChanged"
+                                            
+                                        >
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Year}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+
+                                    <Grid
+                                        Grid.Column="2"
+                                    >
+                                        <lvc:PieChart 
+                                            x:Name="CakeTypeProfitPieChart"
+                                            LegendLocation="Bottom" 
+                                            Hoverable="True" 
+                                        >
+                                            
+                                        </lvc:PieChart>
+                                    </Grid>
+                                    
+                                </Grid>
                             </Fluent:BackstageTabItem>
                             <Fluent:SeparatorTabItem/>
                             <Fluent:BackstageTabItem Header="Loại Bánh" FontSize="15" FontWeight="DemiBold"
@@ -917,7 +984,7 @@
                                                             <Image x:Name="splashImgtest1"
                                                                                Stretch="Fill"
                                                                                VerticalAlignment="Top"
-                                                                               Source="C:\Users\phong\Documents\GitHub\cake-shop\CakeShop\Images\Background\cake-1850011_1920.jpg"
+                                                                               
                                                                                Height="100" Width="100" />
 
                                                             <StackPanel.OpacityMask>
