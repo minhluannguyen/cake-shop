@@ -104,28 +104,29 @@
       <DependentUpon>Bill.xaml</DependentUpon>
     </Compile>
     <Compile Include="CakeImportOrder.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CakeNameConverter.cs" />
-    <Compile Include="CakeStoreDB.Context.cs">
+    <Compile Include="CakeShopDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CakeStoreDB.Context.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="CakeStoreDB.cs">
+    <Compile Include="CakeShopDB.cs" />
+    <Compile Include="CakeShopDB.Designer.cs">
+      <DependentUpon>CakeShopDB.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="CakeStoreDB.Designer.cs">
+    <Compile Include="CakeShopDB1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CakeStoreDB.edmx</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ConstantVariable.cs" />
     <Compile Include="CustomAppConfiguration.cs" />
     <Compile Include="Customer.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CustomXMLExtension.cs" />
     <Compile Include="DateTimeFormatConverter.cs" />
@@ -151,27 +152,30 @@
       <DependentUpon>ListTypeCake.xaml</DependentUpon>
     </Compile>
     <Compile Include="Order.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="OrderDetail.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="PreMainScreen.xaml.cs">
       <DependentUpon>PreMainScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Product.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductImage.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="QueryDB.cs" />
     <Compile Include="SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="StaticTask.cs" />
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="TypeCake.cs">
-      <DependentUpon>CakeStoreDB.tt</DependentUpon>
+      <DependentUpon>CakeShopDB.tt</DependentUpon>
     </Compile>
     <Compile Include="TypeCakeNameConverter.cs" />
     <Compile Include="Ulties.cs" />
@@ -247,12 +251,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="CakeStoreDB.edmx">
+    <EntityDeploy Include="CakeShopDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CakeStoreDB.Designer.cs</LastGenOutput>
+      <LastGenOutput>CakeShopDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="CakeStoreDB.edmx.diagram">
-      <DependentUpon>CakeStoreDB.edmx</DependentUpon>
+    <None Include="CakeShopDB.edmx.diagram">
+      <DependentUpon>CakeShopDB.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -712,15 +716,15 @@
     <Resource Include="Images\control-icon\shopping-cart.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CakeStoreDB.Context.tt">
+    <Content Include="CakeShopDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CakeStoreDB.edmx</DependentUpon>
-      <LastGenOutput>CakeStoreDB.Context.cs</LastGenOutput>
+      <DependentUpon>CakeShopDB.edmx</DependentUpon>
+      <LastGenOutput>CakeShopDB.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="CakeStoreDB.tt">
+    <Content Include="CakeShopDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CakeStoreDB.edmx</DependentUpon>
-      <LastGenOutput>CakeStoreDB.cs</LastGenOutput>
+      <DependentUpon>CakeShopDB.edmx</DependentUpon>
+      <LastGenOutput>CakeShopDB1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -26,7 +26,7 @@ namespace CakeShop
         private double currentTime = 0;
 
 
-
+        public int Thumbnail;
         private int rng;
         private string path;
         private const string tab = "    ";
@@ -47,6 +47,7 @@ namespace CakeShop
         {
             this.loading();
             InitializeComponent();
+            this.DataContext = this;
         }
 
         private void loading()
@@ -138,21 +139,30 @@ namespace CakeShop
         }
         protected void setRandomImg()
         {
-            int lengImgArr = this.listFoodImg.Length;
+            List<Product> listProduct = QueryDB.Instance.getOriginProductList();
+            int lengImgArr = listProduct.Count();
 
             this.rng = GeneratorRng.Instance.Next(lengImgArr);
-            this.namefood = this.listFoodImg[this.rng];
-            Debug.WriteLine($"{this.path}/Images/splash_places/{this.namefood}.jpg");
-            BitmapImage bitImg = new BitmapImage(new Uri($"{this.path}/Images/splash_places/{this.namefood}.jpg", UriKind.Absolute));
+            Product product = listProduct[rng];
+
+            string nameImage = QueryDB.Instance.getThumbnailOf1Product(product.ID);
+
+            //this.namefood = this.listFoodImg[this.rng];
+            //Debug.WriteLine($"{this.path}/Images/splash_places/{this.namefood}.jpg");
+            BitmapImage bitImg = new BitmapImage(new Uri($"{this.path}\\Images\\Products\\{nameImage}", UriKind.Absolute));
             splashImg.Source = bitImg;
 
-            //Canvas.SetLeft(splashImg, (placeImg.ActualWidth - ConstantVariable.convertDimension(splashImg.Width)) / 2);
-            //Canvas.SetTop(splashImg, 0);
+            Canvas.SetLeft(splashImg, (placeImg.ActualWidth - ConstantVariable.convertDimension(splashImg.Width)) / 2);
+            Canvas.SetTop(splashImg, 0);
 
-            StreamReader sreader = new StreamReader($"{this.path}/info/splash_places/{this.namefood}.txt");
+            //StreamReader sreader = new StreamReader($"{this.path}/info/splash_places/{this.namefood}.txt");
 
-            nameOfFood.Text = sreader.ReadLine();
-            infoOfFood.Text = tab + sreader.ReadLine();
+            //nameOfFood.Text = sreader.ReadLine();
+            //infoOfFood.Text = tab + sreader.ReadLine();
+
+            nameOfFood.Text = $"/{product.Name}/";
+            infoOfFood.Text = product.Description;
+            this.Thumbnail = product.ID;
         }
         private void showhiddenInfo(object sender, MouseEventArgs e)
         {
