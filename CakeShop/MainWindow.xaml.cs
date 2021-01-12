@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -24,7 +26,9 @@ namespace CakeShop
     public partial class MainWindow : Fluent.RibbonWindow, INotifyPropertyChanged
     {
         CakeStoreDBEntities db = new CakeStoreDBEntities();
-
+        public Func<ChartPoint, string> PointLabel { get; set; }
+        public Func<double, string> Formatter { get; set; }
+        public List<string> Labels { get; set; }
         TypeCake type_filter = null;
 
         public int _totalPrice = 0;
@@ -46,13 +50,167 @@ namespace CakeShop
         {
             InitializeComponent();
             this.updateListviewSource();
+            ComboBoxsInit();
+            this.chartInit();
             this.DataContext = this;
         }
         public MainWindow(bool a)
         {
             InitializeComponent();
             this.updateListviewSource();
+            ComboBoxsInit();
+            this.chartInit();
             this.DataContext = this;
+        }
+
+        class MonthComboBoxVM
+        {
+            public int Month { get; set; }
+            public MonthComboBoxVM(int month)
+            {
+                this.Month = month;
+            }
+        }
+
+        class YearsComboBoxVM
+        {
+            public int Year { get; set; }
+            public YearsComboBoxVM(int year)
+            {
+                this.Year = year;
+            }
+        }
+
+        void ComboBoxsInit()
+        {
+            // Create View Model
+            List<MonthComboBoxVM> listMonth = new List<MonthComboBoxVM>();
+            for(var i = 0; i < 12; ++i)
+            {
+                MonthComboBoxVM monthComboBoxVM = new MonthComboBoxVM(i + 1);
+                listMonth.Add(monthComboBoxVM);
+            }
+
+            cakeTypeProfitMonthsComboBox.ItemsSource = listMonth;
+            cakeTypeProfitMonthsComboBox.SelectedIndex = 0;
+
+            List<YearsComboBoxVM> listYear = new List<YearsComboBoxVM>();
+            int minYear = QueryDB.Instance.getOldestYear();
+            for(var i = minYear; i<= DateTime.Now.Year; ++i)
+            {
+                YearsComboBoxVM yearsComboBoxVM = new YearsComboBoxVM(i);
+                listYear.Add(yearsComboBoxVM);
+            }
+
+            yearsComboBox.ItemsSource = listYear;
+            yearsComboBox.SelectedIndex = 0;
+        }
+
+        private void cakeTypeProfitMonthsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender != null)
+            {
+                int month = cakeTypeProfitMonthsComboBox.SelectedIndex + 1;
+
+                var yearItem = yearsComboBox.SelectedItem as YearsComboBoxVM;
+
+                if (yearItem == null)
+                    return;
+
+                int year = yearItem.Year;
+
+                pieChartLoader(month, year);
+
+            }
+        }
+
+        private void yearsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender != null)
+            {
+                int month = cakeTypeProfitMonthsComboBox.SelectedIndex + 1;
+
+                var yearItem = yearsComboBox.SelectedItem as YearsComboBoxVM;
+
+                if (yearItem == null)
+                    return;
+
+                int year = yearItem.Year;
+
+                pieChartLoader(month, year);
+                monthsProfitsColumnsChartLoader(year);
+            }
+        }
+
+        void pieChartLoader(int month, int year)
+        {
+            var listProfit = QueryDB.Instance.getCakeTypeProfitMonth(month, year);
+
+            SeriesCollection cakeTypeProfitPiechartData = new SeriesCollection();
+
+            for (var i = 0; i < listProfit.Count; ++i)
+            {
+                cakeTypeProfitPiechartData.Add(
+                    new PieSeries
+                    {
+                        Title = listProfit[i].NameTypeCake,
+                        Values = new ChartValues<int> { listProfit[i].Value },
+                        LabelPoint = PointLabel
+                    }
+                );
+            }
+
+            CakeTypeProfitPieChart.Series = cakeTypeProfitPiechartData;
+            CakeTypeProfitPieChart.UpdateLayout();
+        }
+
+        void monthsProfitsColumnsChartLoader(int year)
+        {
+            SeriesCollection monthsProfitColumnChartData = new SeriesCollection();
+
+            List<int> Months = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+            List<int> Profit = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+
+            var listImport = QueryDB.Instance.getMonthsImport(year);
+            var listProfit = QueryDB.Instance.getMonthsProfit(year);
+
+            for (int i = 0; i < listProfit.Count; ++i)
+            {
+                Profit[listProfit[i].Key - 1] = listProfit[i].Value;
+            }
+
+            for (int i = 0; i < listImport.Count; ++i)
+            {
+                Profit[listImport[i].Key - 1] -= listImport[i].Value;
+            }
+
+            monthsProfitColumnChartData.Add(new ColumnSeries
+            {
+                Title = year.ToString(),
+                Values = new ChartValues<int>(Profit)
+            });
+
+            //monthsProfitColumnChartData[0].Values.Add(48d);
+            Formatter = value => value.ToString("N");
+
+            Labels = new List<string>();
+            foreach (var value in Months)
+            {
+                Labels.Add(value.ToString());
+            }
+
+
+            monthsProfitColumnChart.Series = monthsProfitColumnChartData;
+            monthsProfitColumnChart.UpdateLayout();
+        }
+
+        void chartInit()
+        {
+            //Charts init
+            PointLabel = chartPoint =>
+                string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
+
         }
 
         private void FluentButtonQuit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -497,5 +655,6 @@ namespace CakeShop
 
 
         public event PropertyChangedEventHandler PropertyChanged;
+
     }
 }

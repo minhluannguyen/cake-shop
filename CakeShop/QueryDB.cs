@@ -665,5 +665,165 @@ namespace CakeShop
         {
 
         }
+
+        public dynamic getCakeTypeProfitMonth(int month, int year)
+        {
+            var query = db.Orders.ToList()
+                .Where(
+                    orders => Convert.ToDateTime(orders.Date).Month == month && orders.Status == 1 && Convert.ToDateTime(orders.Date).Year == year
+                )
+                .Join(
+                    db.OrderDetails,
+                    orders => orders.ID,
+                    orderdetails => orderdetails.ID_Order,
+                    (orders, orderdetails) => new {
+                        IDCake = orderdetails.ID_Cake,
+                        Sum = orderdetails
+                    }
+                )
+                .Join(
+                    db.Products,
+                    x => x.IDCake,
+                    type => type.ID,
+                    (x, type) => new {
+                        Amount = x.Sum.Amount,
+                        TypeCake = type.IDTypeCake
+                    }
+                )
+                .GroupBy(
+                    obj => obj.TypeCake,
+                    (key, amount) => new {
+                        Key = key,
+                        List = amount.ToList()
+                    }
+                )
+                .Select(
+                    res => new {
+                        Key = res.Key,
+                        Sum = res.List.Sum(x => x.Amount ?? 0)
+                    }
+                )
+                .Join(
+                    db.TypeCakes,
+                    obj => obj.Key,
+                    type => type.ID,
+                    (obj, type) => new {
+                        NameTypeCake = type.NameTypeCake,
+                        Value = obj.Sum
+                    }
+                );
+
+
+            return query.ToList();
+        }
+        /*
+        public dynamic getCakeTypeImportMonth(int month, int year)
+        {
+            var query = db.CakeImportOrders.ToList()
+                .Where(
+                    orders => Convert.ToDateTime(orders.ImportDate).Month == month
+                )
+                .Join(
+                    db.Products,
+                    orders => orders.ProductID,
+                    product => product.ID,
+                    (orders, product) => new {
+                        TypeCakeID = product.IDTypeCake,
+                        Amount = orders.Total
+                    }
+                )
+                .Join(
+                    db.TypeCakes,
+                    obj => obj.TypeCakeID,
+                    type => type.ID,
+                    (obj, type) => new {
+                        NameTypeCake = type.NameTypeCake,
+                        Amount = obj.Amount
+                    }
+                )
+                .GroupBy(
+                    obj => obj.NameTypeCake,
+                    (name, amount) => new {
+                        NameTypeCake = name,
+                        List = amount.ToList()
+                    }
+                )
+                .Select(
+                    res => new {
+                        NameTypeCake = res.NameTypeCake,
+                        Value = res.List.Sum(x => x.Amount ?? 0)
+                    }
+                );
+
+
+            return query.ToList();
+        }
+        */
+        public dynamic getMonthsImport(int year)
+        {
+            var query = db.CakeImportOrders.ToList()
+                .Where(
+                    orders => Convert.ToDateTime(orders.ImportDate).Year == year
+                )
+                .Select(
+                    x => new {
+                        x.ImportDate,
+                        x.Total
+                    }
+                )
+                .GroupBy(
+                    orders => Convert.ToDateTime(orders.ImportDate).Month,
+                    (key, x) => new {
+                        Key = key,
+                        Value = x.ToList().Sum(x => x.Total ?? 0)
+                    }
+                );
+
+            return query.ToList();
+        }
+
+        public dynamic getMonthsProfit(int year)
+        {
+            var query = db.Orders.ToList()
+                .Where(
+                    orders => Convert.ToDateTime(orders.Date).Year == year
+                )
+                .Join(
+                    db.OrderDetails,
+                    o => o.ID,
+                    od => od.ID_Order,
+                    (o, od) => new {
+                        Month = Convert.ToDateTime(o.Date).Month,
+                        Value = od.Amount
+                    }
+                )
+                .GroupBy(
+                    obj => obj.Month,
+                    (key, x) => new {
+                        Key = key,
+                        Value = x.ToList().Sum(x => x.Value ?? 0)
+                    }
+                );
+
+            return query.ToList();
+        }
+
+        public int getOldestYear()
+        {
+            var query = db.Orders.ToList()
+                .Select(
+                    x => Convert.ToDateTime(x.Date).Year
+                )
+                .GroupBy(
+                    x => x,
+                    (key, value) => new
+                    {
+                        Key = key
+                    }
+                );
+
+            int minYear =  query.Min(x => x.Key);
+            return minYear;
+        }
     }
 }
