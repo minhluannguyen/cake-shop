@@ -152,7 +152,7 @@ namespace CakeShop
 
         private void Screen_handler(object sender)
         {
-            if(sender == null)
+            if(sender != null)
             {
                 this.CakeImport.ProductID = (sender as Product).ID;
                 NameCake.Content = QueryDB.Instance.getNameCakeByID(this.CakeImport.ProductID ?? -1);
