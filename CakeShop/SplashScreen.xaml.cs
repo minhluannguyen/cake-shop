@@ -31,7 +31,7 @@ namespace CakeShop
         private string path;
         private const string tab = "    ";
         private string namefood;
-
+        /*
         private readonly string[] listFoodImg = new string[]
         {
             "AnGiang","BacGiang","BacKan","BacLieu","BacNinh","BenTre","BinhDinh","BinhDuong","BinhPhuoc","BinhThuan",
@@ -41,8 +41,7 @@ namespace CakeShop
             "NinhThuan","PhuTho","PhuYen","QuangBinh","QuangNam","QuangNgai","QuangNinh","QuangTri","SaiGon","SocTrang",
             "SonLa","TayNinh","ThaiBinh","ThaiNguyen","ThanhHoa","ThuaThienHue","TienGiang","TraVinh","TuyenQuang","VinhLong",
             "VinhPhuc","VungTau","YenBai"
-        };
-
+        };*/
         public SplashScreen()
         {
             this.loading();

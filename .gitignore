@@ -379,3 +379,5 @@ CakeShop/CakeShopDB.Designer.cs
 CakeShop/CakeShopDB.cs
 CakeShop/CakeShopDB.Context.tt
 CakeShop/CakeShopDB.Context.cs
+
+CakeShop/App.config
